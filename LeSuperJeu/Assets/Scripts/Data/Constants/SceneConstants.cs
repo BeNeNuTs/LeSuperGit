@@ -10,6 +10,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     {
         Boot = 0,
         LogIn = 10,
+        AdminMenu = 19,
         MainMenu = 20,
         Game = 30
     }
