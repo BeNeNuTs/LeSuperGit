@@ -11,15 +11,23 @@ public class SuperSingleton<T> : MonoBehaviour
 
     public void Awake()
     {
-        if(!HasInstance)
+        if (!HasInstance)
         {
             m_Instance = this as T;
+            OnAwake_Internal();
         }
     }
 
+    protected virtual void OnAwake_Internal() {}
+
     public void OnDestroy()
     {
-        if(m_Instance == this as T)
+        if (m_Instance == this as T)
+        {
+            OnDestroy_Internal();
             m_Instance = null;
+        }
     }
+    
+    protected virtual void OnDestroy_Internal() {}
 }
