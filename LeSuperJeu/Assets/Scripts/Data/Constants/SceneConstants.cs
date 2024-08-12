@@ -8,9 +8,10 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 {
     public enum ESceneType
     {
-        Boot,
-        MainMenu,
-        Game
+        Boot = 0,
+        LogIn = 10,
+        MainMenu = 20,
+        Game = 30
     }
 
     [Serializable]

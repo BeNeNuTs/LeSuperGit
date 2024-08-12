@@ -1,7 +1,6 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 {
@@ -14,7 +13,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     [Header("Animations")]
     public Animation m_MainMenuAnimation;
     public AnimationCollection m_AnimCollection;
-
+    
     private Action m_LoadGameScene;
 
 #if UNITY_EDITOR
