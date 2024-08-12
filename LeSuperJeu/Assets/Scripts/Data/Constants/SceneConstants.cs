@@ -49,6 +49,10 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public List<SceneInfo> m_SceneInfos = new();
 
 #if UNITY_EDITOR
+    public bool m_SkipLogInScene = true;
+#endif
+
+#if UNITY_EDITOR
     public void OnSaveAsset()
     {
         foreach (var sceneInfo in m_SceneInfos)

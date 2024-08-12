@@ -26,13 +26,28 @@ public static class JsonHelper
     private const string SEASON_INFO_FILE = SEASON_INFO_FILENAME + JSON_EXT;
     private const string SEASON_INFO_PATH = JSON_PATH + SEASON_INFO_FILE;
 
+#if UNITY_EDITOR
+    private const string DEFAULT_PLAYER_NICKNAME = "SuperDefaultPlayer";
+    private static int DEFAULT_PLAYER_PASSWORD_HASH = "LeSuperJeu".GetHashCode();
+#endif
+
+#if UNITY_EDITOR
     [MenuItem("Tools/JsonHelper/Generate season info")]
     private static void GenerateSeasonInfo()
     {
         string superSeasonInfoString = JsonUtility.ToJson(new SuperSeasonInfo());
         File.WriteAllText(SEASON_INFO_PATH, superSeasonInfoString);
     }
-    
+
+    [MenuItem("Tools/JsonHelper/Generate default player info")]
+    private static void GenerateDefaultPlayerInfo()
+    {
+        SuperPlayerInfo superPlayerInfo = new SuperPlayerInfo(DEFAULT_PLAYER_NICKNAME, DEFAULT_PLAYER_PASSWORD_HASH);
+        string superPlayerInfoString = JsonUtility.ToJson(superPlayerInfo);
+        File.WriteAllText(JSON_PATH + DEFAULT_PLAYER_NICKNAME + JSON_EXT, superPlayerInfoString);        
+    }
+#endif
+
     public static void LoadSeasonInfo()
     {
         string fileText = File.ReadAllText(SEASON_INFO_PATH);
@@ -45,7 +60,28 @@ public static class JsonHelper
         string superSeasonInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo.m_SeasonInfo);
         File.WriteAllText(SEASON_INFO_PATH, superSeasonInfoString);
     }
-    
+
+#if UNITY_EDITOR
+    public static ELogInResult TryLogInWithDefaultPlayer()
+    {
+        if (!File.Exists(JSON_PATH + DEFAULT_PLAYER_NICKNAME + JSON_EXT))
+        {
+            GenerateDefaultPlayerInfo();
+        }
+            
+        string fileText = File.ReadAllText(JSON_PATH + DEFAULT_PLAYER_NICKNAME + JSON_EXT);
+        SuperPlayerInfo superPlayerInfo = JsonUtility.FromJson<SuperPlayerInfo>(fileText);
+        if (superPlayerInfo == null)
+            return ELogInResult.InvalidSavedData;
+
+        if (superPlayerInfo.m_PasswordHash != DEFAULT_PLAYER_PASSWORD_HASH)
+            return ELogInResult.InvalidPassword;
+
+        SuperDataContainer.Instance.m_SuperJeuInfo.m_PlayerInfo = superPlayerInfo;
+        return ELogInResult.Success;
+    }
+#endif
+
     public static ELogInResult TryLogInPlayer(string _nickname, int _passwordHash)
     {
         if (!File.Exists(JSON_PATH + _nickname + JSON_EXT))
