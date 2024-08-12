@@ -51,14 +51,11 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public void OnClickPlay()
     {
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void LoadGameScene()
     {
-        SceneManager.LoadScene(SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.Game));
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        string gameSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.Game);
+        SuperSceneManager.Instance.ChangeScene(gameObject.scene.name, gameSceneName, true);
     }
 }
