@@ -8,7 +8,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
 #if UNITY_EDITOR
         if(sceneConstants.m_SkipLogInScene)
         {
-            ELogInResult logInResult = JsonHelper.TryLogInWithDefaultPlayer();
+            ELogInResult logInResult = JsonHelper.TryLogInAsDefaultPlayer();
             switch (logInResult)
             {
                 case ELogInResult.Success:
@@ -22,9 +22,15 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
                     break;
             }
         }
+        else if (sceneConstants.m_LogInAsAdmin)
+        {
+            string adminSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.AdminMenu);
+            SuperSceneManager.Instance.LoadAdditionalScene(adminSceneName, true);
+        }
         else
 #endif
         {
+            
             string logInSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.LogIn);
             SuperSceneManager.Instance.LoadAdditionalScene(logInSceneName, true);
         }

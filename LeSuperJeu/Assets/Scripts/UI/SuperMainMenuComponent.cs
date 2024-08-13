@@ -1,7 +1,10 @@
 using System;
+using TMPro;
+using TriInspector;
 using UnityEditor;
 using UnityEngine;
 
+[DeclareTabGroup("Tabs")]
 public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 {
     [Serializable]
@@ -10,8 +13,12 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         public AnimationClip[] m_FadeInAnims;
     }
 
-    [Header("Animations")]
+    [Group("Tabs"), Tab("Season")]
+    public TMP_Text m_SeasonTitle;
+
+    [Group("Tabs"), Tab("Animations")]
     public Animation m_MainMenuAnimation;
+    [Group("Tabs"), Tab("Animations")]
     public AnimationCollection m_AnimCollection;
     
     private Action m_LoadGameScene;
@@ -43,9 +50,9 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Awake()
     {
+        m_SeasonTitle.text = SuperDataContainer.Instance.m_SuperJeuInfo.GetCurrentSeasonTitleStr();
         m_LoadGameScene = LoadGameScene;
     }
-
 
     public void OnClickPlay()
     {

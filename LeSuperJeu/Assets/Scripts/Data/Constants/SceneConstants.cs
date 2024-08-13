@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TriInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -51,11 +52,19 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
+    [HideIf(nameof(m_SkipLogInScene))]
+    public bool m_LogInAsAdmin = false;
 #endif
 
 #if UNITY_EDITOR
     public void OnSaveAsset()
     {
+        if (m_SkipLogInScene && m_LogInAsAdmin)
+        {
+            m_LogInAsAdmin = false;
+            EditorUtility.SetDirty(this);
+        }
+        
         foreach (var sceneInfo in m_SceneInfos)
         {
             sceneInfo.OnSaveAsset(this);

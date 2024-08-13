@@ -22,9 +22,12 @@ public static class JsonHelper
 {
     private const string JSON_PATH = "Assets/Json/";
     private const string JSON_EXT = ".json";
+    
+    private const string SUPER_JEU_INFO_FILENAME = "SuperJeuInfo";
+    private const string SUPER_JEU_INFO_FILE = SUPER_JEU_INFO_FILENAME + JSON_EXT;
+    private const string SUPER_JEU_INFO_PATH = JSON_PATH + SUPER_JEU_INFO_FILE;
+    
     private const string SEASON_INFO_FILENAME = "SuperSeasonInfo";
-    private const string SEASON_INFO_FILE = SEASON_INFO_FILENAME + JSON_EXT;
-    private const string SEASON_INFO_PATH = JSON_PATH + SEASON_INFO_FILE;
 
 #if UNITY_EDITOR
     private const string DEFAULT_PLAYER_NICKNAME = "SuperDefaultPlayer";
@@ -32,11 +35,11 @@ public static class JsonHelper
 #endif
 
 #if UNITY_EDITOR
-    [MenuItem("Tools/JsonHelper/Generate season info")]
-    private static void GenerateSeasonInfo()
+    [MenuItem("Tools/JsonHelper/Generate super jeu info")]
+    private static void GenerateSuperJeuInfo()
     {
-        string superSeasonInfoString = JsonUtility.ToJson(new SuperSeasonInfo());
-        File.WriteAllText(SEASON_INFO_PATH, superSeasonInfoString);
+        string superJeuInfoString = JsonUtility.ToJson(new SuperJeuInfo());
+        File.WriteAllText(SUPER_JEU_INFO_PATH, superJeuInfoString);
     }
 
     [MenuItem("Tools/JsonHelper/Generate default player info")]
@@ -47,22 +50,38 @@ public static class JsonHelper
         File.WriteAllText(JSON_PATH + DEFAULT_PLAYER_NICKNAME + JSON_EXT, superPlayerInfoString);        
     }
 #endif
-
-    public static void LoadSeasonInfo()
+    
+    public static SuperJeuInfo GetSuperJeuInfo()
     {
-        string fileText = File.ReadAllText(SEASON_INFO_PATH);
-        SuperSeasonInfo superSeasonInfo = JsonUtility.FromJson<SuperSeasonInfo>(fileText);
-        SuperDataContainer.Instance.m_SuperJeuInfo.m_SeasonInfo = superSeasonInfo;
+        string fileText = File.ReadAllText(SUPER_JEU_INFO_PATH);
+        return JsonUtility.FromJson<SuperJeuInfo>(fileText);
     }
     
-    public static void SaveSeasonInfo()
+    public static void SaveSuperJeuInfo()
     {
-        string superSeasonInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo.m_SeasonInfo);
-        File.WriteAllText(SEASON_INFO_PATH, superSeasonInfoString);
+        string superSeasonInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo);
+        File.WriteAllText(SUPER_JEU_INFO_PATH, superSeasonInfoString);
+    }
+
+    public static SuperSeasonInfo GetSeasonInfo(uint _seasonID)
+    {
+        string fileText = File.ReadAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT);
+        return JsonUtility.FromJson<SuperSeasonInfo>(fileText);
+    }
+    
+    public static SuperSeasonInfo CreateSeasonInfo(uint _seasonID)
+    {
+        SuperSeasonInfo newSeason = new SuperSeasonInfo
+        {
+            m_StartedDateTime = JsonConvert.SerializeObject(DateTime.Now)
+        };
+        string superSeasonInfoString = JsonUtility.ToJson(newSeason);
+        File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT, superSeasonInfoString);
+        return newSeason;
     }
 
 #if UNITY_EDITOR
-    public static ELogInResult TryLogInWithDefaultPlayer()
+    public static ELogInResult TryLogInAsDefaultPlayer()
     {
         if (!File.Exists(JSON_PATH + DEFAULT_PLAYER_NICKNAME + JSON_EXT))
         {
@@ -77,7 +96,7 @@ public static class JsonHelper
         if (superPlayerInfo.m_PasswordHash != DEFAULT_PLAYER_PASSWORD_HASH)
             return ELogInResult.InvalidPassword;
 
-        SuperDataContainer.Instance.m_SuperJeuInfo.m_PlayerInfo = superPlayerInfo;
+        SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ELogInResult.Success;
     }
 #endif
@@ -95,7 +114,7 @@ public static class JsonHelper
         if (superPlayerInfo.m_PasswordHash != _passwordHash)
             return ELogInResult.InvalidPassword;
 
-        SuperDataContainer.Instance.m_SuperJeuInfo.m_PlayerInfo = superPlayerInfo;
+        SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ELogInResult.Success;
     }
     
@@ -110,7 +129,7 @@ public static class JsonHelper
         string superPlayerInfoString = JsonUtility.ToJson(superPlayerInfo);
         File.WriteAllText(JSON_PATH + _nickname + JSON_EXT, superPlayerInfoString);
         
-        SuperDataContainer.Instance.m_SuperJeuInfo.m_PlayerInfo = superPlayerInfo;
+        SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ERegisterResult.Success;
     }
 }
