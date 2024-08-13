@@ -31,7 +31,7 @@ public static class JsonHelper
 
 #if UNITY_EDITOR
     private const string DEFAULT_PLAYER_NICKNAME = "SuperDefaultPlayer";
-    private static int DEFAULT_PLAYER_PASSWORD_HASH = "LeSuperJeu".GetHashCode();
+    private static int DEFAULT_PLAYER_PASSWORD_HASH = "1234".GetHashCode();
 #endif
 
 #if UNITY_EDITOR
