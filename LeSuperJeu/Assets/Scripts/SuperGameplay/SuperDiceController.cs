@@ -124,6 +124,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private void OnGrabbingDices()
     {
+        
         m_SnapDiceTime = 0.0f;
         foreach (DiceInfos dice in m_DicesInfos)
         {
