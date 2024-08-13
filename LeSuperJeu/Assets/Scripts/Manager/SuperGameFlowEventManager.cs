@@ -1,5 +1,6 @@
-
+using System;
 using UnityEditor;
+using UnityEngine;
 
 public static class SuperGameFlowEventManager
 {
@@ -7,6 +8,7 @@ public static class SuperGameFlowEventManager
     {
         Initializing,
         FirstDiceLanding,
+        IdleWaitForGrab,
         GrabDice,
         ShakeDice,
         ThrowDice,
@@ -15,34 +17,47 @@ public static class SuperGameFlowEventManager
     }
 
     public static ECurrentGameFlowState m_CurrentGameFlowState = ECurrentGameFlowState.Initializing;
-    
-    public delegate void GameEvent();
-
-    public static event GameEvent OnGameLevelEntry, OnGameLevelEntryDone;
+    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
+    public static Action<Vector3> OnDicesThrownCB;
 
 #if UNITY_EDITOR
     [InitializeOnEnterPlayMode]
     static void RunOnStart()
     {
-        OnGameLevelEntry = null;
-        OnGameLevelEntryDone = null;
+        OnGameLevelEntryCB = null;
+        OnGameReadyCB = null;
     }
 #endif
 
-    public static void OnGameLevelEntryTriggered()
+    public static void OnGameLevelEntry()
     {
         m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
-        if (OnGameLevelEntry != null)
-        {
-            OnGameLevelEntry();
-        }
+        OnGameLevelEntryCB?.Invoke();
     }
-    public static void OnGameLevelEntryDoneTriggered()
+    public static void OnGameReady()
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.IdleWaitForGrab;
+        OnGameReadyCB?.Invoke();
+    }
+    public static void OnDicesGrabbing()
     {
         m_CurrentGameFlowState = ECurrentGameFlowState.GrabDice;
-        if (OnGameLevelEntryDone != null)
-        {
-            OnGameLevelEntryDone();
-        }
+        OnDicesGrabbingCB?.Invoke();
+    }
+    public static void OnDicesGrabbed()
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.ShakeDice;
+        OnDicesGrabbedCB?.Invoke();
+    }
+    public static void OnDicesThrown(Vector3 _throwDirection)
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.ThrowDice;
+        OnDicesThrownCB?.Invoke(_throwDirection);
+        m_CurrentGameFlowState = ECurrentGameFlowState.WaitDiceStabilization;
+    }
+    public static void OnRollEnded()
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.Scoring;
+        OnRollEndedCB?.Invoke();
     }
 }
