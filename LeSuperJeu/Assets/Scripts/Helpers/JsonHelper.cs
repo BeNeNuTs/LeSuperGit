@@ -73,11 +73,19 @@ public static class JsonHelper
     {
         SuperSeasonInfo newSeason = new SuperSeasonInfo
         {
+            m_SeasonID = _seasonID,
             m_StartedDateTime = JsonConvert.SerializeObject(DateTime.Now)
         };
         string superSeasonInfoString = JsonUtility.ToJson(newSeason);
         File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT, superSeasonInfoString);
         return newSeason;
+    }
+    
+    public static void SaveSuperSeasonInfo()
+    {
+        SuperSeasonInfo seasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        string superSeasonInfoString = JsonUtility.ToJson(seasonInfo);
+        File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + seasonInfo.m_SeasonID + JSON_EXT, superSeasonInfoString);
     }
 
 #if UNITY_EDITOR
@@ -131,5 +139,11 @@ public static class JsonHelper
         
         SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ERegisterResult.Success;
+    }
+    
+    public static void SaveSuperPlayerInfo()
+    {
+        string superPlayerInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperPlayerInfo);
+        File.WriteAllText(JSON_PATH + SuperDataContainer.Instance.m_SuperPlayerInfo.m_Nickname + JSON_EXT, superPlayerInfoString);
     }
 }
