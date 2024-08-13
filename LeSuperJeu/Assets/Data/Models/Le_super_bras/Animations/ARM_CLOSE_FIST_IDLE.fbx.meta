@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: ANIM_CLOSE_FIST_IDLE
+      name: ARM_CLOSE_FIST_IDLE
       takeName: ANIM_CLOSE_FIST_IDLE
       internalID: 4654500719684707578
       firstFrame: 1
