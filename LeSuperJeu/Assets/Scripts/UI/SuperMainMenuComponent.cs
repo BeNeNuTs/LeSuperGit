@@ -68,6 +68,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     {
         SuperDataContainer.Instance.OnPlayGame();
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.Game;
     }
 
     private void LoadGameScene()

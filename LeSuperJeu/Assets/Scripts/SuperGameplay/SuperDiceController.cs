@@ -78,21 +78,21 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private void Update()
     {
-        switch (SuperGameFlowEventManager.m_CurrentGameFlowState)
+        switch (SuperGameFlowEventManager.CurrentGameFlowState)
         {
-            case SuperGameFlowEventManager.ECurrentGameFlowState.FirstDiceLanding:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.FirstDiceLanding:
                 if (DicesStabilized())
                 {
                     SuperGameFlowEventManager.OnGameReady();
                 }
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.GrabDice:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.GrabDice:
                 SnapDicesToPlayer();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.ShakeDice:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.ShakeDice:
                 SnapDicesToPlayer();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization:
                 if (m_DiceIgnoreCollision)
                 {
                     float currentTime = Time.time;
@@ -108,7 +108,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                     SuperGameFlowEventManager.OnRollEnded();
                 }
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.Scoring:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.Scoring:
                 break;
         }
     }
@@ -180,7 +180,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                 dicesCloseEnough = false;
         }
         
-        if(dicesCloseEnough && SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.GrabDice)
+        if(dicesCloseEnough && SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.GrabDice)
             SuperGameFlowEventManager.OnDicesGrabbed();
     }
 
