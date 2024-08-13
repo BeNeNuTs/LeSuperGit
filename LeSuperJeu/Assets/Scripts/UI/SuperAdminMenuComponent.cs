@@ -18,14 +18,30 @@ public class SuperAdminMenuComponent : MonoBehaviour
 
     private void RefreshSeasonInfo()
     {
-        m_PreviousSeasonInfo.text = m_SuperJeuInfo.GetPreviousSeasonTitleStr();
-        m_CurrentSeasonInfo.text = m_SuperJeuInfo.GetCurrentSeasonTitleStr();
+        m_PreviousSeasonInfo.text = m_SuperJeuInfo.HasValidPreviousSeason ? GetSeasonInfoStr(m_SuperJeuInfo.m_PreviousSeasonID) : "No previous season yet";
+        m_CurrentSeasonInfo.text = m_SuperJeuInfo.HasSeasonInProgress ? GetSeasonInfoStr(m_SuperJeuInfo.m_CurrentSeasonID) : "No season in progress";
         m_StartNewSeasonButton.interactable = !m_SuperJeuInfo.HasSeasonInProgress;
+    }
+
+    private string GetSeasonInfoStr(uint _seasonID)
+    {
+        SuperSeasonInfo superSeasonInfo;
+        if (m_SuperJeuInfo.HasSeasonInProgress && m_SuperJeuInfo.m_CurrentSeasonID == _seasonID)
+            superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        else
+            superSeasonInfo = JsonHelper.GetSeasonInfo(_seasonID);
+
+
+        string seasonInfo = $"Season #{superSeasonInfo.m_SeasonID}\n";
+        seasonInfo += "Participants:\n";
+        foreach (string participant in superSeasonInfo.m_Participants)
+            seasonInfo += $"{participant}\n";
+        return seasonInfo;
     }
 
     public void OnStartNewSeasonClicked()
     {
-        SuperDataContainer.Instance.StartNewSeason();
+        SuperDataContainer.Instance.OnStartNewSeason();
         RefreshSeasonInfo();
     }
 }

@@ -3,6 +3,7 @@ using TMPro;
 using TriInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DeclareTabGroup("Tabs")]
 public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
@@ -15,12 +16,18 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     [Group("Tabs"), Tab("Season")]
     public TMP_Text m_SeasonTitle;
+    
+    [Group("Tabs"), Tab("Buttons")]
+    public Button m_PlayButton;
+    [Group("Tabs"), Tab("Buttons")]
+    public TMP_Text m_PlayButtonText;
 
     [Group("Tabs"), Tab("Animations")]
     public Animation m_MainMenuAnimation;
     [Group("Tabs"), Tab("Animations")]
     public AnimationCollection m_AnimCollection;
-    
+
+    private SuperJeuInfo m_SuperJeuInfo;
     private Action m_LoadGameScene;
 
 #if UNITY_EDITOR
@@ -50,12 +57,16 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Awake()
     {
-        m_SeasonTitle.text = SuperDataContainer.Instance.m_SuperJeuInfo.GetCurrentSeasonTitleStr();
+        m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+        m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
+        m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
+        m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
         m_LoadGameScene = LoadGameScene;
     }
 
     public void OnClickPlay()
     {
+        SuperDataContainer.Instance.OnPlayGame();
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
     }
 

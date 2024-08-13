@@ -15,9 +15,21 @@ public class SuperDataContainer : SuperSingleton<SuperDataContainer>
         }
     }
 
-    public void StartNewSeason()
+    public void OnStartNewSeason()
     {
         m_SuperJeuInfo.IncreaseCurrentSeasonID();
         m_SuperSeasonInfo = JsonHelper.CreateSeasonInfo(m_SuperJeuInfo.m_CurrentSeasonID);
+    }
+    
+    public void OnPlayGame()
+    {
+        if (!m_SuperJeuInfo.HasSeasonInProgress)
+            return;
+
+        if (!m_SuperPlayerInfo.IsPlayerRegisteredForSeason(m_SuperJeuInfo.m_CurrentSeasonID))
+        {
+            m_SuperPlayerInfo.RegisterPlayerForSeason(m_SuperJeuInfo.m_CurrentSeasonID);
+            m_SuperSeasonInfo.RegisterNewParticipant(m_SuperPlayerInfo.m_Nickname);
+        }
     }
 }

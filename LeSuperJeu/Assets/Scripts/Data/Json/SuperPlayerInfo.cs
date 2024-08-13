@@ -14,6 +14,23 @@ public class SuperPlayerInfo
         m_Nickname = _nickname;
         m_PasswordHash = _passwordHash;
     }
+
+    public bool IsPlayerRegisteredForSeason(uint _seasonID)
+    {
+        foreach (SeasonPlayerInfo seasonPlayerInfo in m_SeasonInfo)
+        {
+            if (seasonPlayerInfo.m_SeasonID == _seasonID)
+                return true;
+        }
+        return false;
+    }
+
+    public void  RegisterPlayerForSeason(uint _seasonID)
+    {
+        SeasonPlayerInfo newSeasonPlayerInfo = new SeasonPlayerInfo(_seasonID);
+        m_SeasonInfo.Add(newSeasonPlayerInfo);
+        JsonHelper.SaveSuperPlayerInfo();
+    }
 }
 
 [Serializable]
@@ -29,4 +46,9 @@ public class SeasonPlayerInfo
     public uint m_SeasonID = 0;
     public uint m_DiceRollCount = 0;
     public uint m_Score = 0;
+
+    public SeasonPlayerInfo(uint _seasonID)
+    {
+        m_SeasonID = _seasonID;
+    }
 }
