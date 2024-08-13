@@ -2,22 +2,32 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuperBras : MonoBehaviour
+public class SuperBras : MonoBehaviour, ISaveAsset
 {
     public float m_Speed = 0.25f;
     public float m_ForcedZOffset = 1.0f;
     public Animator m_Animator;
+    public Transform m_DicesShakePosition = null;
     
-    private int OnGameReady = Animator.StringToHash("OnGameReady");
-    private int DiceGrabbed = Animator.StringToHash("DiceGrabbed");
+    private int OnGameReadyHash = Animator.StringToHash("OnGameReady");
+    private int DiceGrabbedHash = Animator.StringToHash("DiceGrabbed");
     private const float K_HAND_Z_POS = 1.0f;
 
     private Vector3 m_Pos;
     private bool m_GameIsReady = false;
+    private Vector3 m_PreviousPos = Vector3.zero;
 
+#if UNITY_EDITOR
+    public void OnSaveAsset()
+    {
+        if(m_DicesShakePosition == null)
+            Debug.LogError("Dice Shake Position not set in SuperDiceController " + gameObject.name);
+    }
+#endif
+    
     void Awake()
     {
-        SuperGameFlowEventManager.OnGameLevelEntryDone += OnPlayerReady;
+        SuperGameFlowEventManager.OnGameReadyCB += OnGameReady;
     }
 
     void Start()
@@ -27,7 +37,7 @@ public class SuperBras : MonoBehaviour
 
     void OnDestroy()
     {
-        SuperGameFlowEventManager.OnGameLevelEntryDone -= OnPlayerReady;
+        SuperGameFlowEventManager.OnGameReadyCB -= OnGameReady;
     }
 
     void Update()
@@ -35,10 +45,20 @@ public class SuperBras : MonoBehaviour
         if (m_GameIsReady)
         {
             SnapTransformToMouse();
-            if(Input.GetMouseButtonDown(0))
-                m_Animator.SetBool(DiceGrabbed, true);
-            else if(Input.GetMouseButtonUp(0))
-                m_Animator.SetBool(DiceGrabbed, false);
+            if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.IdleWaitForGrab ||
+                SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.Scoring)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnGrabDices();
+                }
+            }
+            else if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.ShakeDice && Input.GetMouseButtonUp(0))
+            {
+                OnThrowDices();
+            }
+
+            m_PreviousPos = transform.position;
         }
     }
 
@@ -50,9 +70,23 @@ public class SuperBras : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, m_Pos, m_Speed);
     }
 
-    private void OnPlayerReady()
+    private void OnGameReady()
     {
         m_GameIsReady = true;
-        m_Animator.SetBool(OnGameReady, true);
+        m_Animator.SetBool(OnGameReadyHash, true);
+    }
+
+    private void OnGrabDices()
+    {
+        m_Animator.SetBool(DiceGrabbedHash, true);
+        SuperGameFlowEventManager.OnDicesGrabbing();
+    }
+
+    private void OnThrowDices()
+    {
+        m_Animator.SetBool(DiceGrabbedHash, false);
+        Vector3 throwDirection = transform.position - m_PreviousPos;
+        throwDirection.y = 0;
+        SuperGameFlowEventManager.OnDicesThrown(throwDirection);
     }
 }
