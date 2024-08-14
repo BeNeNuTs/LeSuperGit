@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c6fc3c906f180449cfed355cbb83b4, type: 3}
+  m_Name: SkinConstants
+  m_EditorClassIdentifier: 
+  m_SkinDatas:
+  - m_Name: Default
+    m_IconColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    m_Mat1: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
+    m_Mat2: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
+    m_Mat3: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
+  - m_Name: Gold
+    m_IconColor: {r: 1, g: 1, b: 0, a: 1}
+    m_Mat1: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
+    m_Mat2: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
+    m_Mat3: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
+  - m_Name: Pink
+    m_IconColor: {r: 1, g: 0, b: 1, a: 1}
+    m_Mat1: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
+    m_Mat2: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
+    m_Mat3: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
+  - m_Name: Blue
+    m_IconColor: {r: 0.09019608, g: 0.9607844, b: 0.9960785, a: 1}
+    m_Mat1: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
+    m_Mat2: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
+    m_Mat3: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
+  - m_Name: White
+    m_IconColor: {r: 1, g: 1, b: 1, a: 1}
+    m_Mat1: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
+    m_Mat2: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
+    m_Mat3: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
