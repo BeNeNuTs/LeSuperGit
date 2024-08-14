@@ -10,6 +10,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public enum ESceneType
     {
         Boot = 0,
+        ScreenSaver = 5,
         LogIn = 10,
         AdminMenu = 19,
         MainMenu = 20,
