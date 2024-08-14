@@ -45,8 +45,17 @@ public class SuperScreenSaverComponent : MonoBehaviour
 
     void Click()
     {
-        string gameSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.MainMenu);
-        SuperSceneManager.Instance.ChangeScene(gameObject.scene.name, gameSceneName, true);
+        bool canClick = SuperTimeManager.Instance.EstCeHeureDuSuperJeu();
+
+    #if UNITY_EDITOR
+        canClick = true;
+    #endif
+
+        if(canClick)
+        {
+            SuperGameManager.Instance.GotoLogin();
+            SuperSceneManager.Instance.RemoveScene(gameObject.scene.name);
+        }
     }
 
     // Update is called once per frame

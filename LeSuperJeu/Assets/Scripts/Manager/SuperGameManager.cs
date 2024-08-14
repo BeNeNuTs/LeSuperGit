@@ -2,11 +2,21 @@ using UnityEngine;
 
 public class SuperGameManager : SuperSingleton<SuperGameManager>
 {
+    SceneConstants SceneConstants => SuperDataContainer.Instance.m_SceneConstants;
+
     public void Start()
     {
-        SceneConstants sceneConstants = SuperDataContainer.Instance.m_SceneConstants;
+        if(SuperTimeManager.Instance.EstCeHeureDuSuperJeu())
+            GotoLogin();
+        else
+            GotoScreenSaver();
+    }
+
+    public void GotoLogin()
+    {
+        
 #if UNITY_EDITOR
-        if(sceneConstants.m_SkipLogInScene)
+        if(SceneConstants.m_SkipLogInScene)
         {
             ELogInResult logInResult = JsonHelper.TryLogInAsDefaultPlayer();
             switch (logInResult)
@@ -22,7 +32,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
                     break;
             }
         }
-        else if (sceneConstants.m_LogInAsAdmin)
+        else if (SceneConstants.m_LogInAsAdmin)
         {
             string adminSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.AdminMenu);
             SuperSceneManager.Instance.LoadAdditionalScene(adminSceneName, true);
@@ -35,4 +45,10 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             SuperSceneManager.Instance.LoadAdditionalScene(logInSceneName, true);
         }
     }
+
+     public void GotoScreenSaver()
+     {
+        string screenSaverScene = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.ScreenSaver);
+        SuperSceneManager.Instance.LoadAdditionalScene(screenSaverScene, true);
+     }
 }
