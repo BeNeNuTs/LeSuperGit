@@ -1,7 +1,6 @@
 using TMPro;
 using TriInspector;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [DeclareTabGroup("Tabs")]
 public class SuperProfilMenuComponent : MonoBehaviour
@@ -10,11 +9,17 @@ public class SuperProfilMenuComponent : MonoBehaviour
     public TMP_Text m_NicknameText;
     [Group("Tabs"), Tab("UI")]
     public TMP_Text m_RankAndVictoryText;
+    [Group("Tabs"), Tab("UI")]
+    public Transform m_SkinLayout;
+    [Group("Tabs"), Tab("UI")]
+    public GameObject m_SkinButtonPrefab;
 
     [Group("Tabs"), Tab("3D")]
     public Transform m_DiceDisplayStandPivot;
     [Group("Tabs"), Tab("3D")]
     public SuperPointerClickHandler m_RenderTextureClickHandler;
+    [Group("Tabs"), Tab("3D")]
+    public SuperDiceSkinHandler m_DiceSkinHandler;
 
     private Vector3 m_DiceDisplayStandPivotInitialRotation;
 
@@ -23,6 +28,15 @@ public class SuperProfilMenuComponent : MonoBehaviour
         SuperPlayerInfo superPlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
         m_NicknameText.text = superPlayerInfo.m_Nickname;
         m_RankAndVictoryText.text = $"Rank : {superPlayerInfo.m_GlobalInfo.m_GlobalRank} / Victories : {superPlayerInfo.m_GlobalInfo.m_VictoryCount}";
+
+        foreach(SkinConstants.SkinData skinData in SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas)
+        {
+            GameObject skinButtonPrefab = GameObject.Instantiate(m_SkinButtonPrefab, m_SkinLayout);
+            if(skinButtonPrefab.TryGetComponent(out SuperSkinButtonHandler skinButtonHandler))
+            {
+                skinButtonHandler.Init(m_DiceSkinHandler, skinData);
+            }
+        }
 
         m_RenderTextureClickHandler.OnClicked += OnRenderTextureClicked;
     }

@@ -1,6 +1,7 @@
 public class SuperDataContainer : SuperSingleton<SuperDataContainer>
 {
     public SceneConstants m_SceneConstants;
+    public SkinConstants m_SkinConstants;
     public SuperJeuInfo m_SuperJeuInfo = null;
     public SuperSeasonInfo m_SuperSeasonInfo = null;
     public SuperPlayerInfo m_SuperPlayerInfo = null;

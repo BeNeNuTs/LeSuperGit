@@ -194,6 +194,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneConstants: {fileID: 11400000, guid: 7823b80971dbade4fbb241509b57af80, type: 2}
+  m_SkinConstants: {fileID: 11400000, guid: 87c17403e28ea5b4898cfbc927ccbb5e, type: 2}
+  m_SuperJeuInfo:
+    m_PreviousSeasonID: 0
+    m_CurrentSeasonID: 0
+  m_SuperSeasonInfo:
+    m_SeasonID: 0
+    m_StartedDateTime: 
+    m_Participants: []
+  m_SuperPlayerInfo:
+    m_Nickname: 
+    m_PasswordHash: 0
+    m_GlobalInfo:
+      m_GlobalRank: 0
+      m_VictoryCount: 0
+    m_SeasonInfo: []
 --- !u!114 &1479028771
 MonoBehaviour:
   m_ObjectHideFlags: 0

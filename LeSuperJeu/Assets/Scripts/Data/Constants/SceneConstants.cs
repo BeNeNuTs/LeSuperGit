@@ -49,7 +49,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 #endif
     }
 
-    public List<SceneInfo> m_SceneInfos = new();
+    public SceneInfo[] m_SceneInfos = Array.Empty<SceneInfo>();
 
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
