@@ -64,10 +64,15 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_LoadGameScene = LoadGameScene;
     }
 
-    public void OnClickPlay()
+    public void OnPlayButtonClicked()
     {
         SuperDataContainer.Instance.OnPlayGame();
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
+    }
+
+    public void OnProfilButtonClicked()
+    {
+        gameObject.ChangeScene(SceneConstants.ESceneType.ProfilMenu);
     }
 
     private void LoadGameScene()

@@ -13,6 +13,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         LogIn = 10,
         AdminMenu = 19,
         MainMenu = 20,
+        ProfilMenu = 21,
         Game = 30
     }
 
