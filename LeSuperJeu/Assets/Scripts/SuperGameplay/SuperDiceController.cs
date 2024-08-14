@@ -10,8 +10,11 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     public class DiceInfos
     {
         public Rigidbody m_Rb;
+        public Transform m_Transform;
+        public SuperDiceScoring m_SuperDiceScoring;
         public Vector3 m_OnGrabStartPos;
     }
+    
     public List<Rigidbody> m_RigidBodies =  new List<Rigidbody>();
     public SuperBras m_SuperBras = null;
     public GameObject m_SuperArenaCenter = null;
@@ -27,14 +30,28 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     private const float K_DICE_GRAB_DIST_FROM_PLAYER_SQR = 5f;
     private const float K_DELAY_BEFORE_RESTORE_DICE_COLLISION = .25f;
     private const float K_THROW_SPREAD_ANGLE_MAX = 30f;
+    
+    private const float K_ZERO_SCORE_VALUE = 0f;
+    private const float K_HALF_SCORE_VALUE = 0.5f;
+    private const float K_ONE_SCORE_VALUE = 1f;
+    private const float K_TWO_SCORE_VALUE = 2f;
+    
     private Action<Vector3> m_OnThrowDices;
     private Action m_OnGameReady;
     private Action m_OnGrabbingDices;
+    private Action m_OnRollEnded;
     private float m_OnThrowTime = 0.0f;
     private float m_SnapDiceTime = 0.0f;
     private float m_SnapDiceRatio = 0.0f;
+    private float m_FinalScore = 0.0f;
     private bool m_DiceIgnoreCollision = false;
-    public List<DiceInfos> m_DicesInfos =  new List<DiceInfos>();
+    private bool m_FinalScoreComputed = false;
+    private List<DiceInfos> m_DicesInfos =  new List<DiceInfos>();
+    
+    List<Transform> m_Scores0 = new List<Transform>();
+    List<Transform> m_Scores05 = new List<Transform>();
+    List<Transform> m_Scores1 = new List<Transform>();
+    List<Transform> m_Scores2 = new List<Transform>();
     
 #if UNITY_EDITOR
     public void OnSaveAsset()
@@ -53,14 +70,18 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         m_OnThrowDices = OnThrowDices;
         m_OnGrabbingDices = OnGrabbingDices;
         m_OnGameReady = OnGameReady;
+        m_OnRollEnded = OnRollEnded;
         SuperGameFlowEventManager.OnGameReadyCB += m_OnGameReady;
         SuperGameFlowEventManager.OnDicesGrabbingCB += m_OnGrabbingDices;
         SuperGameFlowEventManager.OnDicesThrownCB += m_OnThrowDices;
+        SuperGameFlowEventManager.OnRollEndedCB += m_OnRollEnded;
         
         foreach (Rigidbody rb in m_RigidBodies)
         {
             DiceInfos dice = new DiceInfos();
             dice.m_Rb = rb;
+            dice.m_Transform = rb.transform;
+            dice.m_SuperDiceScoring = rb.gameObject.GetComponent<SuperDiceScoring>();
             m_DicesInfos.Add(dice);
         }
     }
@@ -70,6 +91,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         SuperGameFlowEventManager.OnGameReadyCB -= m_OnGameReady;
         SuperGameFlowEventManager.OnDicesGrabbingCB -= m_OnGrabbingDices;
         SuperGameFlowEventManager.OnDicesThrownCB -= m_OnThrowDices;
+        SuperGameFlowEventManager.OnRollEndedCB -= m_OnRollEnded;
     }
     private void Start()
     {
@@ -93,24 +115,76 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                 SnapDicesToPlayer();
                 break;
             case SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization:
-                if (m_DiceIgnoreCollision)
+                float currentTime = Time.time;
+                if (currentTime > m_OnThrowTime + K_DELAY_BEFORE_RESTORE_DICE_COLLISION)
                 {
-                    float currentTime = Time.time;
-                    if (currentTime > m_OnThrowTime + K_DELAY_BEFORE_RESTORE_DICE_COLLISION)
+                    if (m_DiceIgnoreCollision)
                     {
                         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Dice"), LayerMask.NameToLayer("Dice"), false);
                         m_DiceIgnoreCollision = false;
                     }
-                }
 
-                if (DicesStabilized())
-                {
-                    SuperGameFlowEventManager.OnRollEnded();
+                    if (DicesStabilized())
+                    {
+                        SuperGameFlowEventManager.OnRollEnded();
+                    }
                 }
                 break;
             case SuperGameFlowEventManager.ECurrentGameFlowState.Scoring:
+                OnUpdateScoring();
                 break;
         }
+    }
+
+    private void OnRollEnded()
+    {
+        
+    }
+
+    private void OnUpdateScoring()
+    {
+        if (!m_FinalScoreComputed)
+        {
+            ComputeScoring();
+        }
+    }
+
+    private void ComputeScoring()
+    {
+        m_Scores0.Clear();
+        m_Scores05.Clear();
+        m_Scores1.Clear();
+        m_Scores2.Clear();
+        int scoredDices = 0;
+        foreach (DiceInfos dice in m_DicesInfos)
+        {
+            if (dice.m_SuperDiceScoring.m_DiceScore != SuperDiceScoring.EScoreType.None)
+            {
+                switch (dice.m_SuperDiceScoring.m_DiceScore)
+                {
+                    case SuperDiceScoring.EScoreType.Zero:
+                        m_Scores0.Add(dice.m_Transform);
+                        break;
+                    case SuperDiceScoring.EScoreType.Half:
+                        m_Scores05.Add(dice.m_Transform);
+                        break;
+                    case SuperDiceScoring.EScoreType.One:
+                        m_Scores1.Add(dice.m_Transform);
+                        break;
+                    case SuperDiceScoring.EScoreType.Two:
+                        m_Scores2.Add(dice.m_Transform);
+                        break;
+                }
+                scoredDices++;
+            }
+        }
+
+        if (scoredDices == m_DicesInfos.Count)
+        {
+            m_FinalScore = m_Scores0.Count * K_ZERO_SCORE_VALUE + m_Scores05.Count * K_HALF_SCORE_VALUE + m_Scores1.Count * K_ONE_SCORE_VALUE + m_Scores2.Count * K_TWO_SCORE_VALUE;
+            m_FinalScoreComputed = true;
+        }
+        Debug.Log("Computed Score : " + m_FinalScore + "                                                                                     --- " + Time.time);
     }
 
     private void OnGameReady()
@@ -124,7 +198,6 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private void OnGrabbingDices()
     {
-        
         m_SnapDiceTime = 0.0f;
         foreach (DiceInfos dice in m_DicesInfos)
         {
@@ -138,6 +211,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     {
         m_OnThrowTime = Time.time;
         m_DiceIgnoreCollision = true;
+        m_FinalScoreComputed = false;
         foreach (DiceInfos dice in m_DicesInfos)
         {
             float randX = UnityEngine.Random.Range(0f, 1f);
