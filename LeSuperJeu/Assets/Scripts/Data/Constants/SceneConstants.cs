@@ -10,6 +10,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public enum ESceneType
     {
         Boot = 0,
+        ScreenSaver = 5,
         LogIn = 10,
         AdminMenu = 19,
         MainMenu = 20,
@@ -55,6 +56,10 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public bool m_SkipLogInScene = true;
     [HideIf(nameof(m_SkipLogInScene))]
     public bool m_LogInAsAdmin = false;
+
+    [SerializeField]
+    private bool m_ForceHeureDuSuperJeu = false;
+    public bool IsForceHeureDuSuperJeu => m_ForceHeureDuSuperJeu;
 #endif
 
 #if UNITY_EDITOR
