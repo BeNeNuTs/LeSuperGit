@@ -22,8 +22,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             switch (logInResult)
             {
                 case ELogInResult.Success:
-                    string mainMenuSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.MainMenu);
-                    SuperSceneManager.Instance.LoadAdditionalScene(mainMenuSceneName, true);
+                    SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu);
                     break;
                 case ELogInResult.InvalidNickname:
                 case ELogInResult.InvalidSavedData:
@@ -34,21 +33,17 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         }
         else if (SceneConstants.m_LogInAsAdmin)
         {
-            string adminSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.AdminMenu);
-            SuperSceneManager.Instance.LoadAdditionalScene(adminSceneName, true);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.AdminMenu);
         }
         else
 #endif
         {
-            
-            string logInSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.LogIn);
-            SuperSceneManager.Instance.LoadAdditionalScene(logInSceneName, true);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.LogIn);
         }
     }
 
      public void GotoScreenSaver()
      {
-        string screenSaverScene = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.ScreenSaver);
-        SuperSceneManager.Instance.LoadAdditionalScene(screenSaverScene, true);
+        SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver);
      }
 }

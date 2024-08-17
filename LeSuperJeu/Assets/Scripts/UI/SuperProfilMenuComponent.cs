@@ -29,12 +29,13 @@ public class SuperProfilMenuComponent : MonoBehaviour
         m_NicknameText.text = superPlayerInfo.m_Nickname;
         m_RankAndVictoryText.text = $"Rank : {superPlayerInfo.m_GlobalInfo.m_GlobalRank} / Victories : {superPlayerInfo.m_GlobalInfo.m_VictoryCount}";
 
-        foreach(SkinConstants.SkinData skinData in SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas)
+        for (uint i = 0; i < SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas.Length; i++)
         {
+            SkinConstants.SkinData skinData = SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas[i];
             GameObject skinButtonPrefab = GameObject.Instantiate(m_SkinButtonPrefab, m_SkinLayout);
             if(skinButtonPrefab.TryGetComponent(out SuperSkinButtonHandler skinButtonHandler))
             {
-                skinButtonHandler.Init(m_DiceSkinHandler, skinData);
+                skinButtonHandler.Init(m_DiceSkinHandler, i, skinData);
             }
         }
 

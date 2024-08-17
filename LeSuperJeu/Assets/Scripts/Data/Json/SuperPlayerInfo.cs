@@ -25,10 +25,16 @@ public class SuperPlayerInfo
         return false;
     }
 
-    public void  RegisterPlayerForSeason(uint _seasonID)
+    public void RegisterPlayerForSeason(uint _seasonID)
     {
         SeasonPlayerInfo newSeasonPlayerInfo = new SeasonPlayerInfo(_seasonID);
         m_SeasonInfo.Add(newSeasonPlayerInfo);
+        JsonHelper.SaveSuperPlayerInfo();
+    }
+
+    public void UpdateEquippedSkin(uint _skinDataID)
+    {
+        m_GlobalInfo.m_EquippedSkinID = _skinDataID;
         JsonHelper.SaveSuperPlayerInfo();
     }
 }
@@ -38,6 +44,7 @@ public class GlobalPlayerInfo
 {
     public uint m_GlobalRank = 0;
     public uint m_VictoryCount = 0;
+    public uint m_EquippedSkinID = 0;
 }
 
 [Serializable]

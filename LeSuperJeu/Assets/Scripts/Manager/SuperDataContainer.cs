@@ -30,6 +30,10 @@ public class SuperDataContainer : SuperSingleton<SuperDataContainer>
         if (!m_SuperPlayerInfo.IsPlayerRegisteredForSeason(m_SuperJeuInfo.m_CurrentSeasonID))
         {
             m_SuperPlayerInfo.RegisterPlayerForSeason(m_SuperJeuInfo.m_CurrentSeasonID);
+        }
+
+        if(!m_SuperSeasonInfo.IsParticipantRegistered(m_SuperPlayerInfo.m_Nickname))
+        {
             m_SuperSeasonInfo.RegisterNewParticipant(m_SuperPlayerInfo.m_Nickname);
         }
     }

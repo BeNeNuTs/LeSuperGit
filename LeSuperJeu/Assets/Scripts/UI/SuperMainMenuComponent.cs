@@ -77,7 +77,6 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void LoadGameScene()
     {
-        string gameSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.Game);
-        SuperSceneManager.Instance.ChangeScene(gameObject.scene.name, gameSceneName, true);
+        gameObject.ChangeScene(SceneConstants.ESceneType.Game);
     }
 }

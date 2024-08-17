@@ -36,3 +36,4 @@ MonoBehaviour:
     m_SceneName: LaSuperGameScene
   m_SkipLogInScene: 1
   m_LogInAsAdmin: 0
+  m_ForceHeureDuSuperJeu: 1
