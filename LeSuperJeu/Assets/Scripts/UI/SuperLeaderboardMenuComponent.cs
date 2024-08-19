@@ -39,7 +39,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
         for (int i = 0; i < m_SuperSeasonInfo.m_Participants.Count; i++)
         {
             SuperLeaderboardEntryHandler entryHandler = null;
-            if (i <= m_LeaderboardEntries.Count)
+            if (i < m_LeaderboardEntries.Count)
             {
                 entryHandler = m_LeaderboardEntries[i];
             }
@@ -54,12 +54,12 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
             entryHandler.RefreshEntry(m_SuperSeasonInfo.m_Participants[i], 0, 0);
         }
         
-        for (int i = m_SuperSeasonInfo.m_Participants.Count - 1; i < m_LeaderboardEntries.Count; i++)
+        for (int i = m_SuperSeasonInfo.m_Participants.Count; i < m_LeaderboardEntries.Count; i++)
         {
             m_LeaderboardEntries[i].HideEntry();
         }
 
-        m_PreviousLeaderboardSeasonButton.interactable = m_CurrentLeaderboardID == 1;
+        m_PreviousLeaderboardSeasonButton.interactable = m_CurrentLeaderboardID > 1;
         m_NextLeaderboardSeasonButton.interactable = m_CurrentLeaderboardID < m_SuperJeuInfo.m_CurrentSeasonID;
     }
     
