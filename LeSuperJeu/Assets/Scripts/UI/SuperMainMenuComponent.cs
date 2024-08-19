@@ -18,6 +18,8 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public TMP_Text m_SeasonTitle;
     
     [Group("Tabs"), Tab("Buttons")]
+    public GameObject m_ButtonsGroup;
+    [Group("Tabs"), Tab("Buttons")]
     public Button m_PlayButton;
     [Group("Tabs"), Tab("Buttons")]
     public TMP_Text m_PlayButtonText;
@@ -26,6 +28,13 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public Animation m_MainMenuAnimation;
     [Group("Tabs"), Tab("Animations")]
     public AnimationCollection m_AnimCollection;
+    
+    [Group("Tabs"), Tab("Patch notes")]
+    public TMP_Text m_PatchNotesButtonText;
+    [Group("Tabs"), Tab("Patch notes")]
+    public GameObject m_PatchNotesPanel;
+    [Group("Tabs"), Tab("Patch notes")]
+    public TMP_Text m_PatchNotesText;
 
     private SuperJeuInfo m_SuperJeuInfo;
     private Action m_LoadGameScene;
@@ -61,6 +70,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
         m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
         m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
+        m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
         m_LoadGameScene = LoadGameScene;
     }
 
@@ -73,6 +83,19 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public void OnProfilButtonClicked()
     {
         gameObject.ChangeScene(SceneConstants.ESceneType.ProfilMenu);
+    }
+    
+    public void OnPatchNotesButtonClicked()
+    {
+        TogglePatchNoteVisibility();
+    }
+
+    private void TogglePatchNoteVisibility()
+    {
+        bool newPatchNotesVisibility = !m_PatchNotesPanel.activeSelf;
+        m_PatchNotesPanel.SetActive(newPatchNotesVisibility);
+        m_ButtonsGroup.SetActive(!newPatchNotesVisibility);
+        m_PatchNotesButtonText.text = newPatchNotesVisibility ? "X" : "Patch notes";
     }
 
     private void LoadGameScene()
