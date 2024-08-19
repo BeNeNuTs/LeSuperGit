@@ -15,6 +15,9 @@ public class SuperAdminMenuComponent : MonoBehaviour
     public TMP_Text m_CurrentSeasonInfo;
     [Group("Tabs"), Tab("Season")]
     public Button m_StartNewSeasonButton;
+    
+    [Group("Tabs"), Tab("Patch notes")]
+    public TMP_InputField m_PatchNotesInputField;
 
     private SuperJeuInfo m_SuperJeuInfo;
     private int m_CurrentPanel;
@@ -22,6 +25,7 @@ public class SuperAdminMenuComponent : MonoBehaviour
     private void Awake()
     {
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+        m_PatchNotesInputField.text = m_SuperJeuInfo.m_PatchNotes;
         SetCurrentPanel(0);
         RefreshSeasonInfo();
     }
