@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TriInspector;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         AdminMenu = 19,
         MainMenu = 20,
         ProfilMenu = 21,
+        Leaderboard = 22,
         Game = 30
     }
 
