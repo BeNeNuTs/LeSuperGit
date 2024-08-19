@@ -32,6 +32,16 @@ public class SuperPlayerInfo
         JsonHelper.SaveSuperPlayerInfo();
     }
 
+    public SeasonPlayerInfo GetSeasonInfo(uint _seasonID)
+    {
+        foreach (SeasonPlayerInfo seasonPlayerInfo in m_SeasonInfo)
+        {
+            if (seasonPlayerInfo.m_SeasonID == _seasonID)
+                return seasonPlayerInfo;
+        }
+        return null;
+    }
+
     public void UpdateEquippedSkin(uint _skinDataID)
     {
         m_GlobalInfo.m_EquippedSkinID = _skinDataID;

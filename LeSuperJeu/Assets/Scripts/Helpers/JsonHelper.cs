@@ -140,6 +140,12 @@ public static class JsonHelper
         SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ERegisterResult.Success;
     }
+
+    public static SuperPlayerInfo GetPlayerInfoForLeaderboard(string _nickname)
+    {
+        string fileText = File.ReadAllText(JSON_PATH + _nickname + JSON_EXT);
+        return JsonUtility.FromJson<SuperPlayerInfo>(fileText);
+    }
     
     public static void SaveSuperPlayerInfo()
     {
