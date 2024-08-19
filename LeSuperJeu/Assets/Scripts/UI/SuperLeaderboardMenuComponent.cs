@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SuperLeaderboardMenuComponent : MonoBehaviour
 {
+    private const string K_UNKNOWN_PLAYER = "-UNKNOWN-";
+    
     public TMP_Text m_LeaderboardTitle;
     public Transform m_LeaderboardLayoutContent;
     public GameObject m_LeaderboardEntryPrefab;
@@ -14,7 +16,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
     private SuperJeuInfo m_SuperJeuInfo;
     private SuperSeasonInfo m_SuperSeasonInfo;
 
-    private uint m_CurrentLeaderboardID = 0;
+    private uint m_CurrentLeaderboardSeasonID = 0;
     private List<SuperLeaderboardEntryHandler> m_LeaderboardEntries = new();
     
     private void Awake()
@@ -26,7 +28,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
 
     private void SetCurrentLeaderboardID(uint _id)
     {
-        m_CurrentLeaderboardID = _id;
+        m_CurrentLeaderboardSeasonID = _id;
         m_SuperSeasonInfo = _id == m_SuperJeuInfo.m_CurrentSeasonID ? 
             SuperDataContainer.Instance.m_SuperSeasonInfo : 
             JsonHelper.GetSeasonInfo(_id);
@@ -34,7 +36,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
 
     private void RefreshLeaderboard()
     {
-        m_LeaderboardTitle.text = $"Leaderboard - Season #{m_CurrentLeaderboardID}";
+        m_LeaderboardTitle.text = $"Leaderboard - Season #{m_CurrentLeaderboardSeasonID}";
 
         for (int i = 0; i < m_SuperSeasonInfo.m_Participants.Count; i++)
         {
@@ -51,7 +53,19 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
                     m_LeaderboardEntries.Add(entryHandler);
                 }
             }
-            entryHandler.RefreshEntry(m_SuperSeasonInfo.m_Participants[i], 0, 0);
+
+            SuperPlayerInfo playerInfo = JsonHelper.GetPlayerInfoForLeaderboard(m_SuperSeasonInfo.m_Participants[i]);
+            if (playerInfo != null)
+            {
+                SeasonPlayerInfo seasonPlayerInfo = playerInfo.GetSeasonInfo(m_CurrentLeaderboardSeasonID);
+                if(seasonPlayerInfo != null)
+                    entryHandler.RefreshEntry(playerInfo.m_Nickname, seasonPlayerInfo.m_DiceRollCount, seasonPlayerInfo.m_Score);
+                else
+                    entryHandler.RefreshEntry(playerInfo.m_Nickname, 0, 0);
+            }
+            else
+                entryHandler.RefreshEntry(K_UNKNOWN_PLAYER, 0, 0);
+            
         }
         
         for (int i = m_SuperSeasonInfo.m_Participants.Count; i < m_LeaderboardEntries.Count; i++)
@@ -59,8 +73,8 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
             m_LeaderboardEntries[i].HideEntry();
         }
 
-        m_PreviousLeaderboardSeasonButton.interactable = m_CurrentLeaderboardID > 1;
-        m_NextLeaderboardSeasonButton.interactable = m_CurrentLeaderboardID < m_SuperJeuInfo.m_CurrentSeasonID;
+        m_PreviousLeaderboardSeasonButton.interactable = m_CurrentLeaderboardSeasonID > 1;
+        m_NextLeaderboardSeasonButton.interactable = m_CurrentLeaderboardSeasonID < m_SuperJeuInfo.m_CurrentSeasonID;
     }
     
     public void OnBackButtonClicked()
@@ -70,11 +84,11 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
 
     public void OnPreviousLeaderboardSeasonButtonClicked()
     {
-        SetCurrentLeaderboardID(m_CurrentLeaderboardID - 1);
+        SetCurrentLeaderboardID(m_CurrentLeaderboardSeasonID - 1);
     }
     
     public void OnNextLeaderboardSeasonButtonClicked()
     {
-        SetCurrentLeaderboardID(m_CurrentLeaderboardID + 1);
+        SetCurrentLeaderboardID(m_CurrentLeaderboardSeasonID + 1);
     }
 }
