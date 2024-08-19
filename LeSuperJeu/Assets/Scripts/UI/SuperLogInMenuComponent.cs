@@ -75,6 +75,6 @@ public class SuperLogInMenuComponent : MonoBehaviour
 
 	private void LoadScene(SceneConstants.ESceneType _sceneType)
 	{
-		SuperSceneManager.Instance.ChangeScene(gameObject.scene.name, SuperDataContainer.Instance.m_SceneConstants.GetSceneName(_sceneType), true);
+        gameObject.ChangeScene(_sceneType);
 	}
 }

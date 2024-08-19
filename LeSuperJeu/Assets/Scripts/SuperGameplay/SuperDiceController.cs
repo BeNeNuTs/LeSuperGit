@@ -181,10 +181,31 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
         if (scoredDices == m_DicesInfos.Count)
         {
-            m_FinalScore = m_Scores0.Count * K_ZERO_SCORE_VALUE + m_Scores05.Count * K_HALF_SCORE_VALUE + m_Scores1.Count * K_ONE_SCORE_VALUE + m_Scores2.Count * K_TWO_SCORE_VALUE;
+            m_FinalScore = ComputeScoreFromDiceCount(m_Scores0, K_ZERO_SCORE_VALUE) +
+                           ComputeScoreFromDiceCount(m_Scores05, K_HALF_SCORE_VALUE) +
+                           ComputeScoreFromDiceCount(m_Scores1, K_ONE_SCORE_VALUE) +
+                           ComputeScoreFromDiceCount(m_Scores2, K_TWO_SCORE_VALUE); 
             m_FinalScoreComputed = true;
         }
         Debug.Log("Computed Score : " + m_FinalScore + "                                                                                     --- " + Time.time);
+    }
+
+    private float ComputeScoreFromDiceCount(List<Transform> _DiceList, float _DiceScoreValue)
+    {
+        int diceCount = _DiceList.Count;
+        float score = diceCount * _DiceScoreValue;
+        if (diceCount == 6)
+        {
+            score = (6 * _DiceScoreValue) * 3;
+            if(_DiceScoreValue == 6)
+                Debug.Log("Super Winner !! 6x6 = 36 !! YOU HAVE WON THE SEASON !!");
+        }
+        else if (diceCount >= 3)
+        {
+            score = (3 * _DiceScoreValue) * 2 + (diceCount - 3) * _DiceScoreValue;
+        }
+
+        return score;
     }
 
     private void OnGameReady()

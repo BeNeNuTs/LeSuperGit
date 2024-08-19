@@ -16,6 +16,9 @@ MonoBehaviour:
   - m_SceneType: 0
     m_SceneAsset: {fileID: 102900000, guid: b9663acb08ec9e648a73cf1e08fe531d, type: 3}
     m_SceneName: LaSuperGameManagerScene
+  - m_SceneType: 5
+    m_SceneAsset: {fileID: 102900000, guid: 60fbddb79c211b445abaf075e0ce7168, type: 3}
+    m_SceneName: LeSuperScreensaver
   - m_SceneType: 10
     m_SceneAsset: {fileID: 102900000, guid: 10639ab7fc5ba1b43bf71007d115490d, type: 3}
     m_SceneName: LaSuperLogInScene
@@ -33,3 +36,4 @@ MonoBehaviour:
     m_SceneName: LaSuperGameScene
   m_SkipLogInScene: 1
   m_LogInAsAdmin: 0
+  m_ForceHeureDuSuperJeu: 1
