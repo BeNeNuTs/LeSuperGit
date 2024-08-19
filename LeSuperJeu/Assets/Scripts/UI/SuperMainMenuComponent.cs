@@ -89,6 +89,11 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     {
         TogglePatchNoteVisibility();
     }
+    
+    public void OnLeaderboardButtonClicked()
+    {
+        gameObject.ChangeScene(SceneConstants.ESceneType.Leaderboard);
+    }
 
     private void TogglePatchNoteVisibility()
     {
