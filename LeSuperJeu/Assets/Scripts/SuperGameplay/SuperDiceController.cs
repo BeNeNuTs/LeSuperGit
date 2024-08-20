@@ -12,6 +12,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         public Rigidbody m_Rb;
         public Transform m_Transform;
         public SuperDiceScoring m_SuperDiceScoring;
+        public SuperDiceSkinHandler m_SuperDiceSkinHandler;
         public Vector3 m_OnGrabStartPos;
     }
     
@@ -82,6 +83,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             dice.m_Rb = rb;
             dice.m_Transform = rb.transform;
             dice.m_SuperDiceScoring = rb.gameObject.GetComponent<SuperDiceScoring>();
+            dice.m_SuperDiceSkinHandler = rb.gameObject.GetComponentInChildren<SuperDiceSkinHandler>();
             m_DicesInfos.Add(dice);
         }
     }
@@ -225,6 +227,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             dice.m_OnGrabStartPos = dice.m_Rb.position;
             dice.m_Rb.isKinematic = true;
             dice.m_Rb.useGravity = false;
+            dice.m_SuperDiceSkinHandler.StopGlowIfNeeded();
         }
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Dice"), LayerMask.NameToLayer("Dice"), true);
     }
@@ -248,7 +251,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             dice.m_Rb.useGravity = true;
             float throwStrength = _throwDirection.magnitude;
             Vector3 throwDirectionSpreaded = Quaternion.AngleAxis(randomVariance * K_THROW_SPREAD_ANGLE_MAX, Vector3.up) * _throwDirection.normalized;
-            dice.m_Rb.AddForce(throwDirectionSpreaded * Mathf.Min(m_DicesThrowForceMax, m_DicesThrowForce * throwStrength), ForceMode.Impulse);
+            dice.m_Rb.AddForce(throwDirectionSpreaded * Mathf.Min(m_DicesThrowForceMax + randomVariance, m_DicesThrowForce * throwStrength + randomVariance), ForceMode.Impulse);
             dice.m_Rb.AddTorque(new Vector3(randX, randY, randZ) * (Mathf.Min(m_DicesThrowRotationSpeedMax, m_DicesThrowRotationSpeed * throwStrength) * randomSign), ForceMode.Impulse);
         }
     }
@@ -282,14 +285,20 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private bool DicesStabilized()
     {
+        bool hasOneDiceMoving = false;
+        bool isScoringStabilization = SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization;
         foreach (DiceInfos dice in m_DicesInfos)
         {
             if (dice.m_Rb.velocity.sqrMagnitude > K_STABILIZED_VELOCITY_SQR)
             {
-                return false;
+                hasOneDiceMoving = true;
+            }
+            else if (isScoringStabilization)
+            {
+                dice.m_SuperDiceSkinHandler.StartGlowIfNeeded();
             }
         }
 
-        return true;
+        return hasOneDiceMoving == false;
     }
 }

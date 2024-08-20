@@ -6,6 +6,9 @@ public class SuperDiceSkinHandler : MonoBehaviour
     public MeshRenderer m_Renderer;
 
     private SuperPlayerInfo m_PlayerInfo;
+    private bool m_IsGlowing = false;
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+    private const float K_STABILIZED_EMISSION_INTENSITY = 20f;
     private uint EquippedSkinID => m_PlayerInfo.m_GlobalInfo.m_EquippedSkinID;
 
     private void Awake()
@@ -25,5 +28,35 @@ public class SuperDiceSkinHandler : MonoBehaviour
         m_Renderer.SetMaterials(new List<Material>(rendererMaterial));
 
         SuperDataContainer.Instance.m_SuperPlayerInfo.UpdateEquippedSkin(_skinDataID);
+    }
+
+    public void StartGlowIfNeeded()
+    {
+        if (m_IsGlowing)
+            return;
+
+        m_IsGlowing = true;
+        
+        Material[] rendererMaterial = m_Renderer.materials;
+        foreach (Material mat in rendererMaterial)
+        {
+            mat.EnableKeyword("_EMISSION");
+            mat.SetColor(EmissionColor,mat.color * K_STABILIZED_EMISSION_INTENSITY);
+        }
+    }
+    
+    public void StopGlowIfNeeded()
+    {
+        if (!m_IsGlowing)
+            return;
+
+        m_IsGlowing = false;
+        
+        Material[] rendererMaterial = m_Renderer.materials;
+        foreach (Material mat in rendererMaterial)
+        {
+            mat.DisableKeyword("_EMISSION");
+            mat.SetColor(EmissionColor,mat.color);
+        }
     }
 }

@@ -66,9 +66,13 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Awake()
     {
-        m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
-        m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
-        m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
+        if (SuperDataContainer.Instance != null)
+        {
+            m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+            m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
+            m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
+        }
+
         m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
         m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
         m_LoadGameScene = LoadGameScene;
