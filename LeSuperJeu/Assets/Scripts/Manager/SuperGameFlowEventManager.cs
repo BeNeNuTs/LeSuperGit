@@ -31,7 +31,8 @@ public static class SuperGameFlowEventManager
         ShakeDice,
         ThrowDice,
         WaitDiceStabilization,
-        Scoring
+        Scoring,
+        ScoreScreen
     }
 
     private static ECurrentGameplayFlowState m_CurrentGameFlowState = ECurrentGameplayFlowState.Initializing;
@@ -45,8 +46,9 @@ public static class SuperGameFlowEventManager
         }
     }
     public static Action<ECurrentGameplayFlowState> OnGameFlowStateChanged;
-    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
+    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
     public static Action<Vector3> OnDicesThrownCB;
+    public static Action<float> OnScoringComputedCB;
 
 #if UNITY_EDITOR
     [InitializeOnEnterPlayMode]
@@ -54,6 +56,12 @@ public static class SuperGameFlowEventManager
     {
         OnGameLevelEntryCB = null;
         OnGameReadyCB = null;
+        OnGameReplayCB = null;
+        OnDicesGrabbingCB = null;
+        OnDicesGrabbedCB = null;
+        OnRollEndedCB = null;
+        OnDicesThrownCB = null;
+        OnScoringComputedCB = null;
     }
 #endif
 
@@ -87,5 +95,15 @@ public static class SuperGameFlowEventManager
     {
         m_CurrentGameFlowState = ECurrentGameplayFlowState.Scoring;
         OnRollEndedCB?.Invoke();
+    }
+    public static void OnScoringComputed(float _computedScore)
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.ScoreScreen;
+        OnScoringComputedCB?.Invoke(_computedScore);
+    }
+    public static void OnReplay()
+    {
+        OnGameReplayCB?.Invoke();
+        m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
     }
 }
