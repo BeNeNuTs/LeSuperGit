@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 9175851126000491872}
   - component: {fileID: 7858628792983859733}
   - component: {fileID: 7159250573497922510}
+  - component: {fileID: 5599118626058090949}
   m_Layer: 3
   m_Name: LeSuperDicePrefab
   m_TagString: Untagged
@@ -266,7 +267,21 @@ MonoBehaviour:
     m_ScoreType: 3
   - m_Transform: {fileID: 8779931792440907935}
     m_ScoreType: 4
-  m_DiceScore: 0
+--- !u!114 &5599118626058090949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116657785691543288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266f7cc6ab0cb124790f24907c68cad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameplayElementType: 1
+  m_weight: 1
+  m_radius: 1
 --- !u!1 &5298473899787775780
 GameObject:
   m_ObjectHideFlags: 0

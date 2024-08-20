@@ -17,7 +17,54 @@ MonoBehaviour:
     Setting:
       Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
         type: 3}
+      Priority: 0
+      HasLookAt: 0
+      LookAtTarget: 0
+      HasFollow: 0
+      FollowTarget: 0
   - GameFlowState: 1
     Setting:
       Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
         type: 3}
+      Priority: 0
+      HasLookAt: 0
+      LookAtTarget: 0
+      HasFollow: 0
+      FollowTarget: 0
+  m_camerasSettingsForGameplayFlow:
+  - GameplayFlowState: 2
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      Priority: 2
+      HasLookAt: 1
+      LookAtTarget: 1
+      HasFollow: 0
+      FollowTarget: 0
+  - GameplayFlowState: 4
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      Priority: 2
+      HasLookAt: 1
+      LookAtTarget: 0
+      HasFollow: 0
+      FollowTarget: 0
+  - GameplayFlowState: 5
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      Priority: 2
+      HasLookAt: 1
+      LookAtTarget: 1
+      HasFollow: 0
+      FollowTarget: 0
+  - GameplayFlowState: 6
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      Priority: 2
+      HasLookAt: 1
+      LookAtTarget: 1
+      HasFollow: 0
+      FollowTarget: 0

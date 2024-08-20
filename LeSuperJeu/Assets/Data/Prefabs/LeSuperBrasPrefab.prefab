@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4426691142948625393}
   - component: {fileID: 1558798121554126553}
+  - component: {fileID: -4333003801564955018}
   m_Layer: 0
   m_Name: LeSuperBrasPrefab
   m_TagString: Untagged
@@ -49,6 +50,21 @@ MonoBehaviour:
   m_ForcedZOffset: 15
   m_Animator: {fileID: 8991421947482833975}
   m_DicesShakePosition: {fileID: 2924041378093132650}
+--- !u!114 &-4333003801564955018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5286377268988244102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266f7cc6ab0cb124790f24907c68cad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameplayElementType: 0
+  m_weight: 1
+  m_radius: 4
 --- !u!1 &7629134404552613401
 GameObject:
   m_ObjectHideFlags: 0
