@@ -47,6 +47,7 @@ public class SuperDiceSkinHandler : MonoBehaviour
     {
         StopGlowIfNeeded();
     }
+    
     public void StartGlowIfNeeded()
     {
         if (m_IsGlowing)

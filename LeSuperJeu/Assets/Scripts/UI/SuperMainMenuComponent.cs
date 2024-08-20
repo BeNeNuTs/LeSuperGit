@@ -99,6 +99,15 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         gameObject.ChangeScene(SceneConstants.ESceneType.Leaderboard);
     }
 
+    public void OnQuitButtonClicked()
+    {
+#if UNITY_EDITOR
+        Debug.Break();
+#else
+        Application.Quit();
+#endif
+    }
+
     private void TogglePatchNoteVisibility()
     {
         bool newPatchNotesVisibility = !m_PatchNotesPanel.activeSelf;
