@@ -53,8 +53,7 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         if (m_GameIsReady)
         {
             SnapTransformToMouse();
-            if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.IdleWaitForGrab/* ||
-                SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.Scoring*/)
+            if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.IdleWaitForGrab)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
