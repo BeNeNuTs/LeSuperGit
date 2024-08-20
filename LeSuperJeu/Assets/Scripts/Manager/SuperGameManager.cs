@@ -2,18 +2,27 @@ using UnityEngine;
 
 public class SuperGameManager : SuperSingleton<SuperGameManager>
 {
+    SceneConstants SceneConstants => SuperDataContainer.Instance.m_SceneConstants;
+
     public void Start()
     {
-        SceneConstants sceneConstants = SuperDataContainer.Instance.m_SceneConstants;
+        if(SuperTimeManager.Instance.EstCeHeureDuSuperJeu())
+            GotoLogin();
+        else
+            GotoScreenSaver();
+    }
+
+    public void GotoLogin()
+    {
+        
 #if UNITY_EDITOR
-        if(sceneConstants.m_SkipLogInScene)
+        if(SceneConstants.m_SkipLogInScene)
         {
             ELogInResult logInResult = JsonHelper.TryLogInAsDefaultPlayer();
             switch (logInResult)
             {
                 case ELogInResult.Success:
-                    string mainMenuSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.MainMenu);
-                    SuperSceneManager.Instance.LoadAdditionalScene(mainMenuSceneName, true);
+                    SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu);
                     break;
                 case ELogInResult.InvalidNickname:
                 case ELogInResult.InvalidSavedData:
@@ -22,17 +31,19 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
                     break;
             }
         }
-        else if (sceneConstants.m_LogInAsAdmin)
+        else if (SceneConstants.m_LogInAsAdmin)
         {
-            string adminSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.AdminMenu);
-            SuperSceneManager.Instance.LoadAdditionalScene(adminSceneName, true);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.AdminMenu);
         }
         else
 #endif
         {
-            
-            string logInSceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(SceneConstants.ESceneType.LogIn);
-            SuperSceneManager.Instance.LoadAdditionalScene(logInSceneName, true);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.LogIn);
         }
     }
+
+     public void GotoScreenSaver()
+     {
+        SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver);
+     }
 }

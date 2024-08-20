@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneConstants: {fileID: 11400000, guid: 7823b80971dbade4fbb241509b57af80, type: 2}
+  m_SkinConstants: {fileID: 11400000, guid: 87c17403e28ea5b4898cfbc927ccbb5e, type: 2}
   m_SuperJeuInfo:
     m_PreviousSeasonID: 0
     m_CurrentSeasonID: 0
@@ -230,10 +231,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1479028766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5941f54d6304ac84f935b54030b7996d, type: 3}
+  m_Script: {fileID: 11500000, guid: c3ef7b12acaa1d9448269bcb4fb50527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cameraConfig: {fileID: 11400000, guid: 88e88232205613546817ecf880d7959d, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

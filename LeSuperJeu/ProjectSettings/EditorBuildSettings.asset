@@ -18,6 +18,15 @@ EditorBuildSettings:
     path: Assets/Data/Scenes/LaSuperMainScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Data/Scenes/LaSuperProfilScene.unity
+    guid: 092a5f19d53567c488d574f1442b5998
+  - enabled: 1
     path: Assets/Data/Scenes/LaSuperGameScene.unity
     guid: e22c04fe001fffb479b26c30c52f6035
+  - enabled: 1
+    path: Assets/Data/Scenes/LeSuperScreensaver.unity
+    guid: 60fbddb79c211b445abaf075e0ce7168
+  - enabled: 1
+    path: Assets/Data/Scenes/LaSuperLeaderboardScene.unity
+    guid: 4175825ff446b66458f9c3c329f2a2a9
   m_configObjects: {}
