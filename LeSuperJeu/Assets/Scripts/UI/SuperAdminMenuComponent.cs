@@ -1,19 +1,47 @@
+using System.Collections.Generic;
 using TMPro;
+using TriInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DeclareTabGroup("Tabs")]
 public class SuperAdminMenuComponent : MonoBehaviour
 {
+    public List<GameObject> m_Panels;
+    
+    [Group("Tabs"), Tab("Season")]
     public TMP_Text m_PreviousSeasonInfo;
+    [Group("Tabs"), Tab("Season")]
     public TMP_Text m_CurrentSeasonInfo;
+    [Group("Tabs"), Tab("Season")]
     public Button m_StartNewSeasonButton;
+    
+    [Group("Tabs"), Tab("Patch notes")]
+    public TMP_InputField m_PatchNotesInputField;
 
     private SuperJeuInfo m_SuperJeuInfo;
+    private int m_CurrentPanel;
     
     private void Awake()
     {
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+        m_PatchNotesInputField.text = m_SuperJeuInfo.m_PatchNotes;
+        SetCurrentPanel(0);
         RefreshSeasonInfo();
+    }
+
+    private void SetCurrentPanel(int _currentPanel)
+    {
+        m_CurrentPanel = _currentPanel;
+        RefreshPanelVisibility();
+    }
+
+    private void RefreshPanelVisibility()
+    {
+        for (var i = 0; i < m_Panels.Count; i++)
+        {
+            m_Panels[i].SetActive(i == m_CurrentPanel);
+        }
     }
 
     private void RefreshSeasonInfo()
@@ -43,5 +71,30 @@ public class SuperAdminMenuComponent : MonoBehaviour
     {
         SuperDataContainer.Instance.OnStartNewSeason();
         RefreshSeasonInfo();
+    }
+    
+    public void OnPreviousAdminMenuButtonClicked()
+    {
+        int currentPanel = m_CurrentPanel;
+        currentPanel--;
+        if (currentPanel < 0)
+            currentPanel = m_Panels.Count - 1;
+        
+        SetCurrentPanel(currentPanel);
+    }
+
+    public void OnNextAdminMenuButtonClicked()
+    {
+        int currentPanel = m_CurrentPanel;
+        currentPanel++;
+        if (currentPanel >= m_Panels.Count)
+            currentPanel = 0;
+        
+        SetCurrentPanel(currentPanel);
+    }
+
+    public void OnEndPatchNotesEdit(string _str)
+    {
+        m_SuperJeuInfo.UpdatePatchNotes(_str);
     }
 }

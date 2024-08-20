@@ -16,6 +16,8 @@ public class SuperBras : MonoBehaviour, ISaveAsset
     private Vector3 m_Pos;
     private bool m_GameIsReady = false;
     private Vector3 m_PreviousPos = Vector3.zero;
+    private const int K_HAND_DIRECTION_FRAMES_DELTA = 5;
+    private int m_PreviousFrameCount = 0;
 
 #if UNITY_EDITOR
     public void OnSaveAsset()
@@ -58,7 +60,12 @@ public class SuperBras : MonoBehaviour, ISaveAsset
                 OnThrowDices();
             }
 
-            m_PreviousPos = transform.position;
+            int currentFrame = Time.frameCount;
+            if (currentFrame - m_PreviousFrameCount >= K_HAND_DIRECTION_FRAMES_DELTA)
+            {
+                m_PreviousPos = transform.position;
+                m_PreviousFrameCount = currentFrame;
+            }
         }
     }
 

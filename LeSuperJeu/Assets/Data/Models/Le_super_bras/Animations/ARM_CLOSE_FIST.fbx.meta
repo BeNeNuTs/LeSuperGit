@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 74f0c9b8801df80468df12196ed79335
+guid: 94ae7ba90dfcfee47ad58d29d0ce1227
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,9 +33,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: ANIM_CLOSE_FIST_IDLE
-      takeName: ANIM_CLOSE_FIST_IDLE
-      internalID: 4654500719684707578
+      name: ARM_CLOSE_FIST
+      takeName: ANIM_CLOSE_FIST
+      internalID: -1712395418090748823
       firstFrame: 1
       lastFrame: 13
       wrapMode: 0
@@ -44,7 +44,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -60,7 +60,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []

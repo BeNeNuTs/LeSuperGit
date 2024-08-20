@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TriInspector;
 using UnityEditor;
 using UnityEngine;
@@ -10,9 +9,12 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public enum ESceneType
     {
         Boot = 0,
+        ScreenSaver = 5,
         LogIn = 10,
         AdminMenu = 19,
         MainMenu = 20,
+        ProfilMenu = 21,
+        Leaderboard = 22,
         Game = 30
     }
 
@@ -48,12 +50,16 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 #endif
     }
 
-    public List<SceneInfo> m_SceneInfos = new();
+    public SceneInfo[] m_SceneInfos = Array.Empty<SceneInfo>();
 
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
     [HideIf(nameof(m_SkipLogInScene))]
     public bool m_LogInAsAdmin = false;
+
+    [SerializeField]
+    private bool m_ForceHeureDuSuperJeu = false;
+    public bool IsForceHeureDuSuperJeu => m_ForceHeureDuSuperJeu;
 #endif
 
 #if UNITY_EDITOR

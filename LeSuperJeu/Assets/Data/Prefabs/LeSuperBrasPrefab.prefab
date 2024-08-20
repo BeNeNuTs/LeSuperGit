@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4426691142948625393}
   - component: {fileID: 1558798121554126553}
-  - component: {fileID: 3177585994117874662}
   m_Layer: 0
   m_Name: LeSuperBrasPrefab
   m_TagString: Untagged
@@ -48,29 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 1
   m_ForcedZOffset: 15
-  m_Animator: {fileID: 3177585994117874662}
+  m_Animator: {fileID: 8991421947482833975}
   m_DicesShakePosition: {fileID: 2924041378093132650}
---- !u!95 &3177585994117874662
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5286377268988244102}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 92e5d2940418b644ab24ed8be50a8180, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7629134404552613401
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,8 +170,39 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2924041378093132650}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dfaaa639ab7ba19418b46347020fca6e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8991421947482833975}
   m_SourcePrefab: {fileID: 100100000, guid: dfaaa639ab7ba19418b46347020fca6e, type: 3}
+--- !u!1 &2843434932434391103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dfaaa639ab7ba19418b46347020fca6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3149283671987285358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8991421947482833975
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843434932434391103}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92e5d2940418b644ab24ed8be50a8180, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &3188049001870002821 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfaaa639ab7ba19418b46347020fca6e,
