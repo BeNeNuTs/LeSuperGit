@@ -5,7 +5,8 @@ using UnityEngine;
 public enum EGameplayElementType
 {
     SuperBras,
-    SuperDice
+    SuperDice,
+    SuperArene
 }
 
 public class SuperCameraTarget : MonoBehaviour

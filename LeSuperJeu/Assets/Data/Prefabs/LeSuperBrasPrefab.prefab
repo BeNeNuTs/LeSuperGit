@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Speed: 1
-  m_ForcedZOffset: 15
+  m_ForcedZOffset: 12
   m_Animator: {fileID: 8991421947482833975}
   m_DicesShakePosition: {fileID: 2924041378093132650}
 --- !u!114 &-4333003801564955018
