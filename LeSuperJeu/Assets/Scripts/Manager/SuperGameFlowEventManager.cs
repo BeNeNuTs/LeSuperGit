@@ -13,12 +13,14 @@ public static class SuperGameFlowEventManager
         ShakeDice,
         ThrowDice,
         WaitDiceStabilization,
-        Scoring
+        Scoring,
+        ScoreScreen
     }
 
     public static ECurrentGameFlowState m_CurrentGameFlowState = ECurrentGameFlowState.Initializing;
-    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
+    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
     public static Action<Vector3> OnDicesThrownCB;
+    public static Action<float> OnScoringComputedCB;
 
 #if UNITY_EDITOR
     [InitializeOnEnterPlayMode]
@@ -59,5 +61,15 @@ public static class SuperGameFlowEventManager
     {
         m_CurrentGameFlowState = ECurrentGameFlowState.Scoring;
         OnRollEndedCB?.Invoke();
+    }
+    public static void OnScoringComputed(float _computedScore)
+    {
+        m_CurrentGameFlowState = ECurrentGameFlowState.ScoreScreen;
+        OnScoringComputedCB?.Invoke(_computedScore);
+    }
+    public static void OnReplay()
+    {
+        OnGameReplayCB?.Invoke();
+        m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
     }
 }

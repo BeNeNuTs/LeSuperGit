@@ -18,6 +18,8 @@ public class SuperBras : MonoBehaviour, ISaveAsset
     private Vector3 m_PreviousPos = Vector3.zero;
     private const int K_HAND_DIRECTION_FRAMES_DELTA = 5;
     private int m_PreviousFrameCount = 0;
+    private Action m_OnGameReadyCb;
+    private Action m_OnRollEndedCb;
 
 #if UNITY_EDITOR
     public void OnSaveAsset()
@@ -29,7 +31,10 @@ public class SuperBras : MonoBehaviour, ISaveAsset
     
     void Awake()
     {
-        SuperGameFlowEventManager.OnGameReadyCB += OnGameReady;
+        m_OnGameReadyCb = OnGameReady;
+        m_OnRollEndedCb = OnScoring;
+        SuperGameFlowEventManager.OnGameReadyCB += m_OnGameReadyCb;
+        SuperGameFlowEventManager.OnRollEndedCB += m_OnRollEndedCb;
     }
 
     void Start()
@@ -39,7 +44,8 @@ public class SuperBras : MonoBehaviour, ISaveAsset
 
     void OnDestroy()
     {
-        SuperGameFlowEventManager.OnGameReadyCB -= OnGameReady;
+        SuperGameFlowEventManager.OnGameReadyCB -= m_OnGameReadyCb;
+        SuperGameFlowEventManager.OnRollEndedCB -= m_OnRollEndedCb;
     }
 
     void Update()
@@ -47,8 +53,8 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         if (m_GameIsReady)
         {
             SnapTransformToMouse();
-            if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.IdleWaitForGrab ||
-                SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.Scoring)
+            if (SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.IdleWaitForGrab/* ||
+                SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.Scoring*/)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -75,6 +81,11 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         m_Pos.z = m_ForcedZOffset;
         m_Pos = Camera.main.ScreenToWorldPoint(m_Pos);
         transform.position = Vector3.Lerp(transform.position, m_Pos, m_Speed);
+    }
+    
+    private void OnScoring()
+    {
+        m_Animator.SetBool(OnGameReadyHash, false);
     }
 
     private void OnGameReady()

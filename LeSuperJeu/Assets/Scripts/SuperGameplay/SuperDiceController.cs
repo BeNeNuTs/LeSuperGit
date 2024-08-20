@@ -19,18 +19,21 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     public List<Rigidbody> m_RigidBodies =  new List<Rigidbody>();
     public SuperBras m_SuperBras = null;
     public GameObject m_SuperArenaCenter = null;
+    public Transform m_DiceScoreSnapPosition = null;
     public float m_SnapDicesTranslationDuration = 1.0f;
     public float m_SnapDicesRotationSpeed = 1.0f;
     public float m_DicesThrowForce = 1.0f;
     public float m_DicesThrowForceMax = 1.0f;
     public float m_DicesThrowRotationSpeed = 1.0f;
     public float m_DicesThrowRotationSpeedMax = 1.0f;
+    public float m_ScoringSnapDicesTranslationDuration = 2.0f;
     public CinemachineTargetGroup m_CinemachineTargetGroup = null;
     
     private const float K_STABILIZED_VELOCITY_SQR = 0.01f;
     private const float K_DICE_GRAB_DIST_FROM_PLAYER_SQR = 5f;
     private const float K_DELAY_BEFORE_RESTORE_DICE_COLLISION = .25f;
     private const float K_THROW_SPREAD_ANGLE_MAX = 30f;
+    private const float K_DICE_SCORE_SCREEN_SPACE_RIGHT_OFFSET = 0.75f;
     
     private const float K_ZERO_SCORE_VALUE = 0f;
     private const float K_HALF_SCORE_VALUE = 0.5f;
@@ -105,6 +108,9 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         switch (SuperGameFlowEventManager.m_CurrentGameFlowState)
         {
             case SuperGameFlowEventManager.ECurrentGameFlowState.FirstDiceLanding:
+                if (m_DiceIgnoreCollision)
+                    UnLockDicesGravity();
+                
                 if (DicesStabilized())
                 {
                     SuperGameFlowEventManager.OnGameReady();
@@ -134,6 +140,9 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                 break;
             case SuperGameFlowEventManager.ECurrentGameFlowState.Scoring:
                 OnUpdateScoring();
+                break;
+            case SuperGameFlowEventManager.ECurrentGameFlowState.ScoreScreen:
+                SnapDicesToCamera();
                 break;
         }
     }
@@ -188,8 +197,11 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                            ComputeScoreFromDiceCount(m_Scores1, K_ONE_SCORE_VALUE) +
                            ComputeScoreFromDiceCount(m_Scores2, K_TWO_SCORE_VALUE); 
             m_FinalScoreComputed = true;
+            Debug.Log("Computed Score : " + m_FinalScore + "                                                                                     --- " + Time.time);
+            m_SnapDiceTime = 0.0f;
+            LockDicesGravity();
+            SuperGameFlowEventManager.OnScoringComputed(m_FinalScore);
         }
-        Debug.Log("Computed Score : " + m_FinalScore + "                                                                                     --- " + Time.time);
     }
 
     private float ComputeScoreFromDiceCount(List<Transform> _DiceList, float _DiceScoreValue)
@@ -222,6 +234,11 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     private void OnGrabbingDices()
     {
         m_SnapDiceTime = 0.0f;
+        LockDicesGravity();
+    }
+
+    private void LockDicesGravity()
+    {
         foreach (DiceInfos dice in m_DicesInfos)
         {
             dice.m_OnGrabStartPos = dice.m_Rb.position;
@@ -229,8 +246,23 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             dice.m_Rb.useGravity = false;
             dice.m_SuperDiceSkinHandler.StopGlowIfNeeded();
         }
+
+        m_DiceIgnoreCollision = true;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Dice"), LayerMask.NameToLayer("Dice"), true);
     }
+    
+    private void UnLockDicesGravity()
+    {
+        foreach (DiceInfos dice in m_DicesInfos)
+        {
+            dice.m_Rb.isKinematic = false;
+            dice.m_Rb.useGravity = true;
+        }
+
+        m_DiceIgnoreCollision = false;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Dice"), LayerMask.NameToLayer("Dice"), false);
+    }
+
     private void OnThrowDices(Vector3 _throwDirection)
     {
         m_OnThrowTime = Time.time;
@@ -281,6 +313,22 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         
         if(dicesCloseEnough && SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.GrabDice)
             SuperGameFlowEventManager.OnDicesGrabbed();
+    }
+    
+    
+    private void SnapDicesToCamera()
+    {
+        if (m_SnapDiceTime < m_ScoringSnapDicesTranslationDuration)
+        {
+            m_SnapDiceTime += Time.fixedDeltaTime;
+        }
+
+        int cpt = 0;
+        foreach (DiceInfos dice in m_DicesInfos)
+        {
+            dice.m_Rb.transform.position  = Vector3.Lerp(dice.m_OnGrabStartPos, m_DiceScoreSnapPosition.position + Vector3.right * (K_DICE_SCORE_SCREEN_SPACE_RIGHT_OFFSET * cpt), m_SnapDiceTime / m_ScoringSnapDicesTranslationDuration);
+            cpt++;
+        }
     }
 
     private bool DicesStabilized()
