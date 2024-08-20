@@ -28,6 +28,12 @@ public static class SuperGameFlowEventManager
     {
         OnGameLevelEntryCB = null;
         OnGameReadyCB = null;
+        OnGameReplayCB = null;
+        OnDicesGrabbingCB = null;
+        OnDicesGrabbedCB = null;
+        OnRollEndedCB = null;
+        OnDicesThrownCB = null;
+        OnScoringComputedCB = null;
     }
 #endif
 
