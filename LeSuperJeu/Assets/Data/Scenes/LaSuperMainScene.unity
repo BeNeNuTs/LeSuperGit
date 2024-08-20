@@ -916,9 +916,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Patch notes
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cb50082b81e2bb3428a1cb4c4c0940e9, type: 2}
-  m_sharedMaterial: {fileID: 2242594815358978675, guid: cb50082b81e2bb3428a1cb4c4c0940e9,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1253,8 +1252,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 9ed0564978b1c284b8442b3089c2e8d4, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1615,9 +1614,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Le super patch notes
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4cd440e85d51bd544b9c8191e7f8cfb0, type: 2}
-  m_sharedMaterial: {fileID: -8053933875539419256, guid: 4cd440e85d51bd544b9c8191e7f8cfb0,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
