@@ -140,7 +140,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             case SuperGameFlowEventManager.ECurrentGameplayFlowState.Scoring:
                 OnUpdateScoring();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.ScoreScreen:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.ScoreScreen:
                 SnapDicesToCamera();
                 break;
         }

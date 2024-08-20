@@ -98,12 +98,12 @@ public static class SuperGameFlowEventManager
     }
     public static void OnScoringComputed(float _computedScore)
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.ScoreScreen;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
         OnScoringComputedCB?.Invoke(_computedScore);
     }
     public static void OnReplay()
     {
         OnGameReplayCB?.Invoke();
-        m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
     }
 }
