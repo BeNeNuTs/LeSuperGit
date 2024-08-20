@@ -1,12 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using TriInspector;
 using UnityEngine;
 
 public class SuperDirectionManager : MonoBehaviour
 {
     [SerializeField]
     private CameraConfig m_cameraConfig;
+
+    [ShowInInspector]
+    private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow>();
 
     void Awake()
     {
@@ -16,7 +18,7 @@ public class SuperDirectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenerateSettings();
     }
 
     // Update is called once per frame
@@ -27,6 +29,16 @@ public class SuperDirectionManager : MonoBehaviour
 
     private void OnGlobalGameStateChanged(SuperGameFlowEventManager.EGlobalGameState _newState)
     {
-        UnityEngine.Debug.Log("ZOB LE JEU");
+    }
+
+    private void GenerateSettings()
+    {
+        foreach(var wrapper in m_cameraConfig.CamerasSettingsForGameFlow)
+        {
+            m_runtimeSettings.Add(wrapper.GameFlowState, new CameraConfig.CameraSettingForGameFlow
+            {
+                Camera = wrapper.Setting.Camera
+            });
+        }
     }
 }
