@@ -31,6 +31,9 @@ MonoBehaviour:
   - m_SceneType: 21
     m_SceneAsset: {fileID: 102900000, guid: 092a5f19d53567c488d574f1442b5998, type: 3}
     m_SceneName: LaSuperProfilScene
+  - m_SceneType: 22
+    m_SceneAsset: {fileID: 102900000, guid: 4175825ff446b66458f9c3c329f2a2a9, type: 3}
+    m_SceneName: LaSuperLeaderboardScene
   - m_SceneType: 30
     m_SceneAsset: {fileID: 102900000, guid: e22c04fe001fffb479b26c30c52f6035, type: 3}
     m_SceneName: LaSuperGameScene
