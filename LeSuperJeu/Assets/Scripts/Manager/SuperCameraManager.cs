@@ -13,20 +13,20 @@ public class SuperCameraManager
     
     [SerializeField]
     private Transform m_cameraContainer;
-
-    private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow>();
-    private Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow> m_runtimeGameplaySettings = new Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow>();
-    
     [SerializeField]
     private CinemachineImpulseSource m_impulseSource;
     [SerializeField]
     private CinemachineTargetGroup m_targetGroup;
 
+    private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow>();
+    private Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow> m_runtimeGameplaySettings = new Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow>();
+    
+
     private CinemachineVirtualCameraBase _baseActiveCamera;
     private CinemachineVirtualCameraBase _gameplayActiveCamera;
     private CameraConfig.CameraSettingForGameFlow _gameplayActiveCameraSetting;
 
-    private Dictionary<EGameplayElementType, List<SuperCameraTarget>> m_targets;
+    private Dictionary<EGameplayElementType, List<SuperCameraTarget>> m_targets = new Dictionary<EGameplayElementType, List<SuperCameraTarget>>();
 
     public void Awake()
     {
@@ -183,7 +183,7 @@ public class SuperCameraManager
 
     public void RegisterTarget(SuperCameraTarget _target, EGameplayElementType _type)
     {
-        List<SuperCameraTarget> targets = new List<SuperCameraTarget>();
+        List<SuperCameraTarget> targets;
         if(m_targets.TryGetValue(_type, out targets))
         {
             targets.Add(_target);
@@ -191,8 +191,8 @@ public class SuperCameraManager
         }
         else
         {
-            targets.Add(_target);
-            m_targets.Add(_type,targets );
+            targets = new List<SuperCameraTarget>{_target};
+            m_targets.Add(_type, targets);
         }
     }
     public void UnregisterTarget(SuperCameraTarget _target, EGameplayElementType _type)

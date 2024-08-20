@@ -67,43 +67,43 @@ public static class SuperGameFlowEventManager
 
     public static void OnGameLevelEntry()
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
+        CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
         OnGameLevelEntryCB?.Invoke();
     }
     public static void OnGameReady()
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.IdleWaitForGrab;
+        CurrentGameFlowState = ECurrentGameplayFlowState.IdleWaitForGrab;
         OnGameReadyCB?.Invoke();
     }
     public static void OnDicesGrabbing()
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.GrabDice;
+        CurrentGameFlowState = ECurrentGameplayFlowState.GrabDice;
         OnDicesGrabbingCB?.Invoke();
     }
     public static void OnDicesGrabbed()
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.ShakeDice;
+        CurrentGameFlowState = ECurrentGameplayFlowState.ShakeDice;
         OnDicesGrabbedCB?.Invoke();
     }
     public static void OnDicesThrown(Vector3 _throwDirection)
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.ThrowDice;
+        CurrentGameFlowState = ECurrentGameplayFlowState.ThrowDice;
         OnDicesThrownCB?.Invoke(_throwDirection);
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.WaitDiceStabilization;
+        CurrentGameFlowState = ECurrentGameplayFlowState.WaitDiceStabilization;
     }
     public static void OnRollEnded()
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.Scoring;
+        CurrentGameFlowState = ECurrentGameplayFlowState.Scoring;
         OnRollEndedCB?.Invoke();
     }
     public static void OnScoringComputed(float _computedScore)
     {
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
+        CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
         OnScoringComputedCB?.Invoke(_computedScore);
     }
     public static void OnReplay()
     {
         OnGameReplayCB?.Invoke();
-        m_CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
+        CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
     }
 }

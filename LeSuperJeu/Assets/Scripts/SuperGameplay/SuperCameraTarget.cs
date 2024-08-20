@@ -18,7 +18,7 @@ public class SuperCameraTarget : MonoBehaviour
     public float Weight => m_weight;
     [SerializeField]
     private float m_radius; //  probably from collider
-    public float Radius => Radius;
+    public float Radius => m_radius;
     void Awake()
     {
         RegisterToSuperDirectionSystem();

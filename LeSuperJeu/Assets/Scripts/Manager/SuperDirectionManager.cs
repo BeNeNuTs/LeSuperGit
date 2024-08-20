@@ -9,7 +9,7 @@ public class SuperDirectionManager : SuperSingleton<SuperDirectionManager>
     [SerializeReference]
     private SuperCameraManager m_cameraManager;
     public SuperCameraManager CameraManager => m_cameraManager;
-    void Awake()
+    protected override void OnAwake_Internal()
     {
         m_cameraManager.Awake();
     }
