@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SuperDirectionManager : MonoBehaviour
 {
+    [SerializeField]
+    private CameraConfig m_cameraConfig;
+
     void Awake()
     {
         SuperGameFlowEventManager.OnGlobalGameStateChanged += OnGlobalGameStateChanged;
