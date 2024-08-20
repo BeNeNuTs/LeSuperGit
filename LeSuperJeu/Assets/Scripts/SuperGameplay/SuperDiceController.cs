@@ -285,7 +285,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     private bool DicesStabilized()
     {
         bool hasOneDiceMoving = false;
-        bool isScoringStabilization = SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization;
+        bool isScoringStabilization = SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization;
         foreach (DiceInfos dice in m_DicesInfos)
         {
             if (dice.m_Rb.velocity.sqrMagnitude > K_STABILIZED_VELOCITY_SQR)
