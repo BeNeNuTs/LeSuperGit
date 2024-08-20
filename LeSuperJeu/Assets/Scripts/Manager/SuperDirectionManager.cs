@@ -25,5 +25,4 @@ public class SuperDirectionManager : SuperSingleton<SuperDirectionManager>
     {
         m_cameraManager.Update();
     }
-
 }

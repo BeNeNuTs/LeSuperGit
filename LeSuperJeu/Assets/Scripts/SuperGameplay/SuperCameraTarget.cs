@@ -47,6 +47,6 @@ public class SuperCameraTarget : MonoBehaviour
     }
     private void UnregisterToSuperDirectionSystem()
     {
-        SuperDirectionManager.Instance.CameraManager.UnregisterTarget(this, GameplayElementType);
+        SuperDirectionManager.Instance?.CameraManager.UnregisterTarget(this, GameplayElementType);
     }
 }

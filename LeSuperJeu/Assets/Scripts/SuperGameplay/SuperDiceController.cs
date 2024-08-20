@@ -344,6 +344,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             else if (isScoringStabilization)
             {
                 dice.m_SuperDiceSkinHandler.StartGlowIfNeeded();
+                SuperGameFlowEventManager.OnDiceStabilized.Invoke(dice);
             }
         }
 

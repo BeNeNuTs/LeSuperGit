@@ -50,6 +50,8 @@ public static class SuperGameFlowEventManager
     public static Action<Vector3> OnDicesThrownCB;
     public static Action<float> OnScoringComputedCB;
 
+    public static Action<SuperDiceController.DiceInfos> OnDiceStabilized;
+
 #if UNITY_EDITOR
     [InitializeOnEnterPlayMode]
     static void RunOnStart()

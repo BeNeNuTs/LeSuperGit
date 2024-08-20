@@ -18,6 +18,10 @@ public class CameraConfig : ScriptableObject
     private List<CameraSettingForGamePlayFlowWrapper> m_camerasSettingsForGameplayFlow;
     public List<CameraSettingForGamePlayFlowWrapper> CamerasSettingsForGameplayFlow => m_camerasSettingsForGameplayFlow;
 
+    [SerializeField]
+    private CinemachineImpulseDefinition m_impulse;
+    public CinemachineImpulseDefinition Impulse => m_impulse;
+
     [Serializable]
     public struct CameraSettingForGameFlowWrapper
     {
@@ -45,6 +49,10 @@ public class CameraConfig : ScriptableObject
         public bool HasFollow;
         [ShowIf(nameof(HasFollow))]
         public EGameplayElementType FollowTarget;
+        
+        public bool HasBlendCurve;
+        [ShowIf(nameof(HasBlendCurve))]
+        public CinemachineBlendDefinition BlendTo;
     }
 
 }

@@ -14,6 +14,8 @@ public class SuperCameraManager
     [SerializeField]
     private Transform m_cameraContainer;
     [SerializeField]
+    private CinemachineBrain m_brain;
+    [SerializeField]
     private CinemachineImpulseSource m_impulseSource;
     [SerializeField]
     private CinemachineTargetGroup m_targetGroup;
@@ -28,10 +30,12 @@ public class SuperCameraManager
 
     private Dictionary<EGameplayElementType, List<SuperCameraTarget>> m_targets = new Dictionary<EGameplayElementType, List<SuperCameraTarget>>();
 
+
     public void Awake()
     {
         SuperGameFlowEventManager.OnGlobalGameStateChanged += OnGlobalGameStateChanged;
         SuperGameFlowEventManager.OnGameFlowStateChanged += OnGameplayFlowStateChanged;
+        SuperGameFlowEventManager.OnDiceStabilized += OnDiceStabilized;
         GetAllNeededBehaviours();
         GenerateSettings();
     }
@@ -52,6 +56,8 @@ public class SuperCameraManager
             m_impulseSource =m_cameraContainer.GetComponentInChildren<CinemachineImpulseSource>();
         if(m_targetGroup == null)
             m_targetGroup =m_cameraContainer.GetComponentInChildren<CinemachineTargetGroup>();
+        if(m_brain == null)
+            m_brain =m_cameraContainer.GetComponentInChildren<CinemachineBrain>();
     }
 
     private void OnGlobalGameStateChanged(SuperGameFlowEventManager.EGlobalGameState _newState)
@@ -67,11 +73,14 @@ public class SuperCameraManager
         if(m_runtimeSettings.TryGetValue( _newState, out newSetting))
         {
             _baseActiveCamera?.gameObject.SetActive(false);
+            CinemachineVirtualCameraBase previousActive = _baseActiveCamera;
             Debug.Log($"GameFlow : Changing Camera for {_newState} : {newSetting.Camera.name}");
-            _baseActiveCamera = newSetting.Camera;
-            _baseActiveCamera.gameObject.SetActive(true);
 
-            ApplySettingToCamera(_baseActiveCamera, newSetting);
+            _baseActiveCamera = newSetting.Camera;
+
+            ApplySettingToCamera(_baseActiveCamera, newSetting, previousActive);
+
+            _baseActiveCamera.gameObject.SetActive(true);
         }
     }
     
@@ -87,15 +96,18 @@ public class SuperCameraManager
         if(m_runtimeGameplaySettings.TryGetValue( _newState, out newSetting))
         {
             _gameplayActiveCamera?.gameObject.SetActive(false);
+            CinemachineVirtualCameraBase previousActive = _gameplayActiveCamera;
             Debug.Log($"Gameplay : Changing Camera for {_newState} : {newSetting.Camera.name}");
-            _gameplayActiveCamera = newSetting.Camera;
-            _gameplayActiveCamera.gameObject.SetActive(true);
             
-            ApplySettingToCamera(_gameplayActiveCamera, newSetting);
+            _gameplayActiveCamera = newSetting.Camera;
+
+            ApplySettingToCamera(_gameplayActiveCamera, newSetting, previousActive);
+            
+            _gameplayActiveCamera.gameObject.SetActive(true);
         }
     }
 
-    private void ApplySettingToCamera(CinemachineVirtualCameraBase _camera, CameraConfig.CameraSettingForGameFlow _setting)
+    private void ApplySettingToCamera(CinemachineVirtualCameraBase _camera, CameraConfig.CameraSettingForGameFlow _setting, CinemachineVirtualCameraBase _fromCamera)
     {
         _camera.Priority = _setting.Priority;
         if(_setting.HasFollow)
@@ -115,6 +127,18 @@ public class SuperCameraManager
         else
         {
             _camera.LookAt = null;
+        }
+
+        if(_setting.HasBlendCurve)
+        {
+            string from = CinemachineBlenderSettings.kBlendFromAnyCameraLabel;
+            if(_fromCamera != null)
+            {
+                from = _fromCamera.Name;
+            }
+            m_brain.m_CustomBlends.m_CustomBlends[0].m_From = from;
+            m_brain.m_CustomBlends.m_CustomBlends[0].m_To = _camera.Name;
+            m_brain.m_CustomBlends.m_CustomBlends[0].m_Blend = _setting.BlendTo;
         }
     }
 
@@ -170,6 +194,8 @@ public class SuperCameraManager
         runtimeSetting.LookAtTarget = dataSetting.LookAtTarget;
         runtimeSetting.HasFollow = dataSetting.HasFollow;
         runtimeSetting.FollowTarget = dataSetting.FollowTarget;
+        runtimeSetting.HasBlendCurve = dataSetting.HasBlendCurve;
+        runtimeSetting.BlendTo = dataSetting.BlendTo;
         return runtimeSetting;
     }
 
@@ -202,4 +228,15 @@ public class SuperCameraManager
             m_targets[_type].Remove(_target);
         }
     }
+    
+
+    public void OnDiceStabilized(SuperDiceController.DiceInfos _dice)
+    {
+        m_impulseSource.m_ImpulseDefinition = m_cameraConfig.Impulse;
+        m_impulseSource.transform.position = _dice.m_Rb.transform.position;
+        
+        Vector3 dir = (_gameplayActiveCamera.transform.position - _dice.m_Rb.transform.position).normalized;
+        m_impulseSource.GenerateImpulse();
+    }
+
 }
