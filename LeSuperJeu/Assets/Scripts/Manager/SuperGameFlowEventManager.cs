@@ -32,6 +32,7 @@ public static class SuperGameFlowEventManager
         ThrowDice,
         WaitDiceStabilization,
         Scoring,
+        ScoringRitual,
         ScoreScreen
     }
 
@@ -46,7 +47,7 @@ public static class SuperGameFlowEventManager
         }
     }
     public static Action<ECurrentGameplayFlowState> OnGameFlowStateChanged;
-    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
+    public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB, OnScoringRitualCompletedCB;
     public static Action<Vector3> OnDicesThrownCB;
     public static Action<float> OnScoringComputedCB;
 
@@ -100,9 +101,16 @@ public static class SuperGameFlowEventManager
     }
     public static void OnScoringComputed(float _computedScore)
     {
-        CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
+        CurrentGameFlowState = ECurrentGameplayFlowState.ScoringRitual;
         OnScoringComputedCB?.Invoke(_computedScore);
     }
+    
+    public static void OnScoringRitualCompleted()
+    {
+        CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
+        OnScoringRitualCompletedCB?.Invoke();
+    }
+
     public static void OnReplay()
     {
         OnGameReplayCB?.Invoke();

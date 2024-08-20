@@ -9,6 +9,7 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 	public GameObject m_ScoringUI = null;
 
 	private Action<float> m_OnScoringComputed;
+	private Action m_OnScoringRitualCompleted;
 	
 #if UNITY_EDITOR
 	public void OnSaveAsset()
@@ -19,8 +20,10 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 #endif
 	void Awake()
 	{
+		m_OnScoringRitualCompleted = OnScoringRitualCompleted;
 		m_OnScoringComputed = OnScoringComputed;
 		SuperGameFlowEventManager.OnScoringComputedCB += m_OnScoringComputed;
+		SuperGameFlowEventManager.OnScoringRitualCompletedCB += m_OnScoringRitualCompleted;
 	}
 
 	void OnDestroy()
@@ -30,9 +33,13 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 
 	void OnScoringComputed(float _score)
 	{
+		m_ScoreTXT.text = _score.ToString();
+	}
+	
+	void OnScoringRitualCompleted()
+	{
 		Cursor.visible = true;
 		m_ScoringUI.SetActive(true);
-		m_ScoreTXT.text = _score.ToString();
 	}
 	
 	public void OnReplayClicked()
