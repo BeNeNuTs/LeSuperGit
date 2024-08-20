@@ -333,7 +333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mot de passe...
+  m_text: Code pin...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb50082b81e2bb3428a1cb4c4c0940e9, type: 2}
   m_sharedMaterial: {fileID: 2242594815358978675, guid: cb50082b81e2bb3428a1cb4c4c0940e9,
@@ -685,14 +685,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 7
+  m_ContentType: 8
   m_InputType: 2
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 40
