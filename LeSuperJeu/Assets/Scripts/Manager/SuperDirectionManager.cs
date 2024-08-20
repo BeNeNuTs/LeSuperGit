@@ -18,10 +18,8 @@ public class SuperDirectionManager : MonoBehaviour
 
     void Awake()
     {
-        /*
         SuperGameFlowEventManager.OnGlobalGameStateChanged += OnGlobalGameStateChanged;
         GenerateSettings();
-        */
     }
 
     // Start is called before the first frame update
