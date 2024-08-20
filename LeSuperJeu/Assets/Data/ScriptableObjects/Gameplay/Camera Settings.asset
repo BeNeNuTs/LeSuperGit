@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a27ab67e018b448a6b764c0294c370, type: 3}
   m_Name: Camera Settings
   m_EditorClassIdentifier: 
-  m_cameras:
+  m_camerasSettingsForGameFlow:
   - GameFlowState: 0
-    Camera: {fileID: 0}
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
+        type: 3}
   - GameFlowState: 1
-    Camera: {fileID: 0}
+    Setting:
+      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}

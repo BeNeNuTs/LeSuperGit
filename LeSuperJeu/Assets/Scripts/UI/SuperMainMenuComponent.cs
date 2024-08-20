@@ -76,6 +76,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
         m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
         m_LoadGameScene = LoadGameScene;
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
     }
 
     public void OnPlayButtonClicked()
