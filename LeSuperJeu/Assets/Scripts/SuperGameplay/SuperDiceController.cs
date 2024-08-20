@@ -105,9 +105,9 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private void Update()
     {
-        switch (SuperGameFlowEventManager.m_CurrentGameFlowState)
+        switch (SuperGameFlowEventManager.CurrentGameFlowState)
         {
-            case SuperGameFlowEventManager.ECurrentGameFlowState.FirstDiceLanding:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.FirstDiceLanding:
                 if (m_DiceIgnoreCollision)
                     UnLockDicesGravity();
                 
@@ -116,13 +116,13 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                     SuperGameFlowEventManager.OnGameReady();
                 }
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.GrabDice:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.GrabDice:
                 SnapDicesToPlayer();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.ShakeDice:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.ShakeDice:
                 SnapDicesToPlayer();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization:
                 float currentTime = Time.time;
                 if (currentTime > m_OnThrowTime + K_DELAY_BEFORE_RESTORE_DICE_COLLISION)
                 {
@@ -138,10 +138,10 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                     }
                 }
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.Scoring:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.Scoring:
                 OnUpdateScoring();
                 break;
-            case SuperGameFlowEventManager.ECurrentGameFlowState.ScoreScreen:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.ScoreScreen:
                 SnapDicesToCamera();
                 break;
         }
@@ -311,7 +311,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                 dicesCloseEnough = false;
         }
         
-        if(dicesCloseEnough && SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.GrabDice)
+        if(dicesCloseEnough && SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.GrabDice)
             SuperGameFlowEventManager.OnDicesGrabbed();
     }
     
@@ -334,7 +334,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     private bool DicesStabilized()
     {
         bool hasOneDiceMoving = false;
-        bool isScoringStabilization = SuperGameFlowEventManager.m_CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameFlowState.WaitDiceStabilization;
+        bool isScoringStabilization = SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization;
         foreach (DiceInfos dice in m_DicesInfos)
         {
             if (dice.m_Rb.velocity.sqrMagnitude > K_STABILIZED_VELOCITY_SQR)

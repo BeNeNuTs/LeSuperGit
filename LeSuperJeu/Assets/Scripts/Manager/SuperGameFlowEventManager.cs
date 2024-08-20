@@ -4,7 +4,25 @@ using UnityEngine;
 
 public static class SuperGameFlowEventManager
 {
-    public enum ECurrentGameFlowState
+    public enum EGlobalGameState
+    {
+        MainMenu,
+        Game
+    }
+
+    private static EGlobalGameState m_GlobalGameState = EGlobalGameState.MainMenu;
+    public static EGlobalGameState GlobalGameState
+    {
+        get { return m_GlobalGameState; }
+        set
+        {
+            m_GlobalGameState = value;
+            OnGlobalGameStateChanged.Invoke(m_GlobalGameState);
+        }
+    }
+    public static Action<EGlobalGameState> OnGlobalGameStateChanged;
+
+    public enum ECurrentGameplayFlowState
     {
         Initializing,
         FirstDiceLanding,
@@ -17,7 +35,17 @@ public static class SuperGameFlowEventManager
         ScoreScreen
     }
 
-    public static ECurrentGameFlowState m_CurrentGameFlowState = ECurrentGameFlowState.Initializing;
+    private static ECurrentGameplayFlowState m_CurrentGameFlowState = ECurrentGameplayFlowState.Initializing;
+    public static ECurrentGameplayFlowState CurrentGameFlowState
+    {
+        get { return m_CurrentGameFlowState; }
+        set
+        {
+            m_CurrentGameFlowState = value;
+            OnGameFlowStateChanged.Invoke(m_CurrentGameFlowState);
+        }
+    }
+    public static Action<ECurrentGameplayFlowState> OnGameFlowStateChanged;
     public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB;
     public static Action<Vector3> OnDicesThrownCB;
     public static Action<float> OnScoringComputedCB;
@@ -39,43 +67,43 @@ public static class SuperGameFlowEventManager
 
     public static void OnGameLevelEntry()
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
         OnGameLevelEntryCB?.Invoke();
     }
     public static void OnGameReady()
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.IdleWaitForGrab;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.IdleWaitForGrab;
         OnGameReadyCB?.Invoke();
     }
     public static void OnDicesGrabbing()
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.GrabDice;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.GrabDice;
         OnDicesGrabbingCB?.Invoke();
     }
     public static void OnDicesGrabbed()
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.ShakeDice;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.ShakeDice;
         OnDicesGrabbedCB?.Invoke();
     }
     public static void OnDicesThrown(Vector3 _throwDirection)
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.ThrowDice;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.ThrowDice;
         OnDicesThrownCB?.Invoke(_throwDirection);
-        m_CurrentGameFlowState = ECurrentGameFlowState.WaitDiceStabilization;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.WaitDiceStabilization;
     }
     public static void OnRollEnded()
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.Scoring;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.Scoring;
         OnRollEndedCB?.Invoke();
     }
     public static void OnScoringComputed(float _computedScore)
     {
-        m_CurrentGameFlowState = ECurrentGameFlowState.ScoreScreen;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.ScoreScreen;
         OnScoringComputedCB?.Invoke(_computedScore);
     }
     public static void OnReplay()
     {
         OnGameReplayCB?.Invoke();
-        m_CurrentGameFlowState = ECurrentGameFlowState.FirstDiceLanding;
+        m_CurrentGameFlowState = ECurrentGameplayFlowState.FirstDiceLanding;
     }
 }

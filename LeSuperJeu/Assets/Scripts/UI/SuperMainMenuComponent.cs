@@ -78,10 +78,16 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_LoadGameScene = LoadGameScene;
     }
 
+    private void Start()
+    {
+            SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
+    }
+    
     public void OnPlayButtonClicked()
     {
         SuperDataContainer.Instance.OnPlayGame();
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.Game;
     }
 
     public void OnProfilButtonClicked()
