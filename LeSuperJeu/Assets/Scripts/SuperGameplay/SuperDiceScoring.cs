@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class SuperDiceScoring : MonoBehaviour, ISaveAsset
@@ -20,10 +21,13 @@ public class SuperDiceScoring : MonoBehaviour, ISaveAsset
     }
     public List<ScoreMarker> m_ScoreMarkers =  new List<ScoreMarker>();
 
+    [NonSerialized]
     public EScoreType m_DiceScore = EScoreType.None;
     
     private Action<Vector3> m_OnThrowDices;
     private Action m_OnComputeScoring;
+    private Action m_OnReplay;
+    private Vector3 m_InitialPosition = Vector3.zero;
     
 #if UNITY_EDITOR
     public void OnSaveAsset()
@@ -44,25 +48,23 @@ public class SuperDiceScoring : MonoBehaviour, ISaveAsset
     {
         m_OnThrowDices = OnThrowDices;
         m_OnComputeScoring = OnComputeScoring;
+        m_OnReplay = OnReplay;
         SuperGameFlowEventManager.OnDicesThrownCB += m_OnThrowDices;
         SuperGameFlowEventManager.OnRollEndedCB += m_OnComputeScoring;
+        SuperGameFlowEventManager.OnGameReplayCB += m_OnReplay;
+        m_InitialPosition = transform.position;
     }
     
     void OnDestroy()
     {
         SuperGameFlowEventManager.OnDicesThrownCB -= m_OnThrowDices;
         SuperGameFlowEventManager.OnRollEndedCB -= m_OnComputeScoring;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        SuperGameFlowEventManager.OnGameReplayCB -= m_OnReplay;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnReplay()
     {
-        
+        transform.position = m_InitialPosition;
     }
 
     private void OnThrowDices(Vector3 _throwDirection)
