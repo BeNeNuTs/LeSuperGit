@@ -110,7 +110,7 @@ public class SuperCameraManager
         
         if(_setting.HasLookAt)
         {
-            SetLookAtTarget(_camera, _setting.FollowTarget);
+            SetLookAtTarget(_camera, _setting.LookAtTarget);
         }
         else
         {
