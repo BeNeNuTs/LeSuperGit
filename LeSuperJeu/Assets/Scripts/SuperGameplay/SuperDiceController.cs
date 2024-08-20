@@ -123,7 +123,8 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
                 SnapDicesToPlayer();
                 break;
             case SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization:
-                if (m_DiceIgnoreCollision)
+                float currentTime = Time.time;
+                if (currentTime > m_OnThrowTime + K_DELAY_BEFORE_RESTORE_DICE_COLLISION)
                 {
                     if (m_DiceIgnoreCollision)
                     {
