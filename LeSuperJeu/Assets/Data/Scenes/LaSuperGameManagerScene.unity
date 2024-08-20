@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 1479028770}
   - component: {fileID: 1479028772}
   - component: {fileID: 1479028773}
-  - component: {fileID: 1479028774}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -410,20 +409,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1479028774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479028766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5941f54d6304ac84f935b54030b7996d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_cameraConfig: {fileID: 11400000, guid: 88e88232205613546817ecf880d7959d, type: 2}
-  m_cameraContainer: {fileID: 1051459673}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
