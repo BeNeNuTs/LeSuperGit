@@ -17,12 +17,7 @@ public class SuperPlayerInfo
 
     public bool IsPlayerRegisteredForSeason(uint _seasonID)
     {
-        foreach (SeasonPlayerInfo seasonPlayerInfo in m_SeasonInfo)
-        {
-            if (seasonPlayerInfo.m_SeasonID == _seasonID)
-                return true;
-        }
-        return false;
+        return GetSeasonInfo(_seasonID) != null;
     }
 
     public void RegisterPlayerForSeason(uint _seasonID)
