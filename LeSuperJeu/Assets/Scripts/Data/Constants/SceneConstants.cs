@@ -23,8 +23,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     {
         public ESceneType m_SceneType;
 #if UNITY_EDITOR
-        [SerializeField]
-        private SceneAsset m_SceneAsset;
+        public SceneAsset m_SceneAsset;
 #endif
         [HideInInspector]
         public string m_SceneName;
@@ -100,4 +99,16 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         }
         return string.Empty;
     }
+    
+#if UNITY_EDITOR
+    public SceneAsset GetSceneAsset(ESceneType _type)
+    {
+        foreach (var sceneInfo in m_SceneInfos)
+        {
+            if(sceneInfo.m_SceneType == _type)
+                return sceneInfo.m_SceneAsset;
+        }
+        return null;
+    }
+#endif
 }
