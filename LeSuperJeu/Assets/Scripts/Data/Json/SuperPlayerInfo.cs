@@ -57,6 +57,16 @@ public class SuperPlayerInfo
             JsonHelper.SaveSuperPlayerInfo();
         }
     }
+    
+    public void IncreaseScore(float _score)
+    {
+        SeasonPlayerInfo seasonPlayerInfo = GetCurrentSeasonInfo();
+        if (seasonPlayerInfo != null)
+        {
+            seasonPlayerInfo.m_Score += _score;
+            JsonHelper.SaveSuperPlayerInfo();
+        }
+    }
 }
 
 [Serializable]
@@ -72,7 +82,7 @@ public class SeasonPlayerInfo
 {
     public uint m_SeasonID = 0;
     public uint m_DiceRollCount = 0;
-    public uint m_Score = 0;
+    public float m_Score = 0;
 
     public SeasonPlayerInfo(uint _seasonID)
     {
