@@ -85,7 +85,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
             return false;
         
         SuperPlayerInfo superPlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
-        SeasonPlayerInfo seasonPlayerInfo = superPlayerInfo.GetSeasonInfo(m_SuperJeuInfo.m_CurrentSeasonID);
+        SeasonPlayerInfo seasonPlayerInfo = superPlayerInfo.GetCurrentSeasonInfo();
         // If player is not already registered for this season, it has at least 2 dice rolls to do 
         if (seasonPlayerInfo == null)
             return true;

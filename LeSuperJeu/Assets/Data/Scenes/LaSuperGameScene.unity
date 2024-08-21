@@ -423,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScoreTXT: {fileID: 1323069525}
   m_ScoringUI: {fileID: 1873624704}
+  m_NextThrowButton: {fileID: 1476496217}
 --- !u!1 &271976147
 GameObject:
   m_ObjectHideFlags: 0
