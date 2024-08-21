@@ -59,6 +59,8 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     [SerializeField]
     private bool m_ForceHeureDuSuperJeu = false;
     public bool IsForceHeureDuSuperJeu => m_ForceHeureDuSuperJeu;
+    
+    public bool m_InfiniteDiceRolls = true;
 #endif
 
 #if UNITY_EDITOR
