@@ -22,7 +22,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     [Group("Tabs"), Tab("Buttons")]
     public Button m_PlayButton;
     [Group("Tabs"), Tab("Buttons")]
-    public TMP_Text m_PlayButtonText;
+    public Image m_DisablePlayButtonImage;
 
     [Group("Tabs"), Tab("Animations")]
     public Animation m_MainMenuAnimation;
@@ -71,6 +71,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
         m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
         m_PlayButton.interactable = CanIPlay();
+        m_DisablePlayButtonImage.enabled = !m_PlayButton.interactable;
         m_LoadGameScene = LoadGameScene;
     }
 
