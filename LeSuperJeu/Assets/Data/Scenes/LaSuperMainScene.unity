@@ -1533,7 +1533,6 @@ MonoBehaviour:
   m_SeasonTitle: {fileID: 422346960}
   m_ButtonsGroup: {fileID: 487903872}
   m_PlayButton: {fileID: 2085046940}
-  m_PlayButtonText: {fileID: 1129084051}
   m_DisablePlayButtonImage: {fileID: 1836574026}
   m_MainMenuAnimation: {fileID: 1164527537}
   m_AnimCollection:
