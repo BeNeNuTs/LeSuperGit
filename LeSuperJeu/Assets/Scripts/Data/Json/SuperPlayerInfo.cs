@@ -26,6 +26,11 @@ public class SuperPlayerInfo
         m_SeasonInfo.Add(newSeasonPlayerInfo);
         JsonHelper.SaveSuperPlayerInfo();
     }
+    
+    public SeasonPlayerInfo GetCurrentSeasonInfo()
+    {
+        return GetSeasonInfo(SuperDataContainer.Instance.m_SuperJeuInfo.m_CurrentSeasonID);
+    }
 
     public SeasonPlayerInfo GetSeasonInfo(uint _seasonID)
     {
@@ -41,6 +46,16 @@ public class SuperPlayerInfo
     {
         m_GlobalInfo.m_EquippedSkinID = _skinDataID;
         JsonHelper.SaveSuperPlayerInfo();
+    }
+
+    public void IncreaseDiceRolls()
+    {
+        SeasonPlayerInfo seasonPlayerInfo = GetCurrentSeasonInfo();
+        if (seasonPlayerInfo != null)
+        {
+            seasonPlayerInfo.m_DiceRollCount++;
+            JsonHelper.SaveSuperPlayerInfo();
+        }
     }
 }
 
