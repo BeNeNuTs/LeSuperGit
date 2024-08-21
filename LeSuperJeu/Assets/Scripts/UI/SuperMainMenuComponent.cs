@@ -30,11 +30,13 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public AnimationCollection m_AnimCollection;
     
     [Group("Tabs"), Tab("Patch notes")]
-    public TMP_Text m_PatchNotesButtonText;
+    public Image m_PatchNotesButtonImage;
     [Group("Tabs"), Tab("Patch notes")]
     public GameObject m_PatchNotesPanel;
     [Group("Tabs"), Tab("Patch notes")]
-    public TMP_Text m_PatchNotesText;
+    public Sprite m_PatchNotesButtonSprite;
+    [Group("Tabs"), Tab("Patch notes")]
+    public Sprite m_ClosePatchNotesButtonSprite;
 
     private SuperJeuInfo m_SuperJeuInfo;
     private Action m_LoadGameScene;
@@ -69,7 +71,6 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
         m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
         m_PlayButton.interactable = CanIPlay();
-        m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
         m_LoadGameScene = LoadGameScene;
     }
 
@@ -133,7 +134,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         bool newPatchNotesVisibility = !m_PatchNotesPanel.activeSelf;
         m_PatchNotesPanel.SetActive(newPatchNotesVisibility);
         m_ButtonsGroup.SetActive(!newPatchNotesVisibility);
-        m_PatchNotesButtonText.text = newPatchNotesVisibility ? "X" : "Patch notes";
+        m_PatchNotesButtonImage.sprite = newPatchNotesVisibility ? m_ClosePatchNotesButtonSprite : m_PatchNotesButtonSprite;
     }
 
     private void LoadGameScene()
