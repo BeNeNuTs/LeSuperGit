@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 [InitializeOnLoadAttribute]
 public static class SuperDefaultSceneLoader
 {
+    private static string K_SCENE_CONSTANTS_PATH = "Assets/Data/ScriptableObjects/Constants/SceneConstants.asset";
     static SuperDefaultSceneLoader()
     {
         EditorApplication.playModeStateChanged += LoadDefaultScene;
@@ -15,11 +16,9 @@ public static class SuperDefaultSceneLoader
         if (state == PlayModeStateChange.ExitingEditMode)
         {
             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-        }
-
-        if (state == PlayModeStateChange.EnteredPlayMode)
-        {
-            EditorSceneManager.LoadScene(0);
+            
+            SceneConstants sceneConstants = AssetDatabase.LoadAssetAtPath<SceneConstants>(K_SCENE_CONSTANTS_PATH);
+            EditorSceneManager.playModeStartScene = sceneConstants.GetSceneAsset(SceneConstants.ESceneType.Boot);
         }
     }
 }

@@ -17,12 +17,7 @@ public class SuperPlayerInfo
 
     public bool IsPlayerRegisteredForSeason(uint _seasonID)
     {
-        foreach (SeasonPlayerInfo seasonPlayerInfo in m_SeasonInfo)
-        {
-            if (seasonPlayerInfo.m_SeasonID == _seasonID)
-                return true;
-        }
-        return false;
+        return GetSeasonInfo(_seasonID) != null;
     }
 
     public void RegisterPlayerForSeason(uint _seasonID)
@@ -30,6 +25,11 @@ public class SuperPlayerInfo
         SeasonPlayerInfo newSeasonPlayerInfo = new SeasonPlayerInfo(_seasonID);
         m_SeasonInfo.Add(newSeasonPlayerInfo);
         JsonHelper.SaveSuperPlayerInfo();
+    }
+    
+    public SeasonPlayerInfo GetCurrentSeasonInfo()
+    {
+        return GetSeasonInfo(SuperDataContainer.Instance.m_SuperJeuInfo.m_CurrentSeasonID);
     }
 
     public SeasonPlayerInfo GetSeasonInfo(uint _seasonID)
@@ -47,6 +47,26 @@ public class SuperPlayerInfo
         m_GlobalInfo.m_EquippedSkinID = _skinDataID;
         JsonHelper.SaveSuperPlayerInfo();
     }
+
+    public void IncreaseDiceRolls()
+    {
+        SeasonPlayerInfo seasonPlayerInfo = GetCurrentSeasonInfo();
+        if (seasonPlayerInfo != null)
+        {
+            seasonPlayerInfo.m_DiceRollCount++;
+            JsonHelper.SaveSuperPlayerInfo();
+        }
+    }
+    
+    public void IncreaseScore(float _score)
+    {
+        SeasonPlayerInfo seasonPlayerInfo = GetCurrentSeasonInfo();
+        if (seasonPlayerInfo != null)
+        {
+            seasonPlayerInfo.m_Score += _score;
+            JsonHelper.SaveSuperPlayerInfo();
+        }
+    }
 }
 
 [Serializable]
@@ -62,7 +82,7 @@ public class SeasonPlayerInfo
 {
     public uint m_SeasonID = 0;
     public uint m_DiceRollCount = 0;
-    public uint m_Score = 0;
+    public float m_Score = 0;
 
     public SeasonPlayerInfo(uint _seasonID)
     {
