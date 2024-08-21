@@ -33,6 +33,10 @@ public class SuperSeasonInfo
 
     public uint GetDiceRollsCount()
     {
+#if UNITY_EDITOR
+        if (SuperDataContainer.Instance.m_SceneConstants.m_InfiniteDiceRolls)
+            return uint.MaxValue;
+#endif
         DateTime nowDateTime = SuperTimeManager.Instance.GetCorrectedTime();
         TimeSpan timeSpan = nowDateTime - m_StartedDateTime;
         float currentSeasonWeeksCount = (float)timeSpan.TotalDays / 7f;
