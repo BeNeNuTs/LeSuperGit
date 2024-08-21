@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SuperLogInMenuComponent : MonoBehaviour
 {
@@ -10,12 +11,25 @@ public class SuperLogInMenuComponent : MonoBehaviour
 	
 	public TMP_InputField m_NicknameInputField;
 	public TMP_InputField m_PasswordInputField;
+	public Button m_LogInButton;
+	public Button m_SignInButton;
 
 	private void Awake()
 	{
 		if (PlayerPrefs.HasKey(K_NICKNAME_KEY))
 			m_NicknameInputField.text = PlayerPrefs.GetString(K_NICKNAME_KEY);
-	}
+        RefreshButtons();
+    }
+
+    private void RefreshButtons()
+    {
+        m_LogInButton.interactable = m_SignInButton.interactable = !string.IsNullOrEmpty(m_PasswordInputField.text);
+    }
+
+    public void OnPasswordValueChanged(string _password)
+    {
+        RefreshButtons();
+    }
 
 	public void OnLogInClicked()
 	{
