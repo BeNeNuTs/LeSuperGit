@@ -11,7 +11,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     {
         public Rigidbody m_Rb;
         public Transform m_Transform;
-        public SuperDiceScoring m_SuperDiceScoring;
+        public SuperDiceComponent m_SuperDiceComponent;
         public SuperDiceSkinHandler m_SuperDiceSkinHandler;
         public Vector3 m_OnGrabStartPos;
     }
@@ -85,7 +85,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             DiceInfos dice = new DiceInfos();
             dice.m_Rb = rb;
             dice.m_Transform = rb.transform;
-            dice.m_SuperDiceScoring = rb.gameObject.GetComponent<SuperDiceScoring>();
+            dice.m_SuperDiceComponent = rb.gameObject.GetComponent<SuperDiceComponent>();
             dice.m_SuperDiceSkinHandler = rb.gameObject.GetComponentInChildren<SuperDiceSkinHandler>();
             m_DicesInfos.Add(dice);
         }
@@ -169,20 +169,20 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
         int scoredDices = 0;
         foreach (DiceInfos dice in m_DicesInfos)
         {
-            if (dice.m_SuperDiceScoring.m_DiceScore != SuperDiceScoring.EScoreType.None)
+            if (dice.m_SuperDiceComponent.m_DiceScore != SuperDiceComponent.EScoreType.None)
             {
-                switch (dice.m_SuperDiceScoring.m_DiceScore)
+                switch (dice.m_SuperDiceComponent.m_DiceScore)
                 {
-                    case SuperDiceScoring.EScoreType.Zero:
+                    case SuperDiceComponent.EScoreType.Zero:
                         m_Scores0.Add(dice.m_Transform);
                         break;
-                    case SuperDiceScoring.EScoreType.Half:
+                    case SuperDiceComponent.EScoreType.Half:
                         m_Scores05.Add(dice.m_Transform);
                         break;
-                    case SuperDiceScoring.EScoreType.One:
+                    case SuperDiceComponent.EScoreType.One:
                         m_Scores1.Add(dice.m_Transform);
                         break;
-                    case SuperDiceScoring.EScoreType.Two:
+                    case SuperDiceComponent.EScoreType.Two:
                         m_Scores2.Add(dice.m_Transform);
                         break;
                 }
