@@ -50,6 +50,8 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 
 	void OnScoringComputed(float _score)
 	{
+        m_SuperPlayerInfo.IncreaseScore(_score);
+        
 		Cursor.visible = true;
 		m_ScoringUI.SetActive(true);
 		m_ScoreTXT.text = _score.ToString();
