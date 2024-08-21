@@ -66,21 +66,35 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Awake()
     {
-        if (SuperDataContainer.Instance != null)
-        {
-            m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
-            m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
-            m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
-        }
-
-        m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
+        m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+        m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
+        m_PlayButton.interactable = CanIPlay();
         m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
         m_LoadGameScene = LoadGameScene;
     }
 
     private void Start()
     {
-            SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
+    }
+
+    private bool CanIPlay()
+    {
+        // If no season in progress, nothing to play
+        if (!m_SuperJeuInfo.HasSeasonInProgress)
+            return false;
+        
+        SuperPlayerInfo superPlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
+        SeasonPlayerInfo seasonPlayerInfo = superPlayerInfo.GetSeasonInfo(m_SuperJeuInfo.m_CurrentSeasonID);
+        // If player is not already registered for this season, it has at least 2 dice rolls to do 
+        if (seasonPlayerInfo == null)
+            return true;
+        
+        // Else check if he has remaining dice rolls to play
+        SuperSeasonInfo superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        uint currentSeasonDiceRollsCount = superSeasonInfo.GetDiceRollsCount();
+
+        return seasonPlayerInfo.m_DiceRollCount < currentSeasonDiceRollsCount;
     }
     
     public void OnPlayButtonClicked()

@@ -1,12 +1,24 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
 
 [Serializable]
 public class SuperSeasonInfo
 {
+    private const uint K_SEASON_WEEK_DURATION = 6; // 6 weeks for a season
+    private const uint K_DICE_ROLLS_PER_WEEK = 2; // 2 dice rolls each week
+    private const uint K_DICE_ROLLS_PER_SEASON = K_SEASON_WEEK_DURATION * K_DICE_ROLLS_PER_WEEK; // 12 dice rolls per season
+    
     public uint m_SeasonID = 0;
-    public string m_StartedDateTime = string.Empty;
+    public string m_StartedDateTimeStr = string.Empty;
+    private DateTime m_StartedDateTime;
     public List<string> m_Participants = new();
+
+    public void Init()
+    {
+        m_StartedDateTime = JsonConvert.DeserializeObject<DateTime>(m_StartedDateTimeStr);
+    }
 
     public bool IsParticipantRegistered(string _nickname)
     {
@@ -17,5 +29,14 @@ public class SuperSeasonInfo
     {
         m_Participants.Add(_nickname);
         JsonHelper.SaveSuperSeasonInfo();
+    }
+
+    public uint GetDiceRollsCount()
+    {
+        DateTime nowDateTime = SuperTimeManager.Instance.GetCorrectedTime();
+        TimeSpan timeSpan = nowDateTime - m_StartedDateTime;
+        float currentSeasonWeeksCount = (float)timeSpan.TotalDays / 7f;
+        currentSeasonWeeksCount = Mathf.Ceil(currentSeasonWeeksCount);
+        return (uint)currentSeasonWeeksCount * K_DICE_ROLLS_PER_WEEK;
     }
 }
