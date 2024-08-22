@@ -1,6 +1,9 @@
 using System;
-using TriInspector;
+using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
+using TriInspector;
 using Random = UnityEngine.Random;
 
 [DeclareTabGroup("Tabs")]
@@ -12,9 +15,9 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
     public float m_ForcedZOffset = 1.0f;
     [Group("Tabs"), Tab("Physics")]
     public Transform m_DicesShakePosition = null;
+    public Vector3 m_ArmMousePositionOffset = Vector3.zero;
     [Group("Tabs"), Tab("Animation")]
     public Animator m_Animator;
-    
     
     private static int K_ON_GAME_READY_HASH = Animator.StringToHash("OnGameReady");
     private static int K_DICE_GRABBED_HASH = Animator.StringToHash("DiceGrabbed");
@@ -106,7 +109,7 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
         m_Pos = Input.mousePosition;
         m_Pos.z = m_ForcedZOffset;
         m_Pos = Camera.main.ScreenToWorldPoint(m_Pos);
-        transform.position = Vector3.Lerp(transform.position, m_Pos, m_Speed);
+        transform.position = Vector3.Lerp(transform.position, m_Pos + m_ArmMousePositionOffset, m_Speed);
     }
     
     private void OnScoring()
