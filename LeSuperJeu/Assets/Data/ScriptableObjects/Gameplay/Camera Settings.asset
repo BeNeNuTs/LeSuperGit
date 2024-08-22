@@ -58,7 +58,7 @@ MonoBehaviour:
         type: 3}
       Priority: 2
       HasLookAt: 1
-      LookAtTarget: 1
+      LookAtTarget: 2
       HasFollow: 0
       FollowTarget: 0
       HasBlendCurve: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
         type: 3}
       Priority: 4
       HasLookAt: 1
-      LookAtTarget: 1
+      LookAtTarget: 2
       HasFollow: 0
       FollowTarget: 0
       HasBlendCurve: 1
