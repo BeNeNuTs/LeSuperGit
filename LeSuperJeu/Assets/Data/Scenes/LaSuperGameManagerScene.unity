@@ -424,6 +424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_cameraManager:
     rid: 7446373697995407360
+  m_ritualManager:
+    rid: 7446373740647809024
   references:
     version: 2
     RefIds:
@@ -433,7 +435,14 @@ MonoBehaviour:
         m_cameraConfig: {fileID: 11400000, guid: 88e88232205613546817ecf880d7959d,
           type: 2}
         m_cameraContainer: {fileID: 1051459673}
+        m_brain: {fileID: 0}
         m_impulseSource: {fileID: 0}
+        m_targetGroup: {fileID: 0}
+    - rid: 7446373740647809024
+      type: {class: SuperRitualManager, ns: , asm: Assembly-CSharp}
+      data:
+        m_ritualConfig: {fileID: 11400000, guid: 32393f365ed945b45986c15e168da004,
+          type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

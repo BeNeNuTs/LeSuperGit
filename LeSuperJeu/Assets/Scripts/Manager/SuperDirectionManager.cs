@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using TriInspector;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class SuperDirectionManager : SuperSingleton<SuperDirectionManager>
@@ -10,40 +8,29 @@ public class SuperDirectionManager : SuperSingleton<SuperDirectionManager>
     private SuperCameraManager m_cameraManager;
     public SuperCameraManager CameraManager => m_cameraManager;
 
+    [SerializeReference]
+    private SuperRitualManager m_ritualManager;
+    public SuperRitualManager RitualManager => m_ritualManager;
+
     private bool shouldPlayRitual = false;
     protected override void OnAwake_Internal()
     {
         m_cameraManager.Awake();
-        
-        SuperGameFlowEventManager.OnScoringComputedCB += OnScoringComputed;
+        m_ritualManager.Awake();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         m_cameraManager.Start();
+        m_ritualManager.Start();
     }
 
     // Update is called once per frame
     void Update()
     {
         m_cameraManager.Update();
-        if(shouldPlayRitual)
-        {
-            PlayScoringRitual();
-        }
-    }
-    
-	void OnScoringComputed(float _score)
-	{
-        shouldPlayRitual= true;
-	}
-
-    void PlayScoringRitual()
-    {
-        Debug.Log("Played ritual");
-        shouldPlayRitual= false;
-        SuperGameFlowEventManager.OnScoringRitualCompleted();
+        m_ritualManager.Update();
     }
 	
 }
