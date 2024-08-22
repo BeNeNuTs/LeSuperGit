@@ -14,6 +14,7 @@ public static class SuperSceneHelper
         if(_sceneType == SceneConstants.ESceneType.Game)
         {
             SuperArenaDefinition arenaDefinition = FindArena();
+            SuperSceneManager.Instance.WantedArena = arenaDefinition;
             sceneName = SuperDataContainer.Instance.m_SceneConstants.GetArenaName(arenaDefinition);
         }
         else
@@ -27,11 +28,15 @@ public static class SuperSceneHelper
     private static SuperArenaDefinition FindArena()
     {
         int numberOfArenas = SuperDataContainer.Instance.m_SceneConstants.m_superArenas.Count;
-        int arenaIndex = UnityEngine.Random.Range(0, numberOfArenas - 1);
+        int arenaIndex = UnityEngine.Random.Range(0, numberOfArenas);
         int currentArena = 0;
         SuperArenaDefinition result = null;
         foreach(var arenaDef in SuperDataContainer.Instance.m_SceneConstants.m_superArenas)
         {
+            if(result == null)
+            {
+                result = arenaDef.Key;
+            }
             if(currentArena == arenaIndex)
             {
                 result = arenaDef.Key;

@@ -77,12 +77,22 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         {
             sceneInfo.Value.OnSaveAsset(this);
         }
+
+        foreach (var sceneInfo in m_superArenas)
+        {
+            sceneInfo.Value.OnSaveAsset(this);
+        }
     }
 #endif
 
     public void OnBeforeSerialize()
     {
         foreach (var sceneInfo in m_SceneInfos)
+        {
+            sceneInfo.Value.RefreshSceneName();
+        }
+        
+        foreach (var sceneInfo in m_superArenas)
         {
             sceneInfo.Value.RefreshSceneName();
         }

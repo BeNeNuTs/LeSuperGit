@@ -94,7 +94,7 @@ public class SuperRitualManager
     private void SelectRitual()
     {
         int totalRitualCount = m_ritualConfig.m_scoringRituals.Length;
-        int ritualIndex = UnityEngine.Random.Range(0, totalRitualCount -1);
+        int ritualIndex = UnityEngine.Random.Range(0, totalRitualCount);
 
         TimelineAsset selectedAsset = m_ritualConfig.m_scoringRituals[ritualIndex];
 
