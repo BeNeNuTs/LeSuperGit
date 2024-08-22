@@ -50,7 +50,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 
     public SerializableDictionary<ESceneType, SceneInfo> m_SceneInfos = new SerializableDictionary<ESceneType, SceneInfo>();
 
-    public SerializableDictionary<SuperArtSceneDefinition, SceneInfo> m_superArenas;
+    public SerializableDictionary<SuperArenaDefinition, SceneInfo> m_superArenas;
 
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
@@ -97,6 +97,16 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     {
         SceneInfo sceneInfo;
         if(m_SceneInfos.TryGetValue(_type, out sceneInfo))
+        {
+            return sceneInfo.m_SceneName;
+        }
+        return string.Empty;
+    }
+
+    public string GetArenaName(SuperArenaDefinition _arenaDefinition)
+    {
+        SceneInfo sceneInfo;
+        if(m_superArenas.TryGetValue(_arenaDefinition, out sceneInfo))
         {
             return sceneInfo.m_SceneName;
         }
