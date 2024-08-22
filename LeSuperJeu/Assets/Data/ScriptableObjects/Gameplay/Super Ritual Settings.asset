@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915873566841ff144bc20c0cd9954fed, type: 3}
+  m_Name: Super Ritual Settings
+  m_EditorClassIdentifier: 
+  m_scoringRituals:
+  - {fileID: 11400000, guid: 094b65ee148c5894e9629517360201a7, type: 2}
+  - {fileID: 11400000, guid: d1bdc6221f741e84898582b13f063398, type: 2}
