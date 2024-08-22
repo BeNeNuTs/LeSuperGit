@@ -1,17 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
+using TriInspector;
+using Random = UnityEngine.Random;
 
-public class SuperBras : MonoBehaviour, ISaveAsset
+[DeclareTabGroup("Tabs")]
+public class SuperBras : SuperBaseComponent, ISaveAsset
 {
+    [Group("Tabs"), Tab("Physics")]
     public float m_Speed = 0.25f;
+    [Group("Tabs"), Tab("Physics")]
     public float m_ForcedZOffset = 1.0f;
-    public Animator m_Animator;
+    [Group("Tabs"), Tab("Physics")]
     public Transform m_DicesShakePosition = null;
+    public Vector3 m_ArmMousePositionOffset = Vector3.zero;
+    [Group("Tabs"), Tab("Animation")]
+    public Animator m_Animator;
     
-    private int OnGameReadyHash = Animator.StringToHash("OnGameReady");
-    private int DiceGrabbedHash = Animator.StringToHash("DiceGrabbed");
-    private const float K_HAND_Z_POS = 1.0f;
+    private static int K_ON_GAME_READY_HASH = Animator.StringToHash("OnGameReady");
+    private static int K_DICE_GRABBED_HASH = Animator.StringToHash("DiceGrabbed");
+    private static int K_TRIGGER_EMOTE_HASH = Animator.StringToHash("TriggerEmote");
+    private static int K_EMOTE_ID_HASH = Animator.StringToHash("EmoteID");
+    private const int K_EMOTE_COUNT = 2;
 
     private Vector3 m_Pos;
     private bool m_GameIsReady = false;
@@ -20,6 +32,7 @@ public class SuperBras : MonoBehaviour, ISaveAsset
     private int m_PreviousFrameCount = 0;
     private Action m_OnGameReadyCb;
     private Action m_OnRollEndedCb;
+    private SuperBras_StateInfo m_SuperBras_StateInfo;
 
 #if UNITY_EDITOR
     public void OnSaveAsset()
@@ -28,13 +41,29 @@ public class SuperBras : MonoBehaviour, ISaveAsset
             Debug.LogError("Dice Shake Position not set in SuperDiceController " + gameObject.name);
     }
 #endif
-    
-    void Awake()
+
+    protected override void Awake_Internal()
     {
         m_OnGameReadyCb = OnGameReady;
         m_OnRollEndedCb = OnScoring;
+    }
+
+    protected override void PostAwake_Internal()
+    {
+        base.PostAwake_Internal();
+        m_SuperBras_StateInfo = BlackBoard.GetStateInfo<SuperBras_StateInfo>();
+    }
+
+    protected override void RegisterListeners_Internal()
+    {
         SuperGameFlowEventManager.OnGameReadyCB += m_OnGameReadyCb;
         SuperGameFlowEventManager.OnRollEndedCB += m_OnRollEndedCb;
+    }
+
+    protected override void UnRegisterListeners_Internal()
+    {
+        SuperGameFlowEventManager.OnGameReadyCB -= m_OnGameReadyCb;
+        SuperGameFlowEventManager.OnRollEndedCB -= m_OnRollEndedCb;
     }
 
     void Start()
@@ -42,13 +71,7 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         Cursor.visible = false;
     }
 
-    void OnDestroy()
-    {
-        SuperGameFlowEventManager.OnGameReadyCB -= m_OnGameReadyCb;
-        SuperGameFlowEventManager.OnRollEndedCB -= m_OnRollEndedCb;
-    }
-
-    void Update()
+    protected override void Update_Internal()
     {
         if (m_GameIsReady)
         {
@@ -59,6 +82,10 @@ public class SuperBras : MonoBehaviour, ISaveAsset
                 {
                     OnGrabDices();
                 }
+                else if (Input.GetMouseButtonDown(1))
+                {
+                    PlayRandomEmote();
+                }
             }
             else if (SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.ShakeDice && Input.GetMouseButtonUp(0))
             {
@@ -68,6 +95,9 @@ public class SuperBras : MonoBehaviour, ISaveAsset
             int currentFrame = Time.frameCount;
             if (currentFrame - m_PreviousFrameCount >= K_HAND_DIRECTION_FRAMES_DELTA)
             {
+                if(m_SuperBras_StateInfo != null)
+                    m_SuperBras_StateInfo.m_MoveMagnitudeSqr = (m_PreviousPos - transform.position).sqrMagnitude;
+                
                 m_PreviousPos = transform.position;
                 m_PreviousFrameCount = currentFrame;
             }
@@ -79,31 +109,39 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         m_Pos = Input.mousePosition;
         m_Pos.z = m_ForcedZOffset;
         m_Pos = Camera.main.ScreenToWorldPoint(m_Pos);
-        transform.position = Vector3.Lerp(transform.position, m_Pos, m_Speed);
+        transform.position = Vector3.Lerp(transform.position, m_Pos + m_ArmMousePositionOffset, m_Speed);
     }
     
     private void OnScoring()
     {
-        m_Animator.SetBool(OnGameReadyHash, false);
+        m_Animator.SetBool(K_ON_GAME_READY_HASH, false);
     }
 
     private void OnGameReady()
     {
         m_GameIsReady = true;
-        m_Animator.SetBool(OnGameReadyHash, true);
+        m_Animator.SetBool(K_ON_GAME_READY_HASH, true);
+    }
+    
+    private void PlayRandomEmote()
+    {
+        m_Animator.SetInteger(K_EMOTE_ID_HASH, Random.Range(0, K_EMOTE_COUNT));
+        m_Animator.SetTrigger(K_TRIGGER_EMOTE_HASH);
     }
 
     private void OnGrabDices()
     {
-        m_Animator.SetBool(DiceGrabbedHash, true);
+        m_Animator.SetBool(K_DICE_GRABBED_HASH, true);
+        m_SuperBras_StateInfo?.m_OnStartGrabDices?.Invoke();
         SuperGameFlowEventManager.OnDicesGrabbing();
     }
 
     private void OnThrowDices()
     {
-        m_Animator.SetBool(DiceGrabbedHash, false);
+        m_Animator.SetBool(K_DICE_GRABBED_HASH, false);
         Vector3 throwDirection = transform.position - m_PreviousPos;
         throwDirection.y = 0;
+        m_SuperBras_StateInfo?.m_OnThrowDices?.Invoke();
         SuperGameFlowEventManager.OnDicesThrown(throwDirection);
     }
 }

@@ -49,6 +49,6 @@ public class SuperTimeManager : SuperSingleton<SuperTimeManager>
         if(SceneConstants.IsForceHeureDuSuperJeu)
             return true;
 #endif
-        return Now.DayOfWeek == DayOfWeek.Tuesday && Now.Hour == 17;
+        return Now is { DayOfWeek: SuperJeuInfo.K_DAY_OF_SUPER_JEU, Hour: SuperJeuInfo.K_HOUR_OF_SUPER_JEU, Minute: <= SuperJeuInfo.K_MINUTES_DURATION_OF_SUPER_JEU };
     }
 }

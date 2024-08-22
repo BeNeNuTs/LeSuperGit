@@ -10,19 +10,15 @@ public class SuperDiceSkinHandler : MonoBehaviour
     private bool m_IsGlowing = false;
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
     private const float K_STABILIZED_EMISSION_INTENSITY = 20f;
-    private uint EquippedSkinID => m_PlayerInfo.m_GlobalInfo.m_EquippedSkinID;
     
     private Action m_OnReplay;
 
     private void Awake()
     {
-        if (SuperDataContainer.HasInstance)
-        {
-            m_PlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
-            uint equippedSkinID = m_PlayerInfo.m_GlobalInfo.m_EquippedSkinID;
-            SkinConstants.SkinData skinData = SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas[equippedSkinID];
-            ApplySkin(equippedSkinID, skinData);
-        }
+        m_PlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
+        uint equippedSkinID = m_PlayerInfo.m_GlobalInfo.m_EquippedSkinID;
+        SkinConstants.SkinData skinData = SuperDataContainer.Instance.m_SkinConstants.m_SkinDatas[equippedSkinID];
+        ApplySkin(equippedSkinID, skinData);
         
         m_OnReplay = OnReplay;
         SuperGameFlowEventManager.OnGameReplayCB += m_OnReplay;
