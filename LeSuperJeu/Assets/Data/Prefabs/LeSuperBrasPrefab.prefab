@@ -49,6 +49,7 @@ MonoBehaviour:
   m_ForcedZOffset: 15
   m_Animator: {fileID: 8991421947482833975}
   m_DicesShakePosition: {fileID: 2924041378093132650}
+  m_ArmMousePositionOffset: {x: 0, y: -1.5, z: -3}
 --- !u!1 &7629134404552613401
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ Transform:
   m_GameObject: {fileID: 7629134404552613401}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0127, y: -0.0604, z: 0.3488}
+  m_LocalPosition: {x: -0.209, y: -0.322, z: 3.342}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

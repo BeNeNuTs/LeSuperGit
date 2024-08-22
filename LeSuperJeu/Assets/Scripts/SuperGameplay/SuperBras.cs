@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class SuperBras : MonoBehaviour, ISaveAsset
 {
@@ -8,6 +10,7 @@ public class SuperBras : MonoBehaviour, ISaveAsset
     public float m_ForcedZOffset = 1.0f;
     public Animator m_Animator;
     public Transform m_DicesShakePosition = null;
+    public Vector3 m_ArmMousePositionOffset = Vector3.zero;
     
     private int OnGameReadyHash = Animator.StringToHash("OnGameReady");
     private int DiceGrabbedHash = Animator.StringToHash("DiceGrabbed");
@@ -74,7 +77,7 @@ public class SuperBras : MonoBehaviour, ISaveAsset
         m_Pos = Input.mousePosition;
         m_Pos.z = m_ForcedZOffset;
         m_Pos = Camera.main.ScreenToWorldPoint(m_Pos);
-        transform.position = Vector3.Lerp(transform.position, m_Pos, m_Speed);
+        transform.position = Vector3.Lerp(transform.position, m_Pos + m_ArmMousePositionOffset, m_Speed);
     }
 
     private void OnGameReady()
