@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: SUPERDICE_DEFAULT_MAT
+    second: {fileID: 2100000, guid: 936da839f75aa4a43a09a03b3def46de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lambert1
     second: {fileID: 2100000, guid: 8a00819dc4a568842a2cd6efdaf6438c, type: 2}
   - first:
