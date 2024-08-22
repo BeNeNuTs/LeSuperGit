@@ -1,6 +1,6 @@
 //Maya ASCII 2018ff09 scene
 //Name: le_super_dice_mod.ma
-//Last modified: Thu, Aug 22, 2024 02:52:33 PM
+//Last modified: Thu, Aug 22, 2024 03:26:19 PM
 //Codeset: 1252
 requires maya "2018ff09";
 requires "stereoCamera" "10.0";
@@ -16,13 +16,13 @@ fileInfo "osv" "Microsoft Windows 8 Enterprise Edition, 64-bit  (Build 9200)\n";
 createNode transform -s -n "persp";
 	rename -uid "9094447B-4327-99D3-7B48-A097D03AF3FA";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -138.4224307823404 56.04481636204504 -134.04023244244576 ;
-	setAttr ".r" -type "double3" 350.06164726144618 -1937.7999999996618 0 ;
+	setAttr ".t" -type "double3" -103.73171336298216 27.002813817823863 -218.03351923531474 ;
+	setAttr ".r" -type "double3" 359.06164726139514 -1953.7999999994659 0 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "9D4B457E-449F-3882-DFEF-0B994E58FB28";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
-	setAttr ".coi" 197.9238585651953;
+	setAttr ".coi" 248.26861852788011;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -1158,8 +1158,6 @@ createNode mesh -n "polySurfaceShape2" -p "pPlane52";
 	setAttr ".ai_translator" -type "string" "polymesh";
 createNode transform -n "SUPER_DICE";
 	rename -uid "0E50B015-45C1-68AA-A196-35A66E0EF1BC";
-	setAttr ".rp" -type "double3" 0 20.000001907348633 0 ;
-	setAttr ".sp" -type "double3" 0 20.000001907348633 0 ;
 createNode mesh -n "SUPER_DICEShape" -p "SUPER_DICE";
 	rename -uid "DB4009C7-4068-C028-CE4B-EC9F590FF1BF";
 	setAttr -k off ".v";
