@@ -21,7 +21,6 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     [Serializable]
     public class SceneInfo
     {
-        public ESceneType m_SceneType;
 #if UNITY_EDITOR
         public SceneAsset m_SceneAsset;
 #endif
@@ -49,7 +48,9 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 #endif
     }
 
-    public SceneInfo[] m_SceneInfos = Array.Empty<SceneInfo>();
+    public SerializableDictionary<ESceneType, SceneInfo> m_SceneInfos = new SerializableDictionary<ESceneType, SceneInfo>();
+
+    public SerializableDictionary<SuperArtSceneDefinition, SceneInfo> m_superArenas;
 
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
@@ -74,7 +75,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         
         foreach (var sceneInfo in m_SceneInfos)
         {
-            sceneInfo.OnSaveAsset(this);
+            sceneInfo.Value.OnSaveAsset(this);
         }
     }
 #endif
@@ -83,7 +84,7 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     {
         foreach (var sceneInfo in m_SceneInfos)
         {
-            sceneInfo.RefreshSceneName();
+            sceneInfo.Value.RefreshSceneName();
         }
     }
 
@@ -94,10 +95,10 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 
     public string GetSceneName(ESceneType _type)
     {
-        foreach (var sceneInfo in m_SceneInfos)
+        SceneInfo sceneInfo;
+        if(m_SceneInfos.TryGetValue(_type, out sceneInfo))
         {
-            if(sceneInfo.m_SceneType == _type)
-                return sceneInfo.m_SceneName;
+            return sceneInfo.m_SceneName;
         }
         return string.Empty;
     }
@@ -105,10 +106,11 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 #if UNITY_EDITOR
     public SceneAsset GetSceneAsset(ESceneType _type)
     {
-        foreach (var sceneInfo in m_SceneInfos)
+        
+        SceneInfo sceneInfo;
+        if(m_SceneInfos.TryGetValue(_type, out sceneInfo))
         {
-            if(sceneInfo.m_SceneType == _type)
-                return sceneInfo.m_SceneAsset;
+            return sceneInfo.m_SceneAsset;
         }
         return null;
     }
