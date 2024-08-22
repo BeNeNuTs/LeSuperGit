@@ -3,6 +3,10 @@ using System;
 [Serializable]
 public class SuperJeuInfo
 {
+    public const DayOfWeek K_DAY_OF_SUPER_JEU = DayOfWeek.Tuesday;
+    public const int K_HOUR_OF_SUPER_JEU = 17;
+    public const int K_MINUTES_DURATION_OF_SUPER_JEU = 30;
+    
     public uint m_PreviousSeasonID = 0;
     public uint m_CurrentSeasonID = 0;
     public string m_PatchNotes = string.Empty;

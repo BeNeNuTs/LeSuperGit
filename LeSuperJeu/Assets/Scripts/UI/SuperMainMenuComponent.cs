@@ -22,7 +22,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     [Group("Tabs"), Tab("Buttons")]
     public Button m_PlayButton;
     [Group("Tabs"), Tab("Buttons")]
-    public TMP_Text m_PlayButtonText;
+    public Image m_DisablePlayButtonImage;
 
     [Group("Tabs"), Tab("Animations")]
     public Animation m_MainMenuAnimation;
@@ -30,11 +30,13 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public AnimationCollection m_AnimCollection;
     
     [Group("Tabs"), Tab("Patch notes")]
-    public TMP_Text m_PatchNotesButtonText;
+    public Image m_PatchNotesButtonImage;
     [Group("Tabs"), Tab("Patch notes")]
     public GameObject m_PatchNotesPanel;
     [Group("Tabs"), Tab("Patch notes")]
-    public TMP_Text m_PatchNotesText;
+    public Sprite m_PatchNotesButtonSprite;
+    [Group("Tabs"), Tab("Patch notes")]
+    public Sprite m_ClosePatchNotesButtonSprite;
 
     private SuperJeuInfo m_SuperJeuInfo;
     private Action m_LoadGameScene;
@@ -66,22 +68,42 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Awake()
     {
-        if (SuperDataContainer.Instance != null)
-        {
-            m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
-            m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
-            m_PlayButton.interactable = m_SuperJeuInfo.HasSeasonInProgress;
-        }
-
-        m_PlayButtonText.gameObject.SetActive(m_PlayButton.interactable);
-        m_PatchNotesText.text = m_SuperJeuInfo.m_PatchNotes;
+        m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
+        m_SeasonTitle.text = m_SuperJeuInfo.HasSeasonInProgress ? $"Season #{m_SuperJeuInfo.m_CurrentSeasonID}" : "No season in progress";
+        m_PlayButton.interactable = CanIPlay();
+        m_DisablePlayButtonImage.enabled = !m_PlayButton.interactable;
         m_LoadGameScene = LoadGameScene;
     }
 
+    private void Start()
+    {
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
+    }
+
+    private bool CanIPlay()
+    {
+        // If no season in progress, nothing to play
+        if (!m_SuperJeuInfo.HasSeasonInProgress)
+            return false;
+        
+        SuperPlayerInfo superPlayerInfo = SuperDataContainer.Instance.m_SuperPlayerInfo;
+        SeasonPlayerInfo seasonPlayerInfo = superPlayerInfo.GetCurrentSeasonInfo();
+        // If player is not already registered for this season, it has at least 2 dice rolls to do 
+        if (seasonPlayerInfo == null)
+            return true;
+        
+        // Else check if he has remaining dice rolls to play
+        SuperSeasonInfo superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        uint currentSeasonDiceRollsCount = superSeasonInfo.GetDiceRollsCount();
+
+        return seasonPlayerInfo.m_DiceRollCount < currentSeasonDiceRollsCount;
+    }
+    
     public void OnPlayButtonClicked()
     {
         SuperDataContainer.Instance.OnPlayGame();
         SuperAnimationManager.Instance.PlayAnimation(m_MainMenuAnimation, m_AnimCollection.m_FadeInAnims[0], m_LoadGameScene);
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.Game;
     }
 
     public void OnProfilButtonClicked()
@@ -113,7 +135,7 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         bool newPatchNotesVisibility = !m_PatchNotesPanel.activeSelf;
         m_PatchNotesPanel.SetActive(newPatchNotesVisibility);
         m_ButtonsGroup.SetActive(!newPatchNotesVisibility);
-        m_PatchNotesButtonText.text = newPatchNotesVisibility ? "X" : "Patch notes";
+        m_PatchNotesButtonImage.sprite = newPatchNotesVisibility ? m_ClosePatchNotesButtonSprite : m_PatchNotesButtonSprite;
     }
 
     private void LoadGameScene()

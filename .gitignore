@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+LeSuperJeu/.vscode/extensions.json
+LeSuperJeu/.vscode/launch.json
+LeSuperJeu/.vscode/settings.json

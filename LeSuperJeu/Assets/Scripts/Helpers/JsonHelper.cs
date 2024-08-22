@@ -59,14 +59,16 @@ public static class JsonHelper
     
     public static void SaveSuperJeuInfo()
     {
-        string superSeasonInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo);
-        File.WriteAllText(SUPER_JEU_INFO_PATH, superSeasonInfoString);
+        string superJeuInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo);
+        File.WriteAllText(SUPER_JEU_INFO_PATH, superJeuInfoString);
     }
 
     public static SuperSeasonInfo GetSeasonInfo(uint _seasonID)
     {
         string fileText = File.ReadAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT);
-        return JsonUtility.FromJson<SuperSeasonInfo>(fileText);
+        SuperSeasonInfo superSeasonInfo = JsonUtility.FromJson<SuperSeasonInfo>(fileText);
+        superSeasonInfo.Init();
+        return superSeasonInfo;
     }
     
     public static SuperSeasonInfo CreateSeasonInfo(uint _seasonID)
@@ -74,7 +76,7 @@ public static class JsonHelper
         SuperSeasonInfo newSeason = new SuperSeasonInfo
         {
             m_SeasonID = _seasonID,
-            m_StartedDateTime = JsonConvert.SerializeObject(DateTime.Now)
+            m_StartedDateTimeStr = JsonConvert.SerializeObject(SuperTimeManager.Instance.GetCorrectedTime())
         };
         string superSeasonInfoString = JsonUtility.ToJson(newSeason);
         File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT, superSeasonInfoString);
