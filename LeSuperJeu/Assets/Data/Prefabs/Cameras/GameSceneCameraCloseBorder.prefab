@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3771062530454224753
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8701999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.49269885
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -2.7014566e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 1.5295387e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 58.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830276597031698349, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434524483540089554, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_Name
+      value: GameSceneCameraCloseBorder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_Lens.GateFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 53.130104
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+        type: 3}
+      propertyPath: m_Lens.ModeOverride
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 133f43ee9f7239941ab39ffb018100a4, type: 3}

@@ -27,7 +27,6 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
     public float m_DicesThrowRotationSpeed = 1.0f;
     public float m_DicesThrowRotationSpeedMax = 1.0f;
     public float m_ScoringSnapDicesTranslationDuration = 2.0f;
-    public CinemachineTargetGroup m_CinemachineTargetGroup = null;
     
     private const float K_STABILIZED_VELOCITY_SQR = 0.01f;
     private const float K_DICE_GRAB_DIST_FROM_PLAYER_SQR = 5f;
@@ -64,8 +63,6 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             Debug.LogError("Super Bras not set in SuperDiceController " + gameObject.name);
         if(m_SuperArenaCenter == null)
             Debug.LogError("Super Arena Center not set in SuperDiceController " + gameObject.name);
-        if(m_SuperArenaCenter == null)
-            Debug.LogError("CinemachineTargetGroup not set in SuperDiceController " + gameObject.name);
     }
 #endif
     
@@ -224,11 +221,6 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
 
     private void OnGameReady()
     {
-        foreach (DiceInfos dice in m_DicesInfos)
-        {
-            m_CinemachineTargetGroup.RemoveMember(dice.m_Rb.transform);
-        }
-        m_CinemachineTargetGroup.AddMember(m_SuperArenaCenter.transform, 1.0f, 0.0f);
     }
 
     private void OnGrabbingDices()
@@ -344,6 +336,7 @@ public class SuperDiceController : MonoBehaviour, ISaveAsset
             else if (isScoringStabilization)
             {
                 dice.m_SuperDiceSkinHandler.StartGlowIfNeeded();
+                SuperGameFlowEventManager.OnDiceStabilized.Invoke(dice);
             }
         }
 
