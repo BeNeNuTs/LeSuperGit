@@ -11,6 +11,7 @@ public class SuperSeasonInfo
     private const uint K_DICE_ROLLS_PER_SEASON = K_SEASON_WEEK_DURATION * K_DICE_ROLLS_PER_WEEK; // 12 dice rolls per season
     
     public uint m_SeasonID = 0;
+    public uint m_ArenaID = 0;
     public string m_StartedDateTimeStr = string.Empty;
     private DateTime m_StartedDateTime;
     public List<string> m_Participants = new();
