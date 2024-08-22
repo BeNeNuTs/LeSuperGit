@@ -3,17 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuperBaseComponent : MonoBehaviour
+public class SuperBaseComponent : MonoBehaviour, IEventListenerComponent
 {
     protected SuperBlackBoard m_blackBoard = new SuperBlackBoard();
     public SuperBlackBoard BlackBoard => m_blackBoard;
     public SnF_Config_Base[] m_SnFConfigs = Array.Empty<SnF_Config_Base>();
     
-    private SnF_SubComponent m_SnFSubComponent = null;
+    protected SnF_SubComponent m_SnFSubComponent = null;
     private Transform m_Transform;
     public Transform Transform => m_Transform;
+    
+    protected SuperEventListener m_EventListener = new SuperEventListener();
+    public SuperEventListener EventListener => m_EventListener;
+    public GameObject Owner => m_Owner;
+    private GameObject m_Owner;
+    
+    public Animation Animation => m_Animation;
+    private Animation m_Animation;
+
     void Awake()
     {
+        m_Animation = GetComponent<Animation>();
+        m_Owner = gameObject;
         m_Transform = transform;
         Awake_Internal();
         
