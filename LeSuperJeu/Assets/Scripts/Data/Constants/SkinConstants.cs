@@ -9,9 +9,7 @@ public class SkinConstants : ScriptableObject
     {
         public string m_Name;
         public Color m_IconColor;
-        public Material m_Mat1;
-        public Material m_Mat2;
-        public Material m_Mat3;
+        public Material m_Mat;
     }
 
     public SkinData[] m_SkinDatas;

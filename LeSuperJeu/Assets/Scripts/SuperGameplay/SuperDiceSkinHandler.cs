@@ -31,9 +31,7 @@ public class SuperDiceSkinHandler : MonoBehaviour
     public void ApplySkin(uint _skinDataID, SkinConstants.SkinData _skinData)
     {
         Material[] rendererMaterial = m_Renderer.materials;
-        rendererMaterial[0] = _skinData.m_Mat1;
-        rendererMaterial[2] = _skinData.m_Mat2;
-        rendererMaterial[3] = _skinData.m_Mat3;
+        rendererMaterial[0] = _skinData.m_Mat;
         m_Renderer.SetMaterials(new List<Material>(rendererMaterial));
 
         SuperDataContainer.Instance.m_SuperPlayerInfo.UpdateEquippedSkin(_skinDataID);
