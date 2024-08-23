@@ -60,7 +60,7 @@ public static class JsonHelper
     public static void SaveSuperJeuInfo()
     {
         string superJeuInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperJeuInfo);
-        File.WriteAllText(SUPER_JEU_INFO_PATH, superJeuInfoString);
+        Save_Internal(SUPER_JEU_INFO_PATH, superJeuInfoString);
     }
 
     public static SuperSeasonInfo GetSeasonInfo(uint _seasonID)
@@ -79,7 +79,7 @@ public static class JsonHelper
             m_StartedDateTimeStr = JsonConvert.SerializeObject(SuperTimeManager.Instance.GetCorrectedTime())
         };
         string superSeasonInfoString = JsonUtility.ToJson(newSeason);
-        File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT, superSeasonInfoString);
+        Save_Internal(JSON_PATH + SEASON_INFO_FILENAME + _seasonID + JSON_EXT, superSeasonInfoString);
         return newSeason;
     }
     
@@ -87,7 +87,7 @@ public static class JsonHelper
     {
         SuperSeasonInfo seasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
         string superSeasonInfoString = JsonUtility.ToJson(seasonInfo);
-        File.WriteAllText(JSON_PATH + SEASON_INFO_FILENAME + seasonInfo.m_SeasonID + JSON_EXT, superSeasonInfoString);
+        Save_Internal(JSON_PATH + SEASON_INFO_FILENAME + seasonInfo.m_SeasonID + JSON_EXT, superSeasonInfoString);
     }
 
 #if UNITY_EDITOR
@@ -137,7 +137,7 @@ public static class JsonHelper
 
         SuperPlayerInfo superPlayerInfo = new SuperPlayerInfo(_nickname, _passwordHash);
         string superPlayerInfoString = JsonUtility.ToJson(superPlayerInfo);
-        File.WriteAllText(JSON_PATH + _nickname + JSON_EXT, superPlayerInfoString);
+        Save_Internal(JSON_PATH + _nickname + JSON_EXT, superPlayerInfoString);
         
         SuperDataContainer.Instance.m_SuperPlayerInfo = superPlayerInfo;
         return ERegisterResult.Success;
@@ -152,6 +152,15 @@ public static class JsonHelper
     public static void SaveSuperPlayerInfo()
     {
         string superPlayerInfoString = JsonUtility.ToJson(SuperDataContainer.Instance.m_SuperPlayerInfo);
-        File.WriteAllText(JSON_PATH + SuperDataContainer.Instance.m_SuperPlayerInfo.m_Nickname + JSON_EXT, superPlayerInfoString);
+        Save_Internal(JSON_PATH + SuperDataContainer.Instance.m_SuperPlayerInfo.m_Nickname + JSON_EXT, superPlayerInfoString);
+    }
+
+    private static void Save_Internal(string _path, string content)
+    {
+#if UNITY_EDITOR
+        if(!SuperDataContainer.Instance.m_CheatConstants.m_AllowJsonSave)
+            return;
+#endif
+        File.WriteAllText(_path, content);
     }
 }

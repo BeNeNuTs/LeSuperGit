@@ -2,6 +2,9 @@ public class SuperDataContainer : SuperSingleton<SuperDataContainer>
 {
     public SceneConstants m_SceneConstants;
     public SkinConstants m_SkinConstants;
+#if UNITY_EDITOR
+    public CheatConstants m_CheatConstants;
+#endif
     public SuperJeuInfo m_SuperJeuInfo = null;
     public SuperSeasonInfo m_SuperSeasonInfo = null;
     public SuperPlayerInfo m_SuperPlayerInfo = null;

@@ -35,10 +35,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 0e113cc1fa9a1644f92417b255583768, type: 2}
     m_values:
     - m_SceneAsset: {fileID: 102900000, guid: 52041d3e7d1cc07468bcbb1a33c2845e, type: 3}
-      m_SceneName: 
+      m_SceneName: SuperDefaultArena
     - m_SceneAsset: {fileID: 102900000, guid: b77824c585efeed459b0ef9010b2b7e2, type: 3}
-      m_SceneName: 
+      m_SceneName: SuperDummyArena
   m_SkipLogInScene: 1
   m_LogInAsAdmin: 0
-  m_ForceHeureDuSuperJeu: 1
-  m_InfiniteDiceRolls: 1
