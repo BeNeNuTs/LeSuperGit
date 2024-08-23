@@ -15,26 +15,13 @@ MonoBehaviour:
   m_SkinDatas:
   - m_Name: Default
     m_IconColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
-    m_Mat1: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
-    m_Mat2: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
-    m_Mat3: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
+    m_Mat: {fileID: 2100000, guid: 936da839f75aa4a43a09a03b3def46de, type: 2}
   - m_Name: Gold
     m_IconColor: {r: 1, g: 1, b: 0, a: 1}
-    m_Mat1: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
-    m_Mat2: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
-    m_Mat3: {fileID: 2100000, guid: 2bff8863ef7fe034bb748eaf5062184a, type: 2}
-  - m_Name: Pink
-    m_IconColor: {r: 1, g: 0, b: 1, a: 1}
-    m_Mat1: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
-    m_Mat2: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
-    m_Mat3: {fileID: 2100000, guid: c3cd1d28aec7ff643be1cd88d7e10f46, type: 2}
-  - m_Name: Blue
-    m_IconColor: {r: 0.09019608, g: 0.9607844, b: 0.9960785, a: 1}
-    m_Mat1: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
-    m_Mat2: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
-    m_Mat3: {fileID: 2100000, guid: 97fe6f04f97c7e9438076884c0f370b6, type: 2}
-  - m_Name: White
-    m_IconColor: {r: 1, g: 1, b: 1, a: 1}
-    m_Mat1: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
-    m_Mat2: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
-    m_Mat3: {fileID: 2100000, guid: 7ee19a2b116dd2a4f859c4602f0c7669, type: 2}
+    m_Mat: {fileID: 2100000, guid: c2b79d10bf4ef1e44afb6456079ad667, type: 2}
+  - m_Name: Blue&Yellow&White
+    m_IconColor: {r: 0, g: 0.86945343, b: 1, a: 1}
+    m_Mat: {fileID: 2100000, guid: 84f1e604b79bd92469e36b261825242c, type: 2}
+  - m_Name: Orange&Blue&White
+    m_IconColor: {r: 0.99607843, g: 0.5350631, b: 0.090196095, a: 1}
+    m_Mat: {fileID: 2100000, guid: 1ad6e97a7fd57b34fa0c174f4c601a74, type: 2}

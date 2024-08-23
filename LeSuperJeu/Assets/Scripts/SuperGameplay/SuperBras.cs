@@ -29,11 +29,12 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
     private bool m_GameIsReady = false;
     private Vector3 m_PreviousPos = Vector3.zero;
     private const int K_HAND_DIRECTION_FRAMES_DELTA = 5;
+    private static readonly Vector3 K_RAYCAST_BOX_EXTENDS_HALFEXTEND = new Vector3(0.5f,0.5f,0.5f);
     private int m_PreviousFrameCount = 0;
     private Action m_OnGameReadyCb;
     private Action m_OnRollEndedCb;
     private SuperBras_StateInfo m_SuperBras_StateInfo;
-
+    
 #if UNITY_EDITOR
     public void OnSaveAsset()
     {
@@ -85,6 +86,18 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
                 else if (Input.GetMouseButtonDown(1))
                 {
                     PlayRandomEmote();
+                }
+                else if (Input.GetMouseButtonDown(2))
+                {
+                    Ray mouseCast = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    LayerMask m_GPELayerMask = LayerMask.GetMask("GPE");
+                    if (Physics.BoxCast(mouseCast.origin, K_RAYCAST_BOX_EXTENDS_HALFEXTEND, mouseCast.direction, out RaycastHit hitInfo, m_DicesShakePosition.rotation, 100f, m_GPELayerMask))
+                    {
+                        if(hitInfo.collider.gameObject.TryGetComponent(out IEventListenerComponent eventListenerComponent))
+                        {
+                            eventListenerComponent.EventListener.TriggerEvent(Owner, EEventType.Interaction, new InteractionEventParameters());
+                        }
+                    }
                 }
             }
             else if (SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.ShakeDice && Input.GetMouseButtonUp(0))

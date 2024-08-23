@@ -18,8 +18,6 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public TMP_Text m_SeasonTitle;
     
     [Group("Tabs"), Tab("Buttons")]
-    public GameObject m_ButtonsGroup;
-    [Group("Tabs"), Tab("Buttons")]
     public Button m_PlayButton;
     [Group("Tabs"), Tab("Buttons")]
     public Image m_DisablePlayButtonImage;
@@ -29,15 +27,9 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     [Group("Tabs"), Tab("Animations")]
     public AnimationCollection m_AnimCollection;
     
-    [Group("Tabs"), Tab("Patch notes")]
-    public Image m_PatchNotesButtonImage;
-    [Group("Tabs"), Tab("Patch notes")]
-    public GameObject m_PatchNotesPanel;
-    [Group("Tabs"), Tab("Patch notes")]
-    public Sprite m_PatchNotesButtonSprite;
-    [Group("Tabs"), Tab("Patch notes")]
-    public Sprite m_ClosePatchNotesButtonSprite;
-
+    [Group("Tabs"), Tab("Options")]
+    public SuperOptionsMenuComponent m_OptionsMenuComponent;
+    
     private SuperJeuInfo m_SuperJeuInfo;
     private Action m_LoadGameScene;
 
@@ -111,11 +103,6 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
         gameObject.ChangeScene(SceneConstants.ESceneType.ProfilMenu);
     }
     
-    public void OnPatchNotesButtonClicked()
-    {
-        TogglePatchNoteVisibility();
-    }
-    
     public void OnLeaderboardButtonClicked()
     {
         gameObject.ChangeScene(SceneConstants.ESceneType.Leaderboard);
@@ -128,14 +115,6 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 #else
         Application.Quit();
 #endif
-    }
-
-    private void TogglePatchNoteVisibility()
-    {
-        bool newPatchNotesVisibility = !m_PatchNotesPanel.activeSelf;
-        m_PatchNotesPanel.SetActive(newPatchNotesVisibility);
-        m_ButtonsGroup.SetActive(!newPatchNotesVisibility);
-        m_PatchNotesButtonImage.sprite = newPatchNotesVisibility ? m_ClosePatchNotesButtonSprite : m_PatchNotesButtonSprite;
     }
 
     private void LoadGameScene()
