@@ -5,7 +5,7 @@ using UnityEngine;
 using Cinemachine;
 using System;
 
-[CreateAssetMenu(fileName = "Camera Settings", menuName = "Camera/Global settings")]
+[CreateAssetMenu(fileName = "Camera Settings", menuName = "SUPER JEU/Camera/Global settings")]
 public class CameraConfig : ScriptableObject
 {
     [SerializeField]

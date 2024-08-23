@@ -3,7 +3,7 @@ using TriInspector;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SceneConstants", menuName = "Constants/SceneConstants")]
+[CreateAssetMenu(fileName = "SceneConstants", menuName = "SUPER JEU/Constants/SceneConstants")]
 public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallbackReceiver
 {
     public enum ESceneType

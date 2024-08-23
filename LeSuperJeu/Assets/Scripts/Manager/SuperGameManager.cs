@@ -17,6 +17,11 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    protected override void OnDestroy_Internal()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void GotoLogin()
     {
         
@@ -55,12 +60,13 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
     private void OnSceneLoaded(Scene _sceneLoaded, LoadSceneMode _loadSceneMode)
     {
         if(SuperSceneManager.Instance.WantedArena == null)
-        return;
+            return;
 
         string wantedArenaName =SuperDataContainer.Instance.m_SceneConstants.GetArenaName(SuperSceneManager.Instance.WantedArena); 
         if(_sceneLoaded.name == wantedArenaName)
         {
             GameObject.Instantiate(m_gameplay);
+            SuperSceneManager.Instance.WantedArena = null;
         }
     }
 }

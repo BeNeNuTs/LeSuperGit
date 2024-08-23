@@ -51,14 +51,8 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
     private SuperArenaDefinition m_wantedArena;
     public SuperArenaDefinition WantedArena
     {
-        get
-        {
-            return m_wantedArena;
-        }
-        set
-        {
-            m_wantedArena = value;
-        }
+        get => m_wantedArena;
+        set => m_wantedArena = value;
     }
     
     protected override void OnAwake_Internal()
