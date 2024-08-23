@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SkinConstants", menuName = "Constants/SkinConstants")]
+[CreateAssetMenu(fileName = "SkinConstants", menuName = "SUPER JEU/Constants/SkinConstants")]
 public class SkinConstants : ScriptableObject
 {
     [Serializable]

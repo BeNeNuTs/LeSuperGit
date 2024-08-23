@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-[CreateAssetMenu(fileName = "Super Ritual Settings", menuName = "Ritual/Ritual settings")]
+[CreateAssetMenu(fileName = "Super Ritual Settings", menuName = "SUPER JEU/Ritual/Ritual settings")]
 public class SuperRitualConfig : ScriptableObject
 {
     [SerializeField]
