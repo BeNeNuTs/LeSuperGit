@@ -275,6 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SceneConstants: {fileID: 11400000, guid: 7823b80971dbade4fbb241509b57af80, type: 2}
   m_SkinConstants: {fileID: 11400000, guid: 87c17403e28ea5b4898cfbc927ccbb5e, type: 2}
+  m_CheatConstants: {fileID: 11400000, guid: 5bc5804e02cc45f42b1efefa9287d206, type: 2}
   m_SuperJeuInfo:
     m_PreviousSeasonID: 0
     m_CurrentSeasonID: 0

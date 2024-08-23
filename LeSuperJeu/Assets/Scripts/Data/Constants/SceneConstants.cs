@@ -56,12 +56,6 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
     public bool m_SkipLogInScene = true;
     [HideIf(nameof(m_SkipLogInScene))]
     public bool m_LogInAsAdmin = false;
-
-    [SerializeField]
-    private bool m_ForceHeureDuSuperJeu = false;
-    public bool IsForceHeureDuSuperJeu => m_ForceHeureDuSuperJeu;
-    
-    public bool m_InfiniteDiceRolls = true;
 #endif
 
 #if UNITY_EDITOR

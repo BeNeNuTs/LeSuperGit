@@ -46,7 +46,7 @@ public class SuperTimeManager : SuperSingleton<SuperTimeManager>
     public bool EstCeHeureDuSuperJeu()
     {
 #if UNITY_EDITOR
-        if(SceneConstants.IsForceHeureDuSuperJeu)
+        if(SuperDataContainer.Instance.m_CheatConstants.IsForceHeureDuSuperJeu)
             return true;
 #endif
         return Now is { DayOfWeek: SuperJeuInfo.K_DAY_OF_SUPER_JEU, Hour: SuperJeuInfo.K_HOUR_OF_SUPER_JEU, Minute: <= SuperJeuInfo.K_MINUTES_DURATION_OF_SUPER_JEU };
