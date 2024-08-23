@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SuperLeaderboardMenuComponent : MonoBehaviour
 {
-    private const string K_UNKNOWN_PLAYER = "-UNKNOWN-";
-    
     public TMP_Text m_LeaderboardTitle;
     public Transform m_LeaderboardLayoutContent;
     public GameObject m_LeaderboardEntryPrefab;
@@ -54,18 +52,8 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
                 }
             }
 
-            SuperPlayerInfo playerInfo = JsonHelper.GetPlayerInfoForLeaderboard(m_SuperSeasonInfo.m_Participants[i]);
-            if (playerInfo != null)
-            {
-                SeasonPlayerInfo seasonPlayerInfo = playerInfo.GetSeasonInfo(m_CurrentLeaderboardSeasonID);
-                if(seasonPlayerInfo != null)
-                    entryHandler.RefreshEntry(playerInfo.m_Nickname, seasonPlayerInfo.m_DiceRollCount, seasonPlayerInfo.m_Score);
-                else
-                    entryHandler.RefreshEntry(playerInfo.m_Nickname, 0, 0);
-            }
-            else
-                entryHandler.RefreshEntry(K_UNKNOWN_PLAYER, 0, 0);
-            
+            SuperPlayerInfo playerInfo = JsonHelper.GetPlayerInfoForLeaderboardOrAdmin(m_SuperSeasonInfo.m_Participants[i]);
+            entryHandler.RefreshEntry(playerInfo, m_CurrentLeaderboardSeasonID);
         }
         
         for (int i = m_SuperSeasonInfo.m_Participants.Count; i < m_LeaderboardEntries.Count; i++)
