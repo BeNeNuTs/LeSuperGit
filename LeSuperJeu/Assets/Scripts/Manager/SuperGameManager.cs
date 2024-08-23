@@ -62,7 +62,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         if(SuperSceneManager.Instance.WantedArena == null)
             return;
 
-        string wantedArenaName =SuperDataContainer.Instance.m_SceneConstants.GetArenaName(SuperSceneManager.Instance.WantedArena); 
+        string wantedArenaName = SuperDataContainer.Instance.m_SceneConstants.GetArenaName(SuperSceneManager.Instance.WantedArena); 
         if(_sceneLoaded.name == wantedArenaName)
         {
             GameObject.Instantiate(m_gameplay);

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class SuperSceneHelper
@@ -13,7 +14,7 @@ public static class SuperSceneHelper
         string sceneName = string.Empty;
         if(_sceneType == SceneConstants.ESceneType.Game)
         {
-            SuperArenaDefinition arenaDefinition = FindArena();
+            SuperArenaDefinition arenaDefinition = FindWantedArenaForCurrentSeason();
             SuperSceneManager.Instance.WantedArena = arenaDefinition;
             sceneName = SuperDataContainer.Instance.m_SceneConstants.GetArenaName(arenaDefinition);
         }
@@ -25,26 +26,16 @@ public static class SuperSceneHelper
         SuperSceneManager.Instance.ChangeScene(_gameObject.scene.name, sceneName, true);
     }
 
-    private static SuperArenaDefinition FindArena()
+    private static SuperArenaDefinition FindWantedArenaForCurrentSeason()
     {
-        int numberOfArenas = SuperDataContainer.Instance.m_SceneConstants.m_superArenas.Count;
-        int arenaIndex = UnityEngine.Random.Range(0, numberOfArenas);
-        int currentArena = 0;
-        SuperArenaDefinition result = null;
-        foreach(var arenaDef in SuperDataContainer.Instance.m_SceneConstants.m_superArenas)
+        SuperSeasonInfo superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        int i = 0;
+        foreach(KeyValuePair<SuperArenaDefinition, SceneConstants.SceneInfo> arena in SuperDataContainer.Instance.m_SceneConstants.m_superArenas)
         {
-            if(result == null)
-            {
-                result = arenaDef.Key;
-            }
-            if(currentArena == arenaIndex)
-            {
-                result = arenaDef.Key;
-                break;
-            }
-            currentArena++;
+            if (i == superSeasonInfo.m_ArenaID)
+                return arena.Key;
+            i++;
         }
-
-        return result;
+        return null;
     }
 }
