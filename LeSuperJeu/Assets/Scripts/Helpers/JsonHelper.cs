@@ -71,11 +71,12 @@ public static class JsonHelper
         return superSeasonInfo;
     }
     
-    public static SuperSeasonInfo CreateSeasonInfo(uint _seasonID)
+    public static SuperSeasonInfo CreateSeasonInfo(uint _seasonID, uint _arenaID)
     {
         SuperSeasonInfo newSeason = new SuperSeasonInfo
         {
             m_SeasonID = _seasonID,
+            m_ArenaID = _arenaID,
             m_StartedDateTimeStr = JsonConvert.SerializeObject(SuperTimeManager.Instance.GetCorrectedTime())
         };
         string superSeasonInfoString = JsonUtility.ToJson(newSeason);
@@ -143,7 +144,7 @@ public static class JsonHelper
         return ERegisterResult.Success;
     }
 
-    public static SuperPlayerInfo GetPlayerInfoForLeaderboard(string _nickname)
+    public static SuperPlayerInfo GetPlayerInfoForLeaderboardOrAdmin(string _nickname)
     {
         string fileText = File.ReadAllText(JSON_PATH + _nickname + JSON_EXT);
         return JsonUtility.FromJson<SuperPlayerInfo>(fileText);

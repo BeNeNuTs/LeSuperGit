@@ -2,32 +2,46 @@ using System.Collections.Generic;
 using TMPro;
 using TriInspector;
 using UnityEngine;
-using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 [DeclareTabGroup("Tabs")]
 public class SuperAdminMenuComponent : MonoBehaviour
 {
+    private const string K_NO_PREVIOUS_SEASON_STR = "No previous season yet";
+    private const string K_NO_CURRENT_SEASON_STR = "No season in progress";
+    
     public List<GameObject> m_Panels;
     
     [Group("Tabs"), Tab("Season")]
     public TMP_Text m_PreviousSeasonInfo;
     [Group("Tabs"), Tab("Season")]
+    public Transform m_PreviousParticipantsScrollViewContent;
+    [Group("Tabs"), Tab("Season")]
     public TMP_Text m_CurrentSeasonInfo;
     [Group("Tabs"), Tab("Season")]
+    public Transform m_CurrentParticipantsScrollViewContent;
+    [Group("Tabs"), Tab("Season")]
+    public GameObject m_PlayerUIEntryPrefab;
+    [Group("Tabs"), Tab("Season")]
     public Button m_StartNewSeasonButton;
+    [Group("Tabs"), Tab("Season")]
+    public TMP_Dropdown m_ArenaDropdown;
     
     [Group("Tabs"), Tab("Patch notes")]
     public TMP_InputField m_PatchNotesInputField;
 
     private SuperJeuInfo m_SuperJeuInfo;
     private int m_CurrentPanel;
+    List<string> m_ArenaNames = new();
     
     private void Awake()
     {
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
         m_PatchNotesInputField.text = m_SuperJeuInfo.m_PatchNotes;
-        SetCurrentPanel(0);
+        InitArenaDropdown();
         RefreshSeasonInfo();
+        
+        SetCurrentPanel(0);
     }
 
     private void SetCurrentPanel(int _currentPanel)
@@ -44,32 +58,55 @@ public class SuperAdminMenuComponent : MonoBehaviour
         }
     }
 
+    private void InitArenaDropdown()
+    {
+        foreach (var superArena in SuperDataContainer.Instance.m_SceneConstants.m_superArenas)
+        {
+            m_ArenaNames.Add(superArena.Key.name);
+        }
+        m_ArenaDropdown.AddOptions(m_ArenaNames);
+    }
+    
     private void RefreshSeasonInfo()
     {
-        m_PreviousSeasonInfo.text = m_SuperJeuInfo.HasValidPreviousSeason ? GetSeasonInfoStr(m_SuperJeuInfo.m_PreviousSeasonID) : "No previous season yet";
-        m_CurrentSeasonInfo.text = m_SuperJeuInfo.HasSeasonInProgress ? GetSeasonInfoStr(m_SuperJeuInfo.m_CurrentSeasonID) : "No season in progress";
+        FillSeasonInfo(m_PreviousSeasonInfo, m_PreviousParticipantsScrollViewContent, m_SuperJeuInfo.m_PreviousSeasonID, K_NO_PREVIOUS_SEASON_STR);
+        FillSeasonInfo(m_CurrentSeasonInfo, m_CurrentParticipantsScrollViewContent, m_SuperJeuInfo.m_CurrentSeasonID, K_NO_CURRENT_SEASON_STR);
+        m_PreviousSeasonInfo.text = m_SuperJeuInfo.HasValidPreviousSeason ? GetSeasonInfoStr(m_SuperJeuInfo.m_PreviousSeasonID) : ;
+        m_CurrentSeasonInfo.text = m_SuperJeuInfo.HasSeasonInProgress ? GetSeasonInfoStr(m_SuperJeuInfo.m_CurrentSeasonID) : ;
         m_StartNewSeasonButton.interactable = !m_SuperJeuInfo.HasSeasonInProgress;
     }
 
-    private string GetSeasonInfoStr(uint _seasonID)
+    private void FillSeasonInfo(TMP_Text _seasonInfo, Transform _participantsScrollViewContent, uint _seasonID, string _noSeasonMessage)
     {
-        SuperSeasonInfo superSeasonInfo;
-        if (m_SuperJeuInfo.HasSeasonInProgress && m_SuperJeuInfo.m_CurrentSeasonID == _seasonID)
-            superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+        if (_seasonID == 0)
+        {
+            _seasonInfo.text = _noSeasonMessage;
+        }
         else
-            superSeasonInfo = JsonHelper.GetSeasonInfo(_seasonID);
+        {
+            SuperSeasonInfo superSeasonInfo;
+            if (m_SuperJeuInfo.HasSeasonInProgress && m_SuperJeuInfo.m_CurrentSeasonID == _seasonID)
+                superSeasonInfo = SuperDataContainer.Instance.m_SuperSeasonInfo;
+            else
+                superSeasonInfo = JsonHelper.GetSeasonInfo(_seasonID);
 
 
-        string seasonInfo = $"Season #{superSeasonInfo.m_SeasonID}\n";
-        seasonInfo += "Participants:\n";
-        foreach (string participant in superSeasonInfo.m_Participants)
-            seasonInfo += $"{participant}\n";
-        return seasonInfo;
+            string seasonInfo = $"Season #{superSeasonInfo.m_SeasonID}\n";
+            seasonInfo += $"Arena: {m_ArenaNames[(int)superSeasonInfo.m_ArenaID]}\n";
+            seasonInfo += "Participants:\n";
+            _seasonInfo.text = seasonInfo;
+
+            foreach (string participant in superSeasonInfo.m_Participants)
+            {
+                
+            }
+                seasonInfo += $"{participant}\n";
+        }
     }
 
     public void OnStartNewSeasonClicked()
     {
-        SuperDataContainer.Instance.OnStartNewSeason();
+        SuperDataContainer.Instance.OnStartNewSeason((uint)m_ArenaDropdown.value);
         RefreshSeasonInfo();
     }
     

@@ -19,10 +19,10 @@ public class SuperDataContainer : SuperSingleton<SuperDataContainer>
         }
     }
 
-    public void OnStartNewSeason()
+    public void OnStartNewSeason(uint _arenaID)
     {
         m_SuperJeuInfo.IncreaseCurrentSeasonID();
-        m_SuperSeasonInfo = JsonHelper.CreateSeasonInfo(m_SuperJeuInfo.m_CurrentSeasonID);
+        m_SuperSeasonInfo = JsonHelper.CreateSeasonInfo(m_SuperJeuInfo.m_CurrentSeasonID, _arenaID);
     }
     
     public void OnPlayGame()
