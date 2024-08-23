@@ -247,6 +247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f870a32bb674834988ac5ffc60d08ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gameplay: {fileID: 5226714597522284477, guid: 34bd5e0274ec8104d9f6836a95c9699a,
+    type: 3}
 --- !u!114 &1479028769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +281,7 @@ MonoBehaviour:
     m_PatchNotes: 
   m_SuperSeasonInfo:
     m_SeasonID: 0
-    m_StartedDateTime: 
+    m_StartedDateTimeStr: 
     m_Participants: []
   m_SuperPlayerInfo:
     m_Nickname: 

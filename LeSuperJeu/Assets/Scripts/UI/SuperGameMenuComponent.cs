@@ -37,6 +37,7 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 	{
 		SuperGameFlowEventManager.OnDicesThrownCB -= m_OnDiceThrown;
 		SuperGameFlowEventManager.OnScoringComputedCB -= m_OnScoringComputed;
+		SuperGameFlowEventManager.OnScoringRitualCompletedCB -= m_OnScoringRitualCompleted;
 	}
     
     void OnDiceThrown(Vector3 _thrownDir)

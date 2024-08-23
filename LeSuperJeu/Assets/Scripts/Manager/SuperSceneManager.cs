@@ -47,6 +47,19 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
 
     private Queue<SceneRequest> m_SceneRequestsQueue = new();
     private SceneRequest m_CurrentSceneRequest = null;
+
+    private SuperArenaDefinition m_wantedArena;
+    public SuperArenaDefinition WantedArena
+    {
+        get
+        {
+            return m_wantedArena;
+        }
+        set
+        {
+            m_wantedArena = value;
+        }
+    }
     
     protected override void OnAwake_Internal()
     {

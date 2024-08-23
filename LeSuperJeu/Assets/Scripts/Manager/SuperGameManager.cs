@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SuperGameManager : SuperSingleton<SuperGameManager>
 {
     SceneConstants SceneConstants => SuperDataContainer.Instance.m_SceneConstants;
+    [SerializeField]
+    private GameObject m_gameplay;
 
     public void Start()
     {
@@ -10,6 +13,8 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             GotoLogin();
         else
             GotoScreenSaver();
+            
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void GotoLogin()
@@ -46,4 +51,16 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
      {
         SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver);
      }
+     
+    private void OnSceneLoaded(Scene _sceneLoaded, LoadSceneMode _loadSceneMode)
+    {
+        if(SuperSceneManager.Instance.WantedArena == null)
+        return;
+
+        string wantedArenaName =SuperDataContainer.Instance.m_SceneConstants.GetArenaName(SuperSceneManager.Instance.WantedArena); 
+        if(_sceneLoaded.name == wantedArenaName)
+        {
+            GameObject.Instantiate(m_gameplay);
+        }
+    }
 }

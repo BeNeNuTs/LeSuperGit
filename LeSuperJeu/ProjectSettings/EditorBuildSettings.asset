@@ -29,6 +29,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Data/Scenes/LaSuperLeaderboardScene.unity
     guid: 4175825ff446b66458f9c3c329f2a2a9
+  - enabled: 1
+    path: Assets/Data/Scenes/SuperArenas/SuperummyArena.unity
+    guid: b77824c585efeed459b0ef9010b2b7e2
+  - enabled: 1
+    path: Assets/Data/Scenes/SuperArenas/SuperDefaultArena.unity
+    guid: 52041d3e7d1cc07468bcbb1a33c2845e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 8ff17602032a9ad4a8b4a20abafa01a1,
       type: 2}
