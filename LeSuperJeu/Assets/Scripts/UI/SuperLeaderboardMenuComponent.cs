@@ -15,7 +15,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
     private SuperSeasonInfo m_SuperSeasonInfo;
 
     private uint m_CurrentLeaderboardSeasonID = 0;
-    private List<SuperLeaderboardEntryHandler> m_LeaderboardEntries = new();
+    private List<SuperPlayerUIInfoHandler> m_LeaderboardEntries = new();
     
     private void Awake()
     {
@@ -36,9 +36,11 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
     {
         m_LeaderboardTitle.text = $"Leaderboard - Season #{m_CurrentLeaderboardSeasonID}";
 
-        for (int i = 0; i < m_SuperSeasonInfo.m_Participants.Count; i++)
+        List<SuperPlayerInfo> participantInfos = m_SuperSeasonInfo.GetParticipantsOrderedByRanking();
+
+        for (int i = 0; i < participantInfos.Count; i++)
         {
-            SuperLeaderboardEntryHandler entryHandler = null;
+            SuperPlayerUIInfoHandler entryHandler = null;
             if (i < m_LeaderboardEntries.Count)
             {
                 entryHandler = m_LeaderboardEntries[i];
@@ -52,8 +54,7 @@ public class SuperLeaderboardMenuComponent : MonoBehaviour
                 }
             }
 
-            SuperPlayerInfo playerInfo = JsonHelper.GetPlayerInfoForLeaderboardOrAdmin(m_SuperSeasonInfo.m_Participants[i]);
-            entryHandler.RefreshEntry(playerInfo, m_CurrentLeaderboardSeasonID);
+            entryHandler.RefreshEntry((uint)i+1, participantInfos[i], m_CurrentLeaderboardSeasonID);
         }
         
         for (int i = m_SuperSeasonInfo.m_Participants.Count; i < m_LeaderboardEntries.Count; i++)

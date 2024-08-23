@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using TMPro;
 using TriInspector;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
 [DeclareTabGroup("Tabs")]
@@ -9,17 +11,18 @@ public class SuperAdminMenuComponent : MonoBehaviour
 {
     private const string K_NO_PREVIOUS_SEASON_STR = "No previous season yet";
     private const string K_NO_CURRENT_SEASON_STR = "No season in progress";
+    private const string K_NO_PARTICIPANT_STR = "No participants for this season";
     
     public List<GameObject> m_Panels;
     
     [Group("Tabs"), Tab("Season")]
     public TMP_Text m_PreviousSeasonInfo;
     [Group("Tabs"), Tab("Season")]
-    public Transform m_PreviousParticipantsScrollViewContent;
+    public ScrollRect m_PreviousParticipantsScrollView;
     [Group("Tabs"), Tab("Season")]
     public TMP_Text m_CurrentSeasonInfo;
     [Group("Tabs"), Tab("Season")]
-    public Transform m_CurrentParticipantsScrollViewContent;
+    public ScrollRect m_CurrentParticipantsScrollView;
     [Group("Tabs"), Tab("Season")]
     public GameObject m_PlayerUIEntryPrefab;
     [Group("Tabs"), Tab("Season")]
@@ -38,6 +41,7 @@ public class SuperAdminMenuComponent : MonoBehaviour
     {
         m_SuperJeuInfo = SuperDataContainer.Instance.m_SuperJeuInfo;
         m_PatchNotesInputField.text = m_SuperJeuInfo.m_PatchNotes;
+
         InitArenaDropdown();
         RefreshSeasonInfo();
         
@@ -69,18 +73,17 @@ public class SuperAdminMenuComponent : MonoBehaviour
     
     private void RefreshSeasonInfo()
     {
-        FillSeasonInfo(m_PreviousSeasonInfo, m_PreviousParticipantsScrollViewContent, m_SuperJeuInfo.m_PreviousSeasonID, K_NO_PREVIOUS_SEASON_STR);
-        FillSeasonInfo(m_CurrentSeasonInfo, m_CurrentParticipantsScrollViewContent, m_SuperJeuInfo.m_CurrentSeasonID, K_NO_CURRENT_SEASON_STR);
-        m_PreviousSeasonInfo.text = m_SuperJeuInfo.HasValidPreviousSeason ? GetSeasonInfoStr(m_SuperJeuInfo.m_PreviousSeasonID) : ;
-        m_CurrentSeasonInfo.text = m_SuperJeuInfo.HasSeasonInProgress ? GetSeasonInfoStr(m_SuperJeuInfo.m_CurrentSeasonID) : ;
-        m_StartNewSeasonButton.interactable = !m_SuperJeuInfo.HasSeasonInProgress;
+        FillSeasonInfo(m_PreviousSeasonInfo, m_PreviousParticipantsScrollView, m_SuperJeuInfo.m_PreviousSeasonID, K_NO_PREVIOUS_SEASON_STR);
+        FillSeasonInfo(m_CurrentSeasonInfo, m_CurrentParticipantsScrollView, m_SuperJeuInfo.m_CurrentSeasonID, K_NO_CURRENT_SEASON_STR);
+        m_ArenaDropdown.interactable = m_StartNewSeasonButton.interactable = !m_SuperJeuInfo.HasSeasonInProgress;
     }
 
-    private void FillSeasonInfo(TMP_Text _seasonInfo, Transform _participantsScrollViewContent, uint _seasonID, string _noSeasonMessage)
+    private void FillSeasonInfo(TMP_Text _seasonInfo, ScrollRect _participantsScrollView, uint _seasonID, string _noSeasonMessage)
     {
         if (_seasonID == 0)
         {
             _seasonInfo.text = _noSeasonMessage;
+            _participantsScrollView.gameObject.SetActive(false);
         }
         else
         {
@@ -94,13 +97,28 @@ public class SuperAdminMenuComponent : MonoBehaviour
             string seasonInfo = $"Season #{superSeasonInfo.m_SeasonID}\n";
             seasonInfo += $"Arena: {m_ArenaNames[(int)superSeasonInfo.m_ArenaID]}\n";
             seasonInfo += "Participants:\n";
-            _seasonInfo.text = seasonInfo;
 
-            foreach (string participant in superSeasonInfo.m_Participants)
+            if(superSeasonInfo.m_Participants.Count > 0)
             {
-                
+                _participantsScrollView.gameObject.SetActive(true);
+                List<SuperPlayerInfo> participantInfos = superSeasonInfo.GetParticipantsOrderedByRanking();
+                for (int i = 0; i < participantInfos.Count; i++)
+                {
+                    SuperPlayerInfo participantInfo = participantInfos[i];
+                    GameObject playerUIEntryPrefab = Instantiate(m_PlayerUIEntryPrefab, _participantsScrollView.content.transform);
+                    if (playerUIEntryPrefab.TryGetComponent(out SuperPlayerUIInfoHandler entryHandler))
+                    {
+                        entryHandler.RefreshEntry((uint)i+1, participantInfos[i], superSeasonInfo.m_SeasonID);
+                    }
+                }
             }
-                seasonInfo += $"{participant}\n";
+            else
+            {
+                seasonInfo += K_NO_PARTICIPANT_STR;
+                _participantsScrollView.gameObject.SetActive(false);
+            }
+
+            _seasonInfo.text = seasonInfo;
         }
     }
 

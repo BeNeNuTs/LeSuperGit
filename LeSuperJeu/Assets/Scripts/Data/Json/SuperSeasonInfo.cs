@@ -32,6 +32,26 @@ public class SuperSeasonInfo
         JsonHelper.SaveSuperSeasonInfo();
     }
 
+    public List<SuperPlayerInfo> GetParticipantsOrderedByRanking()
+    {
+        List<SuperPlayerInfo> participantInfos = new();
+        foreach (string participant in m_Participants)
+        {
+            SuperPlayerInfo playerInfo = JsonHelper.GetPlayerInfoForLeaderboardOrAdmin(participant);
+            if (playerInfo != null)
+            {
+                participantInfos.Add(playerInfo);
+            }
+        }
+
+        participantInfos.Sort(
+            (SuperPlayerInfo participant1Infos, SuperPlayerInfo participant2Infos) =>
+            participant1Infos.GetSeasonInfo(m_SeasonID).m_Score.CompareTo(participant2Infos.GetSeasonInfo(m_SeasonID).m_Score)
+        );
+
+        return participantInfos;
+    }
+
     public uint GetDiceRollsCount()
     {
 #if UNITY_EDITOR
