@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: SnF_Interactible
   m_EditorClassIdentifier: 
   m_IsActive: 1
-  m_OnInteract_SFX: {fileID: 8300000, guid: 331c0e528b4817c4c91de872e4064c93, type: 3}
+  m_OnInteract_SFX:
+  - {fileID: 8300000, guid: 9d284a80720f2314492019f183a187dc, type: 3}
+  - {fileID: 8300000, guid: af1c1c3b59f6b3147ac01b422a8c5cad, type: 3}
+  - {fileID: 8300000, guid: 8efdd568603d9424e8c52d3839f45026, type: 3}
   m_OnInteract_VFX: {fileID: 2014600220713233132, guid: e5da9e970b115cf4081d70a218069dfc,
     type: 3}
   m_OnInteract_Anim: {fileID: 7400000, guid: 0bf2b1d5917e50d4bb34d739d6d11a44, type: 2}

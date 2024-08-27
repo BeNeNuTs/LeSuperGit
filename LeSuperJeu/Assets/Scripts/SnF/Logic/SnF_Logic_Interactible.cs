@@ -37,7 +37,11 @@ public class SnF_Logic_Interactible : SnF_Logic_Base
     {
         if (_baseEventParameters is InteractionEventParameters interactionEventParam)
         {
-            StartSound(m_Config.m_OnInteract_SFX, false);
+            if (m_Config.m_OnInteract_SFX.Length != 0)
+            {
+                AudioClip selectedClip = m_Config.m_OnInteract_SFX[UnityEngine.Random.Range(0, m_Config.m_OnInteract_SFX.Length)];
+                StartSound(selectedClip, false);
+            }
             m_InteractionVFXPS.Play(true);
             PlayAnim(m_Config.m_OnInteract_Anim);
         }
