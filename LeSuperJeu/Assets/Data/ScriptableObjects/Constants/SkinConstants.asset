@@ -28,6 +28,9 @@ MonoBehaviour:
   - m_Name: Red&Orange&Yellow
     m_IconColor: {r: 0.990566, g: 0, b: 0, a: 1}
     m_Mat: {fileID: 2100000, guid: 11bf7efebdac0b043898218f968c43d9, type: 2}
+  - m_Name: Pink
+    m_IconColor: {r: 1, g: 0.45490196, b: 0.88550186, a: 1}
+    m_Mat: {fileID: 2100000, guid: 60802f85a90a2664e955680a1022390f, type: 2}
   - m_Name: DevSkin
     m_IconColor: {r: 0.028301895, g: 0.008726862, b: 0.0006674974, a: 1}
     m_Mat: {fileID: 2100000, guid: c9010acf61a6de842bd5245805849ff4, type: 2}
