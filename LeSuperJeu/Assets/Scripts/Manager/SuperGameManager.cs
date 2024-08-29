@@ -39,6 +39,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             switch (logInResult)
             {
                 case ELogInResult.Success:
+
                     SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu, false);
                     SuperSceneHelper.LoadGameplayArenaScene();
                     break;
