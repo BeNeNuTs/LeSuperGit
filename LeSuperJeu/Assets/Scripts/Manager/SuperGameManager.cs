@@ -39,7 +39,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             switch (logInResult)
             {
                 case ELogInResult.Success:
-                    SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu);
+                    SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu, false);
                     SuperSceneHelper.LoadGameplayArenaScene();
                     break;
                 case ELogInResult.InvalidNickname:
@@ -51,18 +51,18 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         }
         else if (SceneConstants.m_LogInAsAdmin)
         {
-            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.AdminMenu);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.AdminMenu, true);
         }
         else
 #endif
         {
-            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.LogIn);
+            SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.LogIn, true);
         }
     }
 
      public void GotoScreenSaver()
      {
-        SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver);
+        SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver, true);
      }
      
      // move to "on transition done"

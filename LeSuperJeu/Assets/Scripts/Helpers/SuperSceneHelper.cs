@@ -3,10 +3,10 @@ using UnityEngine;
 
 public static class SuperSceneHelper
 {
-    public static void LoadAdditionalScene(SceneConstants.ESceneType _sceneType)
+    public static void LoadAdditionalScene(SceneConstants.ESceneType _sceneType, bool _setActive = true)
     {
         string sceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(_sceneType);
-        SuperSceneManager.Instance.LoadAdditionalScene(sceneName, true);
+        SuperSceneManager.Instance.LoadAdditionalScene(sceneName, _setActive);
     }
     
     public static void LoadGameplayArenaScene()
@@ -17,7 +17,7 @@ public static class SuperSceneHelper
         SuperSceneManager.Instance.LoadAdditionalScene(sceneName, true);
     }
 
-    public static void ChangeScene(this GameObject _gameObject, SceneConstants.ESceneType _sceneType)
+    public static void ChangeScene(this GameObject _gameObject, SceneConstants.ESceneType _sceneType, bool _setActive = false)
     {
         string sceneName = string.Empty;
         if(_sceneType == SceneConstants.ESceneType.Game)
@@ -31,7 +31,7 @@ public static class SuperSceneHelper
             sceneName = SuperDataContainer.Instance.m_SceneConstants.GetSceneName(_sceneType);
         }
         
-        SuperSceneManager.Instance.ChangeScene(_gameObject.scene.name, sceneName, true);
+        SuperSceneManager.Instance.ChangeScene(_gameObject.scene.name, sceneName, _setActive);
     }
 
     public static void UnloadScene(SceneConstants.ESceneType _sceneType)
