@@ -82,6 +82,12 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
         SceneRequest newRequest = new SceneRequest(ESceneRequestType.Unload, _sceneName);
         m_SceneRequestsQueue.Enqueue(newRequest);
     }
+
+    public void UnloadScene(string _sceneName)
+    {
+        SceneRequest unloadSceneRequest = new SceneRequest(ESceneRequestType.Unload, _sceneName, false);
+        m_SceneRequestsQueue.Enqueue(unloadSceneRequest);
+    }
     
     public void ChangeScene(string _previousScene, string _newScene, bool _setActive = true)
     {
