@@ -6,11 +6,11 @@ public static class SuperGameFlowEventManager
 {
     public enum EGlobalGameState
     {
-        MainMenu,
+        Menu,
         Game
     }
 
-    private static EGlobalGameState m_GlobalGameState = EGlobalGameState.MainMenu;
+    private static EGlobalGameState m_GlobalGameState = EGlobalGameState.Menu;
     public static EGlobalGameState GlobalGameState
     {
         get { return m_GlobalGameState; }
@@ -47,6 +47,27 @@ public static class SuperGameFlowEventManager
         }
     }
     public static Action<ECurrentGameplayFlowState> OnGameFlowStateChanged;
+
+
+    public enum EMenuGameState
+    {
+        MainMenu,
+        Profil,
+        LeaderBoard
+    }
+
+    private static EMenuGameState m_menuState = EMenuGameState.MainMenu;
+    public static EMenuGameState CurrentMenuState
+    {
+        get { return m_menuState; }
+        set
+        {
+            m_menuState = value;
+            OnMenuStateChanged.Invoke(m_menuState);
+        }
+    }
+    public static Action<EMenuGameState> OnMenuStateChanged;
+
     public static Action OnGameLevelEntryCB, OnGameReadyCB, OnGameReplayCB, OnDicesGrabbingCB, OnDicesGrabbedCB, OnRollEndedCB, OnScoringRitualCompletedCB;
     public static Action<Vector3> OnDicesThrownCB;
     public static Action<float> OnScoringComputedCB;
