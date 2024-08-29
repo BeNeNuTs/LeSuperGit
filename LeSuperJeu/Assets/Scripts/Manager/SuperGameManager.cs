@@ -4,8 +4,13 @@ using UnityEngine.SceneManagement;
 public class SuperGameManager : SuperSingleton<SuperGameManager>
 {
     SceneConstants SceneConstants => SuperDataContainer.Instance.m_SceneConstants;
+    
     [SerializeField]
-    private GameObject m_gameplay;
+    private Transform m_gameplayRoot;
+
+    [SerializeField]
+    private GameObject m_gameplayPrefab;
+    private GameObject m_instantiatedGameplayObject;
 
     public void Start()
     {
@@ -14,12 +19,14 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         else
             GotoScreenSaver();
             
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SuperGameFlowEventManager.OnGlobalGameStateChanged+= OnGlobalGameStateChanged;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     protected override void OnDestroy_Internal()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
+        SuperGameFlowEventManager.OnGlobalGameStateChanged-= OnGlobalGameStateChanged;
     }
 
     public void GotoLogin()
@@ -33,6 +40,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
             {
                 case ELogInResult.Success:
                     SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu);
+                    SuperSceneHelper.LoadGameplayArenaScene();
                     break;
                 case ELogInResult.InvalidNickname:
                 case ELogInResult.InvalidSavedData:
@@ -57,16 +65,30 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
         SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.ScreenSaver);
      }
      
-    private void OnSceneLoaded(Scene _sceneLoaded, LoadSceneMode _loadSceneMode)
+     // move to "on transition done"
+    private void OnGameSceneLoaded()
     {
-        if(SuperSceneManager.Instance.WantedArena == null)
-            return;
+        m_instantiatedGameplayObject = GameObject.Instantiate(m_gameplayPrefab, m_gameplayRoot);
+        SuperSceneManager.Instance.WantedArena = null;
+    }
 
-        string wantedArenaName = SuperDataContainer.Instance.m_SceneConstants.GetArenaName(SuperSceneManager.Instance.WantedArena); 
-        if(_sceneLoaded.name == wantedArenaName)
+     // move to "on transition done"
+    private void OnMenuSceneLoaded()
+    {
+        GameObject.Destroy(m_instantiatedGameplayObject);
+    }
+    private void OnGlobalGameStateChanged(SuperGameFlowEventManager.EGlobalGameState _newState)
+    {
+        switch(_newState)
         {
-            GameObject.Instantiate(m_gameplay);
-            SuperSceneManager.Instance.WantedArena = null;
+            case SuperGameFlowEventManager.EGlobalGameState.Game:
+                SuperSceneHelper.UnloadScene(SceneConstants.ESceneType.MainMenu);
+                OnGameSceneLoaded();
+            break;
+            case SuperGameFlowEventManager.EGlobalGameState.MainMenu:
+                OnMenuSceneLoaded();
+                SuperGameFlowEventManager.CurrentGameFlowState = SuperGameFlowEventManager.ECurrentGameplayFlowState.Initializing;
+            break;
         }
     }
 }

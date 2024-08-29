@@ -79,6 +79,7 @@ public class SuperGameMenuComponent : MonoBehaviour, ISaveAsset
 
 	private void LoadScene(SceneConstants.ESceneType _sceneType)
 	{
-        gameObject.ChangeScene(_sceneType);
+        //gameObject.ChangeScene(_sceneType);
+		SuperSceneHelper.LoadAdditionalScene(SceneConstants.ESceneType.MainMenu);
 	}
 }
