@@ -86,7 +86,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
                 SuperSceneHelper.UnloadScene(SceneConstants.ESceneType.MainMenu);
                 OnGameSceneLoaded();
             break;
-            case SuperGameFlowEventManager.EGlobalGameState.MainMenu:
+            case SuperGameFlowEventManager.EGlobalGameState.Menu:
                 OnMenuSceneLoaded();
                 SuperGameFlowEventManager.CurrentGameFlowState = SuperGameFlowEventManager.ECurrentGameplayFlowState.Initializing;
             break;

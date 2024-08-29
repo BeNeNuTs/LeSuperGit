@@ -69,7 +69,8 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
 
     private void Start()
     {
-        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.MainMenu;
+        SuperGameFlowEventManager.GlobalGameState = SuperGameFlowEventManager.EGlobalGameState.Menu;
+        SuperGameFlowEventManager.CurrentMenuState = SuperGameFlowEventManager.EMenuGameState.MainMenu;
     }
 
     private bool CanIPlay()
@@ -101,11 +102,13 @@ public class SuperMainMenuComponent : MonoBehaviour, ISaveAsset
     public void OnProfilButtonClicked()
     {
         gameObject.ChangeScene(SceneConstants.ESceneType.ProfilMenu);
+        SuperGameFlowEventManager.CurrentMenuState = SuperGameFlowEventManager.EMenuGameState.Profil;
     }
     
     public void OnLeaderboardButtonClicked()
     {
         gameObject.ChangeScene(SceneConstants.ESceneType.Leaderboard);
+        SuperGameFlowEventManager.CurrentMenuState = SuperGameFlowEventManager.EMenuGameState.LeaderBoard;
     }
 
     public void OnQuitButtonClicked()
