@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum EGameplayElementType
 {
     SuperBras,
     SuperDice,
-    SuperArene
+    SuperArene,
+    SuperMainMenuAnchor,
+    SuperLeaderboardAnchor,
+    SuperProfilAnchor
 }
 
 public class SuperCameraTarget : MonoBehaviour

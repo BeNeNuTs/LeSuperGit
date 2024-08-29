@@ -23,6 +23,7 @@ public class SuperCameraManager
     private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow>();
     private Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow> m_runtimeGameplaySettings = new Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow>();
     
+    private Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeMenuSettings = new Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSettingForGameFlow>();
 
     private CinemachineVirtualCameraBase _baseActiveCamera;
     private CinemachineVirtualCameraBase _gameplayActiveCamera;
@@ -35,13 +36,19 @@ public class SuperCameraManager
     {
         SuperGameFlowEventManager.OnGlobalGameStateChanged += OnGlobalGameStateChanged;
         SuperGameFlowEventManager.OnGameFlowStateChanged += OnGameplayFlowStateChanged;
+        SuperGameFlowEventManager.OnMenuStateChanged += OnMenuStateChanged;
         SuperGameFlowEventManager.OnDiceStabilized += OnDiceStabilized;
         GetAllNeededBehaviours();
         GenerateSettings();
     }
     public void Start()
     {
-        
+        InstantiateDefaultCamera();
+    }
+
+    private void InstantiateDefaultCamera()
+    {
+        _baseActiveCamera = GameObject.Instantiate(m_cameraConfig.DefaultCamera);
     }
 
     // Update is called once per frame
@@ -65,10 +72,10 @@ public class SuperCameraManager
         switch(_newState)
         {
             case SuperGameFlowEventManager.EGlobalGameState.Game:
-            AcquireGameplayElements();
             break;
         }
 
+/*
         CameraConfig.CameraSettingForGameFlow newSetting;
         if(m_runtimeSettings.TryGetValue( _newState, out newSetting))
         {
@@ -82,6 +89,7 @@ public class SuperCameraManager
 
             _baseActiveCamera.gameObject.SetActive(true);
         }
+        */
     }
     
     private void OnGameplayFlowStateChanged(SuperGameFlowEventManager.ECurrentGameplayFlowState _newState)
@@ -98,6 +106,29 @@ public class SuperCameraManager
             _gameplayActiveCamera?.gameObject.SetActive(false);
             CinemachineVirtualCameraBase previousActive = _gameplayActiveCamera;
             Debug.Log($"Gameplay : Changing Camera for {_newState} : {newSetting.Camera.name}");
+            
+            _gameplayActiveCamera = newSetting.Camera;
+
+            ApplySettingToCamera(_gameplayActiveCamera, newSetting, previousActive);
+            
+            _gameplayActiveCamera.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnMenuStateChanged(SuperGameFlowEventManager.EMenuGameState _menuState)
+    {
+        switch(_menuState)
+        {
+            default:
+            break;
+        }
+
+        CameraConfig.CameraSettingForGameFlow newSetting;
+        if(m_runtimeMenuSettings.TryGetValue( _menuState, out newSetting))
+        {
+            _gameplayActiveCamera?.gameObject.SetActive(false);
+            CinemachineVirtualCameraBase previousActive = _gameplayActiveCamera;
+            Debug.Log($"Menu : Changing Camera for {_menuState} : {newSetting.Camera.name}");
             
             _gameplayActiveCamera = newSetting.Camera;
 
@@ -174,20 +205,27 @@ public class SuperCameraManager
     {
         foreach(var wrapper in m_cameraConfig.CamerasSettingsForGameFlow)
         {
-            m_runtimeSettings.Add(wrapper.GameFlowState, GenerateCameraSetting(wrapper.Setting));
+            m_runtimeSettings.Add(wrapper.Key, GenerateCameraSetting(wrapper.Value, wrapper.Key.ToString()));
         }
         
         foreach(var gameplayWrapper in m_cameraConfig.CamerasSettingsForGameplayFlow)
         {
-            m_runtimeGameplaySettings.Add(gameplayWrapper.GameplayFlowState, GenerateCameraSetting(gameplayWrapper.Setting));
+            m_runtimeGameplaySettings.Add(gameplayWrapper.Key, GenerateCameraSetting(gameplayWrapper.Value, gameplayWrapper.Key.ToString()));
         }
+        
+        foreach(var menuWrapper in m_cameraConfig.CamerasSettingsForMenuFlow)
+        {
+            m_runtimeMenuSettings.Add(menuWrapper.Key, GenerateCameraSetting(menuWrapper.Value, menuWrapper.Key.ToString()));
+        }
+        
     }
 
-    private CameraConfig.CameraSettingForGameFlow GenerateCameraSetting(CameraConfig.CameraSettingForGameFlow dataSetting)
+    private CameraConfig.CameraSettingForGameFlow GenerateCameraSetting(CameraConfig.CameraSettingForGameFlow dataSetting, string _flowName)
     {
         CameraConfig.CameraSettingForGameFlow runtimeSetting = new CameraConfig.CameraSettingForGameFlow();
         runtimeSetting.Camera = GameObject.Instantiate(dataSetting.Camera);
         runtimeSetting.Camera.gameObject.SetActive(false);
+        runtimeSetting.Camera.gameObject.name = $"Camera_{_flowName}";
         runtimeSetting.Camera.transform.parent = m_cameraContainer;
         runtimeSetting.Priority = dataSetting.Priority;
         runtimeSetting.HasLookAt = dataSetting.HasLookAt;
@@ -197,14 +235,6 @@ public class SuperCameraManager
         runtimeSetting.HasBlendCurve = dataSetting.HasBlendCurve;
         runtimeSetting.BlendTo = dataSetting.BlendTo;
         return runtimeSetting;
-    }
-
-    private void AcquireGameplayElements()
-    {
-        /*
-        m_targets = new Dictionary<EGameplayElementType, List<SuperCameraTarget>>();
-        SuperCameraTarget[] foundTargets = GameObject.FindObjectsOfType<SuperCameraTarget>();
-        */
     }
 
     public void RegisterTarget(SuperCameraTarget _target, EGameplayElementType _type)

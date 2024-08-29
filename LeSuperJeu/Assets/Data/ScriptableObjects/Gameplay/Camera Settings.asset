@@ -12,108 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a27ab67e018b448a6b764c0294c370, type: 3}
   m_Name: Camera Settings
   m_EditorClassIdentifier: 
+  m_defaultCamera: {fileID: 7599692182394793808, guid: 9475746e42de47e45a21430fe703372a,
+    type: 3}
   m_camerasSettingsForGameFlow:
-  - GameFlowState: 0
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
-        type: 3}
-      Priority: 0
-      HasLookAt: 0
-      LookAtTarget: 0
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameFlowState: 1
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
-        type: 3}
-      Priority: 0
-      HasLookAt: 0
-      LookAtTarget: 0
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+    m_keys: 
+    m_values: []
   m_camerasSettingsForGameplayFlow:
-  - GameplayFlowState: 2
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+    m_keys: 00000000
+    m_values:
+    - Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
         type: 3}
       Priority: 2
-      HasLookAt: 1
-      LookAtTarget: 2
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 4
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
-        type: 3}
-      Priority: 2
-      HasLookAt: 1
-      LookAtTarget: 2
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 5
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
-        type: 3}
-      Priority: 2
-      HasLookAt: 1
-      LookAtTarget: 2
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 6
-    Setting:
-      Camera: {fileID: 6710933689141170209, guid: e42c96c04ca1550469f7275212d40c74,
-        type: 3}
-      Priority: 4
       HasLookAt: 1
       LookAtTarget: 2
       HasFollow: 0
@@ -121,124 +30,67 @@ MonoBehaviour:
       HasBlendCurve: 1
       BlendTo:
         m_Style: 1
-        m_Time: 1.25
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 5.520712
-            outSlope: 5.520712
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.06054687
-          - serializedVersion: 3
-            time: 0.38986817
-            value: 0.9288158
-            inSlope: 0.3777172
-            outSlope: 0.3777172
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.05598957
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0.10468339
-            outSlope: 0.10468339
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.04218755
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 3
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
-        type: 3}
-      Priority: 2
-      HasLookAt: 1
-      LookAtTarget: 2
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
+        m_Time: 0.25
         m_CustomCurve:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 0
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+  m_camerasSettingsForMenuFlow:
+    m_keys: 000000000100000002000000
+    m_values:
+    - Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
         type: 3}
-      Priority: 2
+      Priority: 1
       HasLookAt: 1
-      LookAtTarget: 2
-      HasFollow: 0
-      FollowTarget: 0
-      HasBlendCurve: 0
-      BlendTo:
-        m_Style: 0
-        m_Time: 0
-        m_CustomCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-  - GameplayFlowState: 7
-    Setting:
-      Camera: {fileID: 7599692182394793808, guid: 133f43ee9f7239941ab39ffb018100a4,
-        type: 3}
-      Priority: 2
-      HasLookAt: 1
-      LookAtTarget: 2
+      LookAtTarget: 3
       HasFollow: 0
       FollowTarget: 0
       HasBlendCurve: 1
       BlendTo:
-        m_Style: 7
+        m_Style: 1
         m_Time: 0.25
         m_CustomCurve:
           serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 5.520712
-            outSlope: 5.520712
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.06054687
-          - serializedVersion: 3
-            time: 0.38986817
-            value: 0.9288158
-            inSlope: 0.3777172
-            outSlope: 0.3777172
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.05598957
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0.10468339
-            outSlope: 0.10468339
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.04218755
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+    - Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
+        type: 3}
+      Priority: 1
+      HasLookAt: 1
+      LookAtTarget: 5
+      HasFollow: 0
+      FollowTarget: 0
+      HasBlendCurve: 1
+      BlendTo:
+        m_Style: 1
+        m_Time: 0.25
+        m_CustomCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+    - Camera: {fileID: 7599692182394793808, guid: 3d597227b8767bb4f9299d7da6eb8301,
+        type: 3}
+      Priority: 1
+      HasLookAt: 1
+      LookAtTarget: 4
+      HasFollow: 0
+      FollowTarget: 0
+      HasBlendCurve: 1
+      BlendTo:
+        m_Style: 1
+        m_Time: 0.25
+        m_CustomCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
   m_impulse:
     m_ImpulseChannel: -1
     m_ImpulseShape: 0
