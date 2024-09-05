@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System;
 
 public class SuperGameManager : SuperSingleton<SuperGameManager>
 {
@@ -78,6 +78,7 @@ public class SuperGameManager : SuperSingleton<SuperGameManager>
     {
         GameObject.Destroy(m_instantiatedGameplayObject);
     }
+
     private void OnGlobalGameStateChanged(SuperGameFlowEventManager.EGlobalGameState _newState)
     {
         switch(_newState)

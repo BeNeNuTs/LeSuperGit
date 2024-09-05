@@ -15,19 +15,19 @@ public class CameraConfig : ScriptableObject
 
     [Group("Camtabs"), Tab("General Gameflow Setting")]
     [SerializeField]
-    private SerializableDictionary<SuperGameFlowEventManager.EGlobalGameState, CameraSettingForGameFlow> m_camerasSettingsForGameFlow;
-    public SerializableDictionary<SuperGameFlowEventManager.EGlobalGameState, CameraSettingForGameFlow> CamerasSettingsForGameFlow => m_camerasSettingsForGameFlow;
+    private SerializableDictionary<SuperGameFlowEventManager.EGlobalGameState, CameraSetting> m_camerasSettingsForGameFlow;
+    public SerializableDictionary<SuperGameFlowEventManager.EGlobalGameState, CameraSetting> CamerasSettingsForGameFlow => m_camerasSettingsForGameFlow;
     
     
     [Group("Camtabs"), Tab("Gameplay Flow Setting")]
     [SerializeField]
-    private SerializableDictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraSettingForGameFlow> m_camerasSettingsForGameplayFlow;
-    public SerializableDictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraSettingForGameFlow>CamerasSettingsForGameplayFlow => m_camerasSettingsForGameplayFlow;
+    private SerializableDictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraSetting> m_camerasSettingsForGameplayFlow;
+    public SerializableDictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraSetting>CamerasSettingsForGameplayFlow => m_camerasSettingsForGameplayFlow;
 
     [Group("Camtabs"), Tab("Menu Flow Setting")]
     [SerializeField]
-    private SerializableDictionary<SuperGameFlowEventManager.EMenuGameState, CameraSettingForGameFlow> m_camerasSettingsForMenuFlow;
-    public SerializableDictionary<SuperGameFlowEventManager.EMenuGameState, CameraSettingForGameFlow> CamerasSettingsForMenuFlow => m_camerasSettingsForMenuFlow;
+    private SerializableDictionary<SuperGameFlowEventManager.EMenuGameState, CameraSetting> m_camerasSettingsForMenuFlow;
+    public SerializableDictionary<SuperGameFlowEventManager.EMenuGameState, CameraSetting> CamerasSettingsForMenuFlow => m_camerasSettingsForMenuFlow;
 
     [Title("Camera Shake")]
     [SerializeField]
@@ -35,7 +35,7 @@ public class CameraConfig : ScriptableObject
     public CinemachineImpulseDefinition Impulse => m_impulse;
 
     [Serializable]
-    public struct CameraSettingForGameFlow
+    public struct CameraSetting
     {
         public CinemachineVirtualCameraBase Camera;
 

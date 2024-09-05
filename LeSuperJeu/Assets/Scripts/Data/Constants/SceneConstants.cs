@@ -52,6 +52,10 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
 
     public SerializableDictionary<SuperArenaDefinition, SceneInfo> m_superArenas;
 
+    [SerializeField]
+    private SerializableDictionary<string, SuperArenaDefinition> m_arenaNameToDefinition = new();
+
+
 #if UNITY_EDITOR
     public bool m_SkipLogInScene = true;
     [HideIf(nameof(m_SkipLogInScene))]
@@ -75,6 +79,16 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
         foreach (var sceneInfo in m_superArenas)
         {
             sceneInfo.Value.OnSaveAsset(this);
+        }
+
+        if(m_arenaNameToDefinition.Count != m_superArenas.Count)
+        {
+            m_arenaNameToDefinition = new();
+            foreach(var arenaPair in m_superArenas)
+            {
+                m_arenaNameToDefinition.Add(arenaPair.Value.m_SceneName, arenaPair.Key);
+            }
+            EditorUtility.SetDirty(this);
         }
     }
 #endif
@@ -115,6 +129,17 @@ public class SceneConstants : ScriptableObject, ISaveAsset, ISerializationCallba
             return sceneInfo.m_SceneName;
         }
         return string.Empty;
+    }
+    
+
+    public bool GetArenaDefinition(string _arenaName, out SuperArenaDefinition _definition)
+    {
+        _definition = null;
+        if(m_arenaNameToDefinition.TryGetValue(_arenaName, out _definition))
+        {
+            return true;
+        }
+        return false;
     }
     
 #if UNITY_EDITOR

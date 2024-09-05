@@ -17,19 +17,18 @@ public class SuperCameraManager
     private CinemachineBrain m_brain;
     [SerializeField]
     private CinemachineImpulseSource m_impulseSource;
-    [SerializeField]
-    private CinemachineTargetGroup m_targetGroup;
 
-    private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSettingForGameFlow>();
-    private Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow> m_runtimeGameplaySettings = new Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSettingForGameFlow>();
+    private Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSetting> m_runtimeSettings = new Dictionary<SuperGameFlowEventManager.EGlobalGameState, CameraConfig.CameraSetting>();
+    private Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSetting> m_runtimeGameplaySettings = new Dictionary<SuperGameFlowEventManager.ECurrentGameplayFlowState, CameraConfig.CameraSetting>();
     
-    private Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSettingForGameFlow> m_runtimeMenuSettings = new Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSettingForGameFlow>();
+    private Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSetting> m_runtimeMenuSettings = new Dictionary<SuperGameFlowEventManager.EMenuGameState, CameraConfig.CameraSetting>();
 
     private CinemachineVirtualCameraBase _baseActiveCamera;
     private CinemachineVirtualCameraBase _gameplayActiveCamera;
-    private CameraConfig.CameraSettingForGameFlow _gameplayActiveCameraSetting;
+    private CameraConfig.CameraSetting _gameplayActiveCameraSetting;
 
     private Dictionary<EGameplayElementType, List<SuperCameraTarget>> m_targets = new Dictionary<EGameplayElementType, List<SuperCameraTarget>>();
+    private Dictionary<EGameplayElementType, CinemachineTargetGroup> m_targetGroups = new();
 
 
     public void Awake()
@@ -40,6 +39,9 @@ public class SuperCameraManager
         SuperGameFlowEventManager.OnDiceStabilized += OnDiceStabilized;
         GetAllNeededBehaviours();
         GenerateSettings();
+        //  plutot faire ça :
+        //  des cameras "anchors", on instancie une camera par anchor
+        //  l'anchor possède le setup
     }
     public void Start()
     {
@@ -61,8 +63,6 @@ public class SuperCameraManager
     {
         if(m_impulseSource == null)
             m_impulseSource =m_cameraContainer.GetComponentInChildren<CinemachineImpulseSource>();
-        if(m_targetGroup == null)
-            m_targetGroup =m_cameraContainer.GetComponentInChildren<CinemachineTargetGroup>();
         if(m_brain == null)
             m_brain =m_cameraContainer.GetComponentInChildren<CinemachineBrain>();
     }
@@ -71,6 +71,9 @@ public class SuperCameraManager
     {
         switch(_newState)
         {
+            case SuperGameFlowEventManager.EGlobalGameState.Menu:
+            //OnMenuStateChanged(SuperGameFlowEventManager.EMenuGameState.MainMenu);
+            break;
             case SuperGameFlowEventManager.EGlobalGameState.Game:
             break;
         }
@@ -100,7 +103,7 @@ public class SuperCameraManager
             break;
         }
 
-        CameraConfig.CameraSettingForGameFlow newSetting;
+        CameraConfig.CameraSetting newSetting;
         if(m_runtimeGameplaySettings.TryGetValue( _newState, out newSetting))
         {
             _gameplayActiveCamera?.gameObject.SetActive(false);
@@ -123,7 +126,7 @@ public class SuperCameraManager
             break;
         }
 
-        CameraConfig.CameraSettingForGameFlow newSetting;
+        CameraConfig.CameraSetting newSetting;
         if(m_runtimeMenuSettings.TryGetValue( _menuState, out newSetting))
         {
             _gameplayActiveCamera?.gameObject.SetActive(false);
@@ -138,9 +141,10 @@ public class SuperCameraManager
         }
     }
 
-    private void ApplySettingToCamera(CinemachineVirtualCameraBase _camera, CameraConfig.CameraSettingForGameFlow _setting, CinemachineVirtualCameraBase _fromCamera)
+    private void ApplySettingToCamera(CinemachineVirtualCameraBase _camera, CameraConfig.CameraSetting _setting, CinemachineVirtualCameraBase _fromCamera)
     {
         _camera.Priority = _setting.Priority;
+        /*
         if(_setting.HasFollow)
         {
         _camera.Priority = _setting.Priority;
@@ -159,6 +163,7 @@ public class SuperCameraManager
         {
             _camera.LookAt = null;
         }
+        */
 
         if(_setting.HasBlendCurve)
         {
@@ -175,30 +180,12 @@ public class SuperCameraManager
 
     private void SetFollowTarget(CinemachineVirtualCameraBase _camera, EGameplayElementType _target)
     {
-        m_targetGroup.m_Targets = Array.Empty<CinemachineTargetGroup.Target>();  
-        if(m_targets.TryGetValue(_target, out List<SuperCameraTarget> targetList))
-        {
-            foreach(SuperCameraTarget target in targetList)
-            {
-                m_targetGroup.AddMember(target.transform, target.Weight, target.Radius);
-            }
-        }
-
-        _camera.Follow = m_targetGroup.transform;
+        _camera.Follow = m_targetGroups[_target].transform;
     }
     
     private void SetLookAtTarget(CinemachineVirtualCameraBase _camera, EGameplayElementType _target)
     {
-        m_targetGroup.m_Targets = Array.Empty<CinemachineTargetGroup.Target>();  
-        if(m_targets.TryGetValue(_target, out List<SuperCameraTarget> targetList))
-        {
-            foreach(SuperCameraTarget target in targetList)
-            {
-                m_targetGroup.AddMember(target.transform, target.Weight, target.Radius);
-            }
-        }
-
-        _camera.LookAt = m_targetGroup.transform;
+        _camera.LookAt = m_targetGroups[_target].transform;
     }
 
     private void GenerateSettings()
@@ -220,21 +207,66 @@ public class SuperCameraManager
         
     }
 
-    private CameraConfig.CameraSettingForGameFlow GenerateCameraSetting(CameraConfig.CameraSettingForGameFlow dataSetting, string _flowName)
+    private CameraConfig.CameraSetting GenerateCameraSetting(CameraConfig.CameraSetting dataSetting, string _name)
     {
-        CameraConfig.CameraSettingForGameFlow runtimeSetting = new CameraConfig.CameraSettingForGameFlow();
+        CameraConfig.CameraSetting runtimeSetting = new CameraConfig.CameraSetting();
         runtimeSetting.Camera = GameObject.Instantiate(dataSetting.Camera);
         runtimeSetting.Camera.gameObject.SetActive(false);
-        runtimeSetting.Camera.gameObject.name = $"Camera_{_flowName}";
+        runtimeSetting.Camera.gameObject.name = $"Camera_{_name}";
         runtimeSetting.Camera.transform.parent = m_cameraContainer;
         runtimeSetting.Priority = dataSetting.Priority;
         runtimeSetting.HasLookAt = dataSetting.HasLookAt;
         runtimeSetting.LookAtTarget = dataSetting.LookAtTarget;
+        
+        if(dataSetting.HasLookAt)
+        {
+            CinemachineTargetGroup targetGroup = GetOrCreateTargetGroup(dataSetting.LookAtTarget);
+            //AddExistingTargetsToGroup(dataSetting.LookAtTarget, targetGroup);
+            SetLookAtTarget(runtimeSetting.Camera, runtimeSetting.LookAtTarget);
+        }
+
         runtimeSetting.HasFollow = dataSetting.HasFollow;
         runtimeSetting.FollowTarget = dataSetting.FollowTarget;
+        
+        if(dataSetting.HasFollow)
+        {
+            CinemachineTargetGroup targetGroup = GetOrCreateTargetGroup(dataSetting.FollowTarget);
+            //AddExistingTargetsToGroup(dataSetting.FollowTarget, targetGroup);
+            SetLookAtTarget(runtimeSetting.Camera, runtimeSetting.FollowTarget);
+        }
+
         runtimeSetting.HasBlendCurve = dataSetting.HasBlendCurve;
         runtimeSetting.BlendTo = dataSetting.BlendTo;
+
+
         return runtimeSetting;
+    }
+
+    private CinemachineTargetGroup GetOrCreateTargetGroup(EGameplayElementType _targetType)
+    {
+        CinemachineTargetGroup newTargetGroup;
+        if(m_targetGroups.TryGetValue(_targetType, out newTargetGroup))
+        {
+            return newTargetGroup;
+        }
+        GameObject targetGroupObject = new GameObject();
+        newTargetGroup = targetGroupObject.AddComponent<CinemachineTargetGroup>();
+        targetGroupObject.transform.parent = m_cameraContainer;
+        targetGroupObject.name = $"{_targetType}_TargetGroup";
+        m_targetGroups.Add(_targetType, newTargetGroup);
+
+        return newTargetGroup;
+    }
+
+    private void AddExistingTargetsToGroup(EGameplayElementType _targetType, CinemachineTargetGroup _group)
+    {
+        if(m_targets.ContainsKey(_targetType))
+        {
+            foreach(SuperCameraTarget _target in m_targets[_targetType])
+            {
+                _group.AddMember(_target.transform, _target.Weight, _target.Radius);
+            }
+        }
     }
 
     public void RegisterTarget(SuperCameraTarget _target, EGameplayElementType _type)
@@ -250,6 +282,7 @@ public class SuperCameraManager
             targets = new List<SuperCameraTarget>{_target};
             m_targets.Add(_type, targets);
         }
+        AddTargetToGroup(_target, _type);
     }
     public void UnregisterTarget(SuperCameraTarget _target, EGameplayElementType _type)
     { 
@@ -257,8 +290,31 @@ public class SuperCameraManager
         {
             m_targets[_type].Remove(_target);
         }
+        RemoveTargetFromGroup(_target,_type);
+    }
+
+    private void AddTargetToGroup(SuperCameraTarget _target, EGameplayElementType _type)
+    {
+        CinemachineTargetGroup targetGroup = GetOrCreateTargetGroup(_type);
+        targetGroup.AddMember(_target.transform, _target.Weight, _target.Radius);
     }
     
+
+    private void RemoveTargetFromGroup(SuperCameraTarget _target, EGameplayElementType _type)
+    {
+        CinemachineTargetGroup targetGroup = GetOrCreateTargetGroup(_type);
+        targetGroup.RemoveMember(_target.transform);
+    }
+    
+    public void RegisterAnchor(SuperCameraAnchor _anchor)
+    {
+
+    }
+
+    public void UnregisterAnchor(SuperCameraAnchor _anchor)
+    {
+
+    }
 
     public void OnDiceStabilized(SuperDiceController.DiceInfos _dice)
     {
