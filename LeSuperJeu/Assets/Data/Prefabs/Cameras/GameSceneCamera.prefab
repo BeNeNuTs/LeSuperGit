@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7434524483540089554}
   serializedVersion: 2
   m_LocalRotation: {x: 0.49269885, y: -2.7014566e-10, z: 1.5295387e-10, w: 0.8701999}
-  m_LocalPosition: {x: 0, y: 20, z: -12}
+  m_LocalPosition: {x: 0, y: 17.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 25
+    FieldOfView: 39
     OrthographicSize: 6
     NearClipPlane: 0.1
     FarClipPlane: 5000

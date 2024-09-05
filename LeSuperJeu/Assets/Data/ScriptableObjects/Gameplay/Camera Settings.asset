@@ -30,7 +30,7 @@ MonoBehaviour:
       HasBlendCurve: 1
       BlendTo:
         m_Style: 1
-        m_Time: 0.25
+        m_Time: 1
         m_CustomCurve:
           serializedVersion: 2
           m_Curve: []
