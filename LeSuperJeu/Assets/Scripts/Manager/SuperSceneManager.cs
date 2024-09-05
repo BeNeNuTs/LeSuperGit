@@ -45,6 +45,7 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
         }
     }
 
+    public static Action<SuperArenaDefinition> OnArenaLoaded;
     private Queue<SceneRequest> m_SceneRequestsQueue = new();
     private SceneRequest m_CurrentSceneRequest = null;
 
@@ -115,6 +116,8 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
                 SceneManager.SetActiveScene(_sceneLoaded);
 
             m_CurrentSceneRequest = null;
+
+            ManageOnSceneLoaded(_sceneLoaded);
         }
     }
     
@@ -129,5 +132,15 @@ public class SuperSceneManager : SuperSingleton<SuperSceneManager>
     private void OnActiveSceneChanged(Scene _previousActiveScene, Scene _newActiveScene)
     {
         
+    }
+
+    private void ManageOnSceneLoaded(Scene _sceneLoaded)
+    {
+        string sceneName = _sceneLoaded.name;
+        SuperArenaDefinition loadedArenaDefinition = null;
+        if(SuperDataContainer.Instance.m_SceneConstants.GetArenaDefinition(sceneName, out loadedArenaDefinition))
+        {
+            OnArenaLoaded.Invoke(loadedArenaDefinition);
+        }
     }
 }
