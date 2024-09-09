@@ -49,6 +49,11 @@ public class CameraConfig : ScriptableObject
         [ShowIf(nameof(HasFollow))]
         public EGameplayElementType FollowTarget;
         
+        
+        public bool UseAnchor;
+        [ShowIf(nameof(UseAnchor))]
+        public SuperCameraIdentifier Anchor;
+        
         public bool HasBlendCurve;
         [ShowIf(nameof(HasBlendCurve))]
         public CinemachineBlendDefinition BlendTo;

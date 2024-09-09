@@ -30,6 +30,8 @@ public class SuperCameraManager
     private Dictionary<EGameplayElementType, List<SuperCameraTarget>> m_targets = new Dictionary<EGameplayElementType, List<SuperCameraTarget>>();
     private Dictionary<EGameplayElementType, CinemachineTargetGroup> m_targetGroups = new();
 
+    private Dictionary<SuperCameraIdentifier, SuperCameraAnchor> m_anchors = new();
+
 
     public void Awake()
     {
@@ -77,22 +79,6 @@ public class SuperCameraManager
             case SuperGameFlowEventManager.EGlobalGameState.Game:
             break;
         }
-
-/*
-        CameraConfig.CameraSettingForGameFlow newSetting;
-        if(m_runtimeSettings.TryGetValue( _newState, out newSetting))
-        {
-            _baseActiveCamera?.gameObject.SetActive(false);
-            CinemachineVirtualCameraBase previousActive = _baseActiveCamera;
-            Debug.Log($"GameFlow : Changing Camera for {_newState} : {newSetting.Camera.name}");
-
-            _baseActiveCamera = newSetting.Camera;
-
-            ApplySettingToCamera(_baseActiveCamera, newSetting, previousActive);
-
-            _baseActiveCamera.gameObject.SetActive(true);
-        }
-        */
     }
     
     private void OnGameplayFlowStateChanged(SuperGameFlowEventManager.ECurrentGameplayFlowState _newState)
@@ -143,29 +129,28 @@ public class SuperCameraManager
 
     private void ApplySettingToCamera(CinemachineVirtualCameraBase _camera, CameraConfig.CameraSetting _setting, CinemachineVirtualCameraBase _fromCamera)
     {
-        _camera.Priority = _setting.Priority;
-        /*
-        if(_setting.HasFollow)
+        CameraConfig.CameraSetting usedSetting = _setting;
+        if(_setting.UseAnchor)
         {
-        _camera.Priority = _setting.Priority;
-            SetFollowTarget(_camera, _setting.FollowTarget);
-        }
-        else
-        {
-            _camera.Follow = null;
-        }
-        
-        if(_setting.HasLookAt)
-        {
-            SetLookAtTarget(_camera, _setting.LookAtTarget);
-        }
-        else
-        {
-            _camera.LookAt = null;
-        }
-        */
+            if(_setting.Anchor != null)
+            {
+                SuperCameraAnchor foundAnchor;
+                if(m_anchors.TryGetValue(_setting.Anchor, out foundAnchor))
+                {
+                    /*
+                    if(foundAnchor.OverrideCameraSettings)
+                        usedSetting = foundAnchor.RuntimeOverrideSettings;
+                    */
 
-        if(_setting.HasBlendCurve)
+                    _camera.transform.position = foundAnchor.transform.position;
+                }
+            }
+        }
+
+        _camera.Priority = usedSetting.Priority;
+        
+
+        if(usedSetting.HasBlendCurve)
         {
             string from = CinemachineBlenderSettings.kBlendFromAnyCameraLabel;
             if(_fromCamera != null)
@@ -174,7 +159,7 @@ public class SuperCameraManager
             }
             m_brain.m_CustomBlends.m_CustomBlends[0].m_From = from;
             m_brain.m_CustomBlends.m_CustomBlends[0].m_To = _camera.Name;
-            m_brain.m_CustomBlends.m_CustomBlends[0].m_Blend = _setting.BlendTo;
+            m_brain.m_CustomBlends.m_CustomBlends[0].m_Blend = usedSetting.BlendTo;
         }
     }
 
@@ -207,7 +192,7 @@ public class SuperCameraManager
         
     }
 
-    private CameraConfig.CameraSetting GenerateCameraSetting(CameraConfig.CameraSetting dataSetting, string _name)
+    public CameraConfig.CameraSetting GenerateCameraSetting(CameraConfig.CameraSetting dataSetting, string _name)
     {
         CameraConfig.CameraSetting runtimeSetting = new CameraConfig.CameraSetting();
         runtimeSetting.Camera = GameObject.Instantiate(dataSetting.Camera);
@@ -217,6 +202,8 @@ public class SuperCameraManager
         runtimeSetting.Priority = dataSetting.Priority;
         runtimeSetting.HasLookAt = dataSetting.HasLookAt;
         runtimeSetting.LookAtTarget = dataSetting.LookAtTarget;
+        runtimeSetting.UseAnchor = dataSetting.UseAnchor;
+        runtimeSetting.Anchor = dataSetting.Anchor;
         
         if(dataSetting.HasLookAt)
         {
@@ -308,12 +295,12 @@ public class SuperCameraManager
     
     public void RegisterAnchor(SuperCameraAnchor _anchor)
     {
-
+        m_anchors.Add(_anchor.Identifier, _anchor);
     }
 
     public void UnregisterAnchor(SuperCameraAnchor _anchor)
     {
-
+        m_anchors.Remove(_anchor.Identifier);
     }
 
     public void OnDiceStabilized(SuperDiceController.DiceInfos _dice)
