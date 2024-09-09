@@ -463,9 +463,15 @@ MonoBehaviour:
     rid: 7446373697995407360
   m_ritualManager:
     rid: 7446373740647809024
+  m_timelord:
+    rid: 3688443910415712256
   references:
     version: 2
     RefIds:
+    - rid: 3688443910415712256
+      type: {class: SuperTimelordManager, ns: , asm: Assembly-CSharp}
+      data:
+        m_config: {fileID: 11400000, guid: 36c3d5e734e2b5041a2b2745425c0144, type: 2}
     - rid: 7446373697995407360
       type: {class: SuperCameraManager, ns: , asm: Assembly-CSharp}
       data:
@@ -474,7 +480,6 @@ MonoBehaviour:
         m_cameraContainer: {fileID: 1051459673}
         m_brain: {fileID: 0}
         m_impulseSource: {fileID: 0}
-        m_targetGroup: {fileID: 0}
     - rid: 7446373740647809024
       type: {class: SuperRitualManager, ns: , asm: Assembly-CSharp}
       data:
