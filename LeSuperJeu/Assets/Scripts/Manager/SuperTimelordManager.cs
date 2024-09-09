@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TriInspector;
 using UnityEngine;
 
 [System.Serializable]
@@ -94,6 +95,10 @@ public class SuperTimelordManager
     [SerializeField]
     private SuperTimelordConfig m_config;
     private List<SuperTimeScaleEffect> m_stack = new();
+    private List<SuperTimeScaleEffect> m_toRemoveFromStack = new();
+
+    [ShowInInspector]
+    public float TimeScale => Time.timeScale;
 
     public void Awake()
     {
@@ -111,11 +116,13 @@ public class SuperTimelordManager
     {
         if(m_stack.Count != 0)
         {
+
             for(int i = 0; i< m_stack.Count;i++)
             {
                 if(m_stack[i].ShouldStop())
                 {
                     m_stack[i].Stop();
+                    m_toRemoveFromStack.Add(m_stack[i]);
                 }
                 float fromValue = 1.0f;
                 if(i!=0)
@@ -129,6 +136,15 @@ public class SuperTimelordManager
             if(m_stack[m_stack.Count -1].Data.ApplyOnCinemachine)
             {
 
+            }
+
+            if(m_toRemoveFromStack.Count != 0)
+            {
+                foreach(var effect in m_toRemoveFromStack)
+                {
+                    m_stack.Remove(effect);
+                }
+                m_toRemoveFromStack.Clear();
             }
         }
     }

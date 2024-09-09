@@ -99,6 +99,6 @@ public class SuperDiceComponent : SuperBaseComponent, ISaveAsset
 
     private void OnCollisionEnter(Collision other)
     {
-        m_StateInfo?.m_OnCollision?.Invoke();
+        m_StateInfo?.m_OnCollision?.Invoke(other);
     }
 }

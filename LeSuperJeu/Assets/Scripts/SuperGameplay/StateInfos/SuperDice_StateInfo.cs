@@ -1,6 +1,6 @@
 using System;
-
+using UnityEngine;
 public class SuperDice_StateInfo : BaseStateInfo
 {
-    public Action m_OnCollision;
+    public Action<Collision> m_OnCollision;
 }
