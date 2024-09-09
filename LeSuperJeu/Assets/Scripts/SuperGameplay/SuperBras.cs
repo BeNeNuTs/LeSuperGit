@@ -76,7 +76,7 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
     {
         if (m_GameIsReady)
         {
-            SnapTransformToMouse();
+            ManagePosition();
             if (SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.IdleWaitForGrab)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -115,6 +115,20 @@ public class SuperBras : SuperBaseComponent, ISaveAsset
                 m_PreviousFrameCount = currentFrame;
             }
         }
+    }
+
+    private void ManagePosition()
+    {
+        switch(SuperGameFlowEventManager.CurrentGameFlowState)
+        {
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.ThrowDice:
+            case SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization:
+            break;
+            default:
+                SnapTransformToMouse();
+            break;
+        }
+        
     }
 
     private void SnapTransformToMouse()
