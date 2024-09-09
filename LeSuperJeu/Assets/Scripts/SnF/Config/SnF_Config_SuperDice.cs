@@ -1,3 +1,4 @@
+using Cinemachine;
 using TriInspector;
 using UnityEngine;
 
@@ -12,7 +13,14 @@ public class SnF_Config_SuperDice : SnF_Config_Base
     public SuperTimeScaleEffectData m_OnCollisionTimeScale = null;
 
     [ShowIf(nameof(UseTimeEffect))]
-    public int m_effectCount =1;
+    public int m_slowEffectCount =1;
+    
+    public bool UseCameraShake;
+    [ShowIf(nameof(UseCameraShake))]
+    public CinemachineImpulseDefinition m_shakeDefinition = null;
+
+    [ShowIf(nameof(UseCameraShake))]
+    public int m_cameraEffectCount =1;
     
     public override SnF_Logic_Base CreateLogic(SuperBaseComponent _ownerBaseComp, AudioSource _audioSource)
     {

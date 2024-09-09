@@ -305,10 +305,19 @@ public class SuperCameraManager
 
     public void OnDiceStabilized(SuperDiceController.DiceInfos _dice)
     {
+        PlayCameraShake(m_cameraConfig.Impulse, _dice.m_Rb.transform.position, (_gameplayActiveCamera.transform.position - _dice.m_Rb.transform.position).normalized);
+    }
+    
+    public void PlayCameraShake(CinemachineImpulseDefinition _impulseDefinition)
+    {
+        PlayCameraShake(_impulseDefinition, _gameplayActiveCamera.transform.position, Vector3.zero);
+    }
+
+    public void PlayCameraShake(CinemachineImpulseDefinition _impulseDefinition, Vector3 _impulsePosition, Vector3 direction)
+    {
         m_impulseSource.m_ImpulseDefinition = m_cameraConfig.Impulse;
-        m_impulseSource.transform.position = _dice.m_Rb.transform.position;
+        m_impulseSource.transform.position = _impulsePosition;
         
-        Vector3 dir = (_gameplayActiveCamera.transform.position - _dice.m_Rb.transform.position).normalized;
         m_impulseSource.GenerateImpulse();
     }
 
