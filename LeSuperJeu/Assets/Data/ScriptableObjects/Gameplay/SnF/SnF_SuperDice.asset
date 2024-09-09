@@ -16,6 +16,7 @@ MonoBehaviour:
   m_OnCollision_SFX: {fileID: 8300000, guid: 331c0e528b4817c4c91de872e4064c93, type: 3}
   m_OnCollision_VFX: {fileID: 2014600220713233132, guid: 6782147a43e33194db43cd2315567134,
     type: 3}
+  UseTimeEffect: 1
   m_OnCollisionTimeScale:
     m_value: 0.1
     m_blend:
@@ -53,3 +54,4 @@ MonoBehaviour:
       m_RotationOrder: 0
     m_applyOnCinemachine: 0
     m_duration: 0.26
+  m_effectCount: 2
