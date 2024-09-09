@@ -16,3 +16,40 @@ MonoBehaviour:
   m_OnCollision_SFX: {fileID: 8300000, guid: 331c0e528b4817c4c91de872e4064c93, type: 3}
   m_OnCollision_VFX: {fileID: 2014600220713233132, guid: 6782147a43e33194db43cd2315567134,
     type: 3}
+  m_OnCollisionTimeScale:
+    m_value: 0.1
+    m_blend:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.052264806
+      - serializedVersion: 3
+        time: 0.25
+        value: 1
+        inSlope: 0
+        outSlope: -100.0001
+        tangentMode: 65
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.18561307
+      - serializedVersion: 3
+        time: 0.26
+        value: 0
+        inSlope: -29.058113
+        outSlope: 0
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    m_applyOnCinemachine: 0
+    m_duration: 0.26

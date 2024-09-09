@@ -936,25 +936,6 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-  RuntimeOverrideSettings:
-    Camera: {fileID: 0}
-    Priority: 0
-    HasLookAt: 0
-    LookAtTarget: 0
-    HasFollow: 0
-    FollowTarget: 0
-    UseAnchor: 0
-    Anchor: {fileID: 0}
-    HasBlendCurve: 0
-    BlendTo:
-      m_Style: 0
-      m_Time: 0
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
 --- !u!4 &225023245
 Transform:
   m_ObjectHideFlags: 0
@@ -2590,7 +2571,7 @@ GameObject:
   - component: {fileID: 1259459013}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: ArenaFloor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

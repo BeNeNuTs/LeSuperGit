@@ -7,10 +7,11 @@ public class SnF_Logic_SuperDice : SnF_Logic_Base
 {
     private SnF_Config_SuperDice m_Config = null;
     private SuperDice_StateInfo m_StateInfo = null;
-    private Action m_OnCollision;
+    private Action<Collision> m_OnCollision;
     private GameObject m_CollisionVFXHandle = null;
     private ParticleSystem m_CollisionVFXPS = null;
     private Vector3 m_LastCollisionVFXPosition = Vector3.zero;
+    private bool m_collisionTimeScaleEffectPlayed = false;
     private const float K_COLLISION_VFX_DELTA_POS_SQR = 0.1f;
 
     public SnF_Logic_SuperDice(SnF_Config_SuperDice _config, SuperBaseComponent _ownerBaseComp, AudioSource _audioSource) : base (_config, _ownerBaseComp, _audioSource)
@@ -30,15 +31,17 @@ public class SnF_Logic_SuperDice : SnF_Logic_Base
     {
         base.OnRegisterListeners();
         m_StateInfo.m_OnCollision += m_OnCollision;
+        SuperGameFlowEventManager.OnDicesGrabbedCB+=OnDiceGrabbed;
     }
 
     public override void OnUnRegisterListeners()
     {
         base.OnUnRegisterListeners();
         m_StateInfo.m_OnCollision -= m_OnCollision;
+        SuperGameFlowEventManager.OnDicesGrabbedCB-=OnDiceGrabbed;
     }
 
-    private void OnCollision()
+    private void OnCollision(Collision _collision)
     {
         if (m_HasAudioSource)
         {
@@ -54,5 +57,24 @@ public class SnF_Logic_SuperDice : SnF_Logic_Base
                 }
             }
         }
+
+
+        if(m_Config.m_OnCollisionTimeScale != null && !m_collisionTimeScaleEffectPlayed)
+        {
+            if(SuperGameFlowEventManager.CurrentGameFlowState == SuperGameFlowEventManager.ECurrentGameplayFlowState.WaitDiceStabilization)
+            {
+                if(_collision.collider.CompareTag(GameTags.ArenaFloor))
+                {
+                    SuperDirectionManager.Instance.TimeLord.AddEffect(m_Config.m_OnCollisionTimeScale);
+                    m_collisionTimeScaleEffectPlayed = true;
+                }
+            }
+            
+        }
+    }
+
+    private void OnDiceGrabbed()
+    {
+        m_collisionTimeScaleEffectPlayed = false;
     }
 }
